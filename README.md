@@ -1,4 +1,8 @@
-# Yet Another RogueLike
+# Pataro
+
+A C++ 17 Rogue Like library built on top of [lib TCOD](https://github.com/libtcod/libtcod).
+
+Pataro means *Walker Male* in Quenya.
 
 ## Deps
 
