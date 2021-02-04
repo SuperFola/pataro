@@ -24,6 +24,16 @@ namespace pat
         */
         void render() const;
 
+        inline int get_x() const
+        {
+            return m_x;
+        }
+
+        inline int get_y() const
+        {
+            return m_y;
+        }
+
     private:
         int m_x;
         int m_y;
