@@ -16,7 +16,7 @@ namespace pat
          * @param width 
          * @param height 
          */
-        Map(unsigned width, unsigned height);
+        Map(int width, int height);
 
         /**
          * @brief Check if an object at (x, y) is a wall
@@ -41,11 +41,11 @@ namespace pat
          * @param x 
          * @param y 
          */
-        void set_wall(unsigned x, unsigned y);
+        void set_wall(int x, int y);
 
         std::vector<map::Tile> m_tiles;
-        unsigned m_width;
-        unsigned m_height;
+        int m_width;
+        int m_height;
     };
 }
 
