@@ -1,25 +1,14 @@
-#include <libtcod.hpp>
+#include <Pataro/Engine.hpp>
 
 int main()
 {
-    int x = 40, y = 25;
+    pat::Engine engine(80, 45, "Pataro");
 
-    TCODConsole::initRoot(80, 50, "libtcod C++ tutorial", false);
-    while (!TCODConsole::isWindowClosed())
+    while (engine.is_running())
     {
-        TCOD_key_t key;
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
-        switch (key.vk)
-        {
-            case TCODK_UP: y--; break;
-            case TCODK_DOWN: y++; break;
-            case TCODK_LEFT: x--; break;
-            case TCODK_RIGHT: x++; break;
-        }
-        TCODConsole::root->clear();
-        TCODConsole::root->putChar(x, y, '@');
-        TCODConsole::flush();
-   }
+        engine.update();
+        engine.render();
+    }
 
     return 0;
 }

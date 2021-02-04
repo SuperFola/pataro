@@ -34,6 +34,14 @@ namespace pat
             return m_y;
         }
 
+        /**
+         * @brief Move the actor
+         * 
+         * @param dx 
+         * @param dy 
+         */
+        void move(int dx, int dy);
+
     private:
         int m_x;
         int m_y;
