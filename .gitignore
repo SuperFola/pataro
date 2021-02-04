@@ -1,0 +1,8 @@
+build/*
+tcod/
+*.a
+*.o
+*.lib
+*.so
+*.dll
+*.exe
