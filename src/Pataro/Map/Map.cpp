@@ -5,9 +5,8 @@
 using namespace pat;
 
 Map::Map(int width, int height) :
-    m_width(width), m_height(height)
+    m_width(width), m_height(height), m_tiles(width * height, map::Tile())
 {
-    m_tiles.reserve(width * height);
     // TODO remove
     set_wall(30, 22);
     set_wall(50, 22);
@@ -15,7 +14,7 @@ Map::Map(int width, int height) :
 
 bool Map::is_wall(int x, int y) const
 {
-    if (x < m_width && y < m_height)
+    if (x >= 0 && y >= 0 && x < m_width && y < m_height)
         return !m_tiles[x + y * m_width].can_walk;
     return true;  // anything outside the map region is a wall
 }

@@ -12,7 +12,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 
     // create player
     m_actors.emplace_back(std::make_unique<Actor>(40, 25, '@', TCODColor::white));
-    m_player = m_actors[0].get();
+    m_player = m_actors.back().get();
 
     // TODO clean up
     m_actors.emplace_back(std::make_unique<Actor>(60, 13, '@', TCODColor::yellow));
