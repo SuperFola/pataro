@@ -5,11 +5,11 @@
 #include <string>
 #include <memory>
 
+#include <Pataro/Actor.hpp>
+#include <Pataro/Map/Map.hpp>
+
 namespace pat
 {
-    class Actor;
-    class Map;
-
     class Engine
     {
     public:

@@ -1,6 +1,4 @@
 #include <Pataro/Engine.hpp>
-#include <Pataro/Actor.hpp>
-#include <Pataro/Map/Map.hpp>
 
 #include <libtcod.hpp>
 
@@ -46,7 +44,7 @@ void Engine::update()
                 m_player->move(-1, 0);
             break;
 
-        case TCODK_UP:
+        case TCODK_RIGHT:
             if (!m_map->is_wall(x + 1, y))
                 m_player->move(1, 0);
             break;
