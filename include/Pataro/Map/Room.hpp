@@ -25,7 +25,7 @@ namespace pat::map::details
          * 
          * @return std::optional<Actor> 
          */
-        std::optional<Actor> get_actor() const;
+        std::optional<pat::Actor> get_actor() const;
 
     private:
         int m_x, m_y, m_width, m_height;

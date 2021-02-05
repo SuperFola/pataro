@@ -2,6 +2,7 @@
 
 #include <libtcod.hpp>
 
+using namespace pat;
 using namespace pat::map::details;
 
 Room::Room(int x, int y, int w, int h) :

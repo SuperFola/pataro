@@ -44,8 +44,7 @@ namespace pat
         bool is_running() const;
 
     private:
-        std::vector<std::unique_ptr<Actor>> m_actors;
-        Actor* m_player;  ///< Pointer managed by a unique_ptr in m_actors
+        std::unique_ptr<Actor> m_player;
         std::unique_ptr<Map> m_map;
     };
 }

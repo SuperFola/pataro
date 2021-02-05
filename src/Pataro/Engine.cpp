@@ -9,14 +9,10 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
 
+    // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(1);
-
     // create player
-    m_actors.emplace_back(std::make_unique<Actor>(40, 25, '@', TCODColor::white));
-    m_player = m_actors.back().get();
-
-    // TODO clean up
-    m_actors.emplace_back(std::make_unique<Actor>(60, 13, '@', TCODColor::yellow));
+    m_player = std::make_unique<Actor>(40, 25, '@', TCODColor::white);
 }
 
 void Engine::update()
@@ -60,8 +56,7 @@ void Engine::render()
     TCODConsole::root->clear();
 
     m_map->render();
-    for (const std::unique_ptr<Actor>& actor : m_actors)
-        actor->render();
+    m_player->render();
 
     TCODConsole::flush();
 }

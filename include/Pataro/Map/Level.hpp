@@ -35,10 +35,17 @@ namespace pat::map
         bool is_wall(int x, int y) const;
 
         /**
-         * @brief Render the level on screen
+         * @brief Render the level on screen as well as its actors
          * 
          */
         void render() const;
+
+        /**
+         * @brief Get the first room object
+         * 
+         * @return const details::Room& 
+         */
+        const details::Room& get_first_room() const;
 
     private:
         /**

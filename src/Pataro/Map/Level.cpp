@@ -1,6 +1,7 @@
 #include <Pataro/Map/Level.hpp>
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
+#include <Pataro/Actor.hpp>
 
 #include <libtcod.hpp>
 
@@ -52,7 +53,16 @@ void Level::render() const
                 TCODConsole::root->setCharBackground(x, y, darkGround);
         }
     }
+
+    for (const details::Room& room : m_rooms)
+    {
+        if (std::optional<Actor> a = room.get_actor(); a.has_value())
+            a.value().render();
+    }
 }
+
+const details::Room& Level::get_first_room() const
+{}
 
 void Level::dig(int x1, int y1, int x2, int y2)
 {
