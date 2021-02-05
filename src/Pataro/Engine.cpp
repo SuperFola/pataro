@@ -4,6 +4,8 @@
 
 #include <libtcod.hpp>
 
+#include <string>
+
 using namespace pat;
 
 Engine::Engine(unsigned width, unsigned height, const std::string& title) :
@@ -57,7 +59,7 @@ void Engine::update()
             break;
 
         case TCODK_F3:
-            TCODSystem::saveScreenshot("screenshot_" + details::date_to_string() + ".png");
+            TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
             break;
 
         default:
