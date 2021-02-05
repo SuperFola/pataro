@@ -14,6 +14,9 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(m_x, m_y, m_color);
 }
 
+void Actor::update()
+{}
+
 bool Actor::move(int dx, int dy, Map* map)
 {
     if (map->can_walk(m_x + dx, m_y + dy))

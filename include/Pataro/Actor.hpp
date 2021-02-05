@@ -39,6 +39,8 @@ namespace pat
             return m_y;
         }
 
+        void update();
+
         /**
          * @brief Move the actor
          * 
