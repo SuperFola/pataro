@@ -6,6 +6,7 @@
 #include <Pataro/Actor.hpp>
 
 #include <vector>
+#include <memory>
 
 namespace pat::map
 {
@@ -89,6 +90,12 @@ namespace pat::map
 
     private:
         /**
+         * @brief Generate the world
+         * 
+         */
+        void generate();
+
+        /**
          * @brief Dig a rectangular zone between (x1, y1) and (x2, y2)
          * 
          * @param x1 
@@ -110,11 +117,12 @@ namespace pat::map
         void create_room(bool first_room, int x1, int y1, int x2, int y2);
 
         friend class details::BSPListener;
+        friend class pat::Map;
 
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;
         std::vector<details::Room> m_rooms;
-        std::vector<Actor> m_actors;
+        std::vector<std::unique_ptr<Actor>> m_actors;
         int m_width;
         int m_height;
     };

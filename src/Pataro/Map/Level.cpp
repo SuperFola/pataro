@@ -9,28 +9,7 @@ using namespace pat::map;
 Level::Level(int width, int height) :
     m_width(width), m_height(height),
     m_tiles(width * height, details::Tile())
-{
-    m_map = std::make_unique<TCODMap>(width, height);
-
-    // generate the level
-    TCODBsp bsp(0, 0, width, height);
-    bsp.splitRecursive(
-        // no randomizer
-        nullptr,
-        // number
-        8,
-        // max width
-        details::room_max_w,
-        // max height
-        details::room_max_h,
-        // max width ratio
-        1.5f,
-        // max height ratio
-        1.5f
-    );
-    details::BSPListener listener(this);
-    bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
-}
+{}
 
 bool Level::is_wall(int x, int y) const
 {
@@ -43,9 +22,9 @@ bool Level::can_walk(int x, int y) const
     if (is_wall(x, y))
         return false;
 
-    for (const Actor& actor : m_actors)
+    for (const std::unique_ptr<Actor>& actor : m_actors)
     {
-        if (actor.get_x() == x && actor.get_y() == y)
+        if (actor->get_x() == x && actor->get_y() == y)
             return false;
     }
     return true;
@@ -92,16 +71,41 @@ void Level::render()
         }
     }
 
-    for (const Actor& actor : m_actors)
+    for (const std::unique_ptr<Actor>& actor : m_actors)
     {
-        if (m_map->isInFov(actor.get_x(), actor.get_y()))
-            actor.render();
+        if (m_map->isInFov(actor->get_x(), actor->get_y()))
+            actor->render();
     }
 }
 
 const details::Room& Level::get_first_room() const
 {
     return m_rooms[0];
+}
+
+void Level::generate()
+{
+    m_map = std::make_unique<TCODMap>(m_width, m_height);
+
+    // generate the level
+    TCODBsp bsp(0, 0, m_width, m_height);
+    bsp.splitRecursive(
+        // no randomizer
+        nullptr,
+        // number
+        8,
+        // max width
+        details::room_max_w,
+        // max height
+        details::room_max_h,
+        // max width ratio
+        1.5f,
+        // max height ratio
+        1.5f
+    );
+    details::BSPListener listener(this);
+    bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
+
 }
 
 void Level::dig(int x1, int y1, int x2, int y2)
@@ -139,10 +143,10 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
     );
 
     if (m_rooms.back().has_actor())
-        m_actors.emplace_back(
+        m_actors.emplace_back(std::make_unique<Actor>(
             m_rooms.back().x + m_rooms.back().width / 2,
             m_rooms.back().y + m_rooms.back().height / 2,
             '@',
             TCODColor::yellow
-        );
+        ));
 }
