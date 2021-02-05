@@ -85,10 +85,11 @@ pat::Actor* Level::create_player(int ch, const TCODColor& color)
 {
     // put it in the middle of the maze
     m_actors.emplace_back(std::make_unique<Actor>(
-         m_rooms[0].x +  m_rooms[0].width / 2,
-         m_rooms[0].y +  m_rooms[0].height / 2,
-         ch,
-         color
+        m_rooms[0].x +  m_rooms[0].width / 2,
+        m_rooms[0].y +  m_rooms[0].height / 2,
+        ch,
+        "Player",
+        color
     ));
 
     return m_actors.back().get();
@@ -153,11 +154,22 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
-    if (m_rooms.back().has_actor())
-        m_actors.emplace_back(std::make_unique<Actor>(
-            m_rooms.back().x + m_rooms.back().width / 2,
-            m_rooms.back().y + m_rooms.back().height / 2,
-            '@',
-            TCODColor::yellow
-        ));
+    TCODRandom* rng = TCODRandom::getInstance();
+    int nb_monsters = rng->getInt(0, details::max_room_monsters);
+
+    while (nb_monsters > 0)
+    {
+        int x = rng->getInt(x1, x2);
+        int y = rng->getInt(y1, y2);
+        if (can_walk(x, y))
+        {
+            if (rng->getInt(0, 100) < 80)
+                // create an orc
+                m_actors.emplace_back(std::make_unique<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
+            else
+                // create a troll
+                m_actors.emplace_back(std::make_unique<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
+        }
+        --nb_monsters;
+    }
 }

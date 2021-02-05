@@ -3,6 +3,8 @@
 
 #include <libtcod.hpp>
 
+#include <string>
+
 namespace pat
 {
     class Map;
@@ -16,9 +18,10 @@ namespace pat
          * @param x position on X axis
          * @param y position on Y axis
          * @param ch ascii code representing the character
+         * @param name the name of the actor
          * @param color the color for the actor
         */
-        Actor(int x, int y, int ch, const TCODColor& color);
+        Actor(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
         /**
          * @brief display the actor on screen
@@ -51,6 +54,7 @@ namespace pat
         int m_x;
         int m_y;
         int m_ch;
+        std::string m_name;
         TCODColor m_color;
     };
 }

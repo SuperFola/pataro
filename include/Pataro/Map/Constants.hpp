@@ -11,6 +11,8 @@ namespace pat::map::details
 
     constexpr int level_w = 80;
     constexpr int level_h = 50;
+
+    constexpr int max_room_monsters = 3;
 }
 
 #endif
