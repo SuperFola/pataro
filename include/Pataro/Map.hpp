@@ -28,6 +28,16 @@ namespace pat
         bool is_wall(int x, int y) const;
 
         /**
+         * @brief check if an actor can walk on a given tile
+         * 
+         * @param x 
+         * @param y 
+         * @return true 
+         * @return false 
+         */
+        bool can_walk(int x, int y) const;
+
+        /**
          * @brief Compute the player field of view
          * 
          * @param x player position

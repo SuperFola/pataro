@@ -36,6 +36,16 @@ namespace pat::map
         bool is_wall(int x, int y) const;
 
         /**
+         * @brief check if an actor can walk on a given tile
+         * 
+         * @param x 
+         * @param y 
+         * @return true 
+         * @return false 
+         */
+        bool can_walk(int x, int y) const;
+
+        /**
          * @brief Check if a tile is in the field of view
          * 
          * @param x 

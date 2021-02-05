@@ -16,7 +16,7 @@ void Actor::render() const
 
 bool Actor::move(int dx, int dy, Map* map)
 {
-    if (!map->is_wall(m_x + dx, m_y + dy))
+    if (map->can_walk(m_x + dx, m_y + dy))
     {
         m_x += dx;
         m_y += dy;

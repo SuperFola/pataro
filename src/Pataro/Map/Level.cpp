@@ -38,6 +38,19 @@ bool Level::is_wall(int x, int y) const
     return !m_map->isWalkable(x, y);
 }
 
+bool Level::can_walk(int x, int y) const
+{
+    if (is_wall(x, y))
+        return false;
+
+    for (const Actor& actor : m_actors)
+    {
+        if (actor.get_x() == x && actor.get_y() == y)
+            return false;
+    }
+    return true;
+}
+
 bool Level::is_in_fov(int x, int y)
 {
     if (m_map->isInFov(x, y))
