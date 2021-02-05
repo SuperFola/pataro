@@ -23,7 +23,7 @@ void Map::compute_fov(int x, int y, int fov_radius)
     m_levels[m_current].compute_fov(x, y, fov_radius);
 }
 
-void Map::render() const
+void Map::render()
 {
     m_levels[m_current].render();
 }

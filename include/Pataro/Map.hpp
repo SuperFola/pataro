@@ -40,7 +40,7 @@ namespace pat
          * @brief Render the map on the screen
          * 
          */
-        void render() const;
+        void render();
 
         /**
          * @brief get the current level

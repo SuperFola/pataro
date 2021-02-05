@@ -37,22 +37,22 @@ void Engine::update()
     {
         case TCODK_UP:
             if (m_player->move(0, -1, m_map.get()))
-                m_compute_fov true;
+                m_compute_fov = true;
             break;
 
         case TCODK_DOWN:
             if (m_player->move(0, 1, m_map.get()))
-                m_compute_fov true;
+                m_compute_fov = true;
             break;
 
         case TCODK_LEFT:
             if (m_player->move(-1, 0, m_map.get()))
-                m_compute_fov true;
+                m_compute_fov = true;
             break;
 
         case TCODK_RIGHT:
             if (m_player->move(1, 0, m_map.get()))
-                m_compute_fov true;
+                m_compute_fov = true;
             break;
 
         case TCODK_F3:

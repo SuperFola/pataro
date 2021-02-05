@@ -43,7 +43,7 @@ namespace pat::map
          * @return true 
          * @return false 
          */
-        bool is_in_fov(int x, int y) const;
+        bool is_in_fov(int x, int y);
 
         /**
          * @brief Check if a tile has been explored
@@ -68,7 +68,7 @@ namespace pat::map
          * @brief Render the level on screen as well as its actors
          * 
          */
-        void render() const;
+        void render();
 
         /**
          * @brief Get the first room object

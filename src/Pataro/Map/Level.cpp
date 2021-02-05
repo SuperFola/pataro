@@ -8,7 +8,7 @@ using namespace pat::map;
 
 Level::Level(int width, int height) :
     m_width(width), m_height(height),
-    m_tiles(width * height, details::Tile(/* can_walk */ false))
+    m_tiles(width * height, details::Tile())
 {
     m_map = std::make_unique<TCODMap>(width, height);
 
@@ -38,7 +38,7 @@ bool Level::is_wall(int x, int y) const
     return !m_map->isWalkable(x, y);
 }
 
-bool Level::is_in_fov(int x, int y) const
+bool Level::is_in_fov(int x, int y)
 {
     if (m_map->isInFov(x, y))
     {
@@ -60,7 +60,7 @@ void Level::compute_fov(int x, int y, int fov_radius)
     m_map->computeFov(x, y, fov_radius);
 }
 
-void Level::render() const
+void Level::render()
 {
     // TODO clean up
     static const TCODColor darkWall(0, 0, 100);
@@ -81,7 +81,7 @@ void Level::render() const
 
     for (const Actor& actor : m_actors)
     {
-        if (m_map->isInFov(action.get_x(), actor.get_y()))
+        if (m_map->isInFov(actor.get_x(), actor.get_y()))
             actor.render();
     }
 }
