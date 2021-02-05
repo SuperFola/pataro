@@ -1,4 +1,4 @@
-#include <Pataro/Map/Map.hpp>
+#include <Pataro/Map.hpp>
 
 #include <Pataro/Map/Constants.hpp>
 

@@ -21,7 +21,7 @@ bool BSPListener::visitNode(TCODBsp* node, void* userData)
         int x = rng->getInt(node->x + 1, node->x + node->w - w - 1);
         int y = rng->getInt(node->y + 1, node->y + node->h - h - 1);
 
-        m_level->dig(x, y, x + w - 1, y + h - 1);
+        m_level->create_room(m_room_nb == 0, x, y, x + w - 1, y + h - 1);
 
         // dig corridors
         if (m_room_nb != 0)

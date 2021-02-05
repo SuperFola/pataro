@@ -8,7 +8,7 @@ using namespace pat::map;
 
 Level::Level(int width, int height) :
     m_width(width), m_height(height),
-    m_tiles(width * height, map::Tile(/* can_walk */ false))
+    m_tiles(width * height, details::Tile(/* can_walk */ false))
 {
     TCODBsp bsp(0, 0, width, height);
     bsp.splitRecursive(
@@ -78,4 +78,16 @@ void Level::dig(int x1, int y1, int x2, int y2)
                 m_tiles[p].can_walk = true;
         }
     }
+}
+
+void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
+{
+    dig(x1, y1, x2, y2);
+
+    m_rooms.emplace_back(
+        (x2 < x1) ? x2 : x1,
+        (y2 < y1) ? y2 : y1,
+        (x1 > x2) ? x1 - x2 : x2 - x1,
+        (y1 > y2) ? y1 - y2 : y2 - y1
+    );
 }

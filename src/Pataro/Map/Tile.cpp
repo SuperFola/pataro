@@ -1,6 +1,6 @@
 #include <Pataro/Map/Tile.hpp>
 
-using namespace pat::map;
+using namespace pat::map::details;
 
 Tile::Tile(std::optional<bool> can_walk_)
 {

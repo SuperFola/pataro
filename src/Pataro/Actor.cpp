@@ -1,6 +1,6 @@
 #include <Pataro/Actor.hpp>
 
-#include <Pataro/Map/Map.hpp>
+#include <Pataro/Map.hpp>
 
 using namespace pat;
 

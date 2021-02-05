@@ -3,7 +3,7 @@
 
 #include <optional>
 
-namespace pat::map
+namespace pat::map::details
 {
     struct Tile
     {

@@ -1,5 +1,5 @@
-#ifndef PATARO_MAP_MAP_HPP
-#define PATARO_MAP_MAP_HPP
+#ifndef PATARO_MAP_HPP
+#define PATARO_MAP_HPP
 
 #include <Pataro/Map/Level.hpp>
 
