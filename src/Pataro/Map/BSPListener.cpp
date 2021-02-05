@@ -33,9 +33,8 @@ bool BSPListener::visitNode(TCODBsp* node, void* userData)
         m_lastx = x + w / 2;
         m_lasty = y + h / 2;
         m_room_nb++;
-
-        return true;
     }
 
-    return false;
+    // keep traversing the tree
+    return true;
 }
