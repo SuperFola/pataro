@@ -15,9 +15,10 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
     const map::details::Room& first_room = m_map->current_level().get_first_room();
 
     // create player at the center of the first room
+    // TODO need to do this for every level and map
     m_player = std::make_unique<Actor>(
-        first_room.x + first_room.w / 2,
-        first_room.y + first_room.h / 2,
+        first_room.x + first_room.width / 2,
+        first_room.y + first_room.height / 2,
         '@',
         TCODColor::white
     );

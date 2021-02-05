@@ -15,5 +15,5 @@ Room::Room(int x_, int y_, int w, int h) :
 
 bool Room::has_actor() const
 {
-    return m_actor;
+    return m_has_actor;
 }

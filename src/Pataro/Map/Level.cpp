@@ -100,5 +100,10 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
     );
 
     if (m_rooms.back().has_actor())
-        m_actors.emplace_back(x + w / 2, y + h / 2, '@', TCODColor::yellow);
+        m_actors.emplace_back(
+            m_rooms.back().x + m_rooms.back().width / 2,
+            m_rooms.back().y + m_rooms.back().height / 2,
+            '@',
+            TCODColor::yellow
+        );
 }
