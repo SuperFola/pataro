@@ -35,6 +35,7 @@ namespace pat
 
     private:
         std::vector<Level> m_levels;
+        // TODO add method to change current level
         std::size_t m_current = 0;
     };
 }

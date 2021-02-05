@@ -7,6 +7,11 @@
 
 namespace pat::map
 {
+    namespace details
+    {
+        class BSPListener;
+    }
+
     class Level
     {
     public:
@@ -44,6 +49,8 @@ namespace pat::map
          * @param h the height of the zone
          */
         void dig(int x, int y, int w, int h);
+
+        friend class details::BSPListener;
 
         std::vector<map::Tile> m_tiles;
         int m_width;

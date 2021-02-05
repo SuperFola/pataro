@@ -6,7 +6,9 @@ using namespace pat;
 
 Map::Map(std::size_t depth)
 {
-    // TODO generate levels
+    // create levels
+    for (std::size_t i = 0; i < depth; ++i)
+        m_levels.emplace_back(details::level_w, details::level_h);
 }
 
 bool Map::is_wall(int x, int y) const

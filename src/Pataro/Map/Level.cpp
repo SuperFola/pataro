@@ -1,4 +1,5 @@
 #include <Pataro/Map/Level.hpp>
+#include <Pataro/Map/BSPListener.hpp>
 
 #include <libtcod.hpp>
 
@@ -7,7 +8,25 @@ using namespace pat::map;
 Level::Level(int width, int height) :
     m_width(width), m_height(height),
     m_tiles(width * height, map::Tile(/* can_walk */ false))
-{}
+{
+    TCODBsp bsp(0, 0, width, height);
+    bsp.splitRecursive(
+        // no randomizer
+        nullptr,
+        // number
+        8,
+        // min width
+        details::room_min_w,
+        // min height
+        details::room_min_h,
+        // max width ratio
+        1.5f,
+        // max height ratio
+        1.5f
+    );
+    details::BSPListener listener(this);
+    bsp.traverseInvertedLevelOrder(&listener, nullptr);
+}
 
 bool Level::is_wall(int x, int y) const
 {
