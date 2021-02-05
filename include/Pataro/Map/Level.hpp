@@ -36,6 +36,35 @@ namespace pat::map
         bool is_wall(int x, int y) const;
 
         /**
+         * @brief Check if a tile is in the field of view
+         * 
+         * @param x 
+         * @param y 
+         * @return true 
+         * @return false 
+         */
+        bool is_in_fov(int x, int y) const;
+
+        /**
+         * @brief Check if a tile has been explored
+         * 
+         * @param x 
+         * @param y 
+         * @return true 
+         * @return false 
+         */
+        bool is_explored(int x, int y) const;
+
+        /**
+         * @brief Compute the player field of view
+         * 
+         * @param x player position
+         * @param y player position
+         * @param fov_radius in tiles
+         */
+        void compute_fov(int x, int y, int fov_radius);
+
+        /**
          * @brief Render the level on screen as well as its actors
          * 
          */
@@ -73,6 +102,7 @@ namespace pat::map
         friend class details::BSPListener;
 
         std::vector<details::Tile> m_tiles;
+        std::unique_ptr<TCODMap> m_map;
         std::vector<details::Room> m_rooms;
         std::vector<Actor> m_actors;
         int m_width;
