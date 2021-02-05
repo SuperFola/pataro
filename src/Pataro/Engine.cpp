@@ -8,7 +8,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
 
-    m_map = std::make_unique<Map>(80, 45);
+    m_map = std::make_unique<Map>(5);
 
     // create player
     m_actors.emplace_back(std::make_unique<Actor>(40, 25, '@', TCODColor::white));

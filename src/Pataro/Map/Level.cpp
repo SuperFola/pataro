@@ -1,5 +1,6 @@
 #include <Pataro/Map/Level.hpp>
 #include <Pataro/Map/BSPListener.hpp>
+#include <Pataro/Map/Constants.hpp>
 
 #include <libtcod.hpp>
 
@@ -25,7 +26,7 @@ Level::Level(int width, int height) :
         1.5f
     );
     details::BSPListener listener(this);
-    bsp.traverseInvertedLevelOrder(&listener, nullptr);
+    bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
 }
 
 bool Level::is_wall(int x, int y) const
@@ -60,3 +61,4 @@ void Level::dig(int x, int y, int w, int h)
         for (int yy = y; yy < y + h; ++yy)
             m_tiles[xx + yy * m_width].can_walk = true;
     }
+}

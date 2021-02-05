@@ -1,5 +1,7 @@
 #include <Pataro/Map/Map.hpp>
 
+#include <Pataro/Map/Constants.hpp>
+
 #include <libtcod.hpp>
 
 using namespace pat;
@@ -8,7 +10,7 @@ Map::Map(std::size_t depth)
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
-        m_levels.emplace_back(details::level_w, details::level_h);
+        m_levels.emplace_back(map::details::level_w, map::details::level_h);
 }
 
 bool Map::is_wall(int x, int y) const

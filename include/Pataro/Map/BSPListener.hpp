@@ -5,25 +5,25 @@
 
 namespace pat::map
 {
-    class Map;
+    class Level;
 }
 
 namespace pat::map::details
 {
-    class BSPListener : ITCODBspCallback
+    class BSPListener : public ITCODBspCallback
     {
     public:
         /**
          * @brief Construct a new BSPListener object
          * 
-         * @param map 
+         * @param level 
          */
-        BSPListener(Map* map);
+        BSPListener(Level* level);
 
         bool visitNode(TCODBsp* node, void *userData);
 
     private:
-        Map* m_map;
+        Level* m_level;
         int m_room_nb;
         int m_lastx;
         int m_lasty;

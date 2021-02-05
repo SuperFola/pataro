@@ -1,7 +1,7 @@
 #ifndef PATARO_MAP_MAP_HPP
 #define PATARO_MAP_MAP_HPP
 
-#include <Pataro/Map/Tile.hpp>
+#include <Pataro/Map/Level.hpp>
 
 #include <vector>
 
@@ -34,7 +34,7 @@ namespace pat
         void render() const;
 
     private:
-        std::vector<Level> m_levels;
+        std::vector<map::Level> m_levels;
         // TODO add method to change current level
         std::size_t m_current = 0;
     };
