@@ -30,6 +30,7 @@ namespace pat
 
         /**
          * @brief Render all the actors
+         * @details It flushes the screen at the end.
          * 
          */
         void render();

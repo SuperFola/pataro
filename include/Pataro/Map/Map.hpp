@@ -13,13 +13,12 @@ namespace pat
         /**
          * @brief Construct a new Map object
          * 
-         * @param width 
-         * @param height 
+         * @param depth number of levels to generate
          */
-        Map(int width, int height);
+        Map(std::size_t depth);
 
         /**
-         * @brief Check if an object at (x, y) is a wall
+         * @brief Check if a tile at (x, y) is a wall
          * 
          * @param x 
          * @param y 
@@ -35,17 +34,8 @@ namespace pat
         void render() const;
 
     private:
-        /**
-         * @brief Put a wall at (x, y)
-         * 
-         * @param x 
-         * @param y 
-         */
-        void set_wall(int x, int y);
-
-        std::vector<map::Tile> m_tiles;
-        int m_width;
-        int m_height;
+        std::vector<Level> m_levels;
+        std::size_t m_current = 0;
     };
 }
 
