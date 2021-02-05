@@ -1,5 +1,7 @@
 #include <Pataro/Actor.hpp>
 
+#include <Pataro/Map/Map.hpp>
+
 using namespace pat;
 
 Actor::Actor(int x, int y, int ch, const TCODColor& color) :
@@ -12,8 +14,11 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(m_x, m_y, m_color);
 }
 
-void Actor::move(int dx, int dy)
+void Actor::move(int dx, int dy, Map* map)
 {
-    m_x += dx;
-    m_y += dy;
+    if (!map->is_wall(m_x + dx, m_y + dy))
+    {
+        m_x += dx;
+        m_y += dy;
+    }
 }

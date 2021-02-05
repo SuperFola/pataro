@@ -5,6 +5,8 @@
 
 namespace pat
 {
+    class Map;
+
     class Actor
     {
     public:
@@ -39,8 +41,9 @@ namespace pat
          * 
          * @param dx 
          * @param dy 
+         * @param map a pointer to the map, to check for collisions
          */
-        void move(int dx, int dy);
+        void move(int dx, int dy, Map* map);
 
     private:
         int m_x;

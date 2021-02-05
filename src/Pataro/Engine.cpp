@@ -21,8 +21,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 void Engine::update()
 {
     TCOD_key_t key;
-    // TODO why do we give NULL/0?
-    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, 0);
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr);
 
     int x = m_player->get_x(),
         y = m_player->get_y();
@@ -30,23 +29,19 @@ void Engine::update()
     switch (key.vk)
     {
         case TCODK_UP:
-            if (!m_map->is_wall(x, y - 1))
-                m_player->move(0, -1);
+            m_player->move(0, -1, m_map.get());
             break;
 
         case TCODK_DOWN:
-            if (!m_map->is_wall(x, y + 1))
-                m_player->move(0, 1);
+            m_player->move(0, 1, m_map.get());
             break;
 
         case TCODK_LEFT:
-            if (!m_map->is_wall(x - 1, y))
-                m_player->move(-1, 0);
+            m_player->move(-1, 0, m_map.get());
             break;
 
         case TCODK_RIGHT:
-            if (!m_map->is_wall(x + 1, y))
-                m_player->move(1, 0);
+            m_player->move(1, 0, m_map.get());
             break;
 
         default:

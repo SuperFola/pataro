@@ -22,8 +22,16 @@ namespace pat
          */
         Engine(unsigned width, unsigned height, const std::string& title);
 
+        /**
+         * @brief move the player around
+         * 
+         */
         void update();
 
+        /**
+         * @brief Render all the actors
+         * 
+         */
         void render();
 
         /**
