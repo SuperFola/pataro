@@ -2,8 +2,6 @@
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
 
-#include <libtcod.hpp>
-
 using namespace pat::map;
 
 Level::Level(int width, int height) :
@@ -81,6 +79,19 @@ void Level::render()
 const details::Room& Level::get_first_room() const
 {
     return m_rooms[0];
+}
+
+pat::Actor* Level::create_player(int ch, const TCODColor& color)
+{
+    // put it in the middle of the maze
+    m_actors.emplace_back(std::make_unique<Actor>(
+         m_rooms[0].x +  m_rooms[0].width / 2,
+         m_rooms[0].y +  m_rooms[0].height / 2,
+         ch,
+         color
+    ));
+
+    return m_actors.back().get();
 }
 
 void Level::generate()

@@ -5,6 +5,8 @@
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Actor.hpp>
 
+#include <libtcod.hpp>
+
 #include <vector>
 #include <memory>
 
@@ -15,6 +17,13 @@ namespace pat::map
         class BSPListener;
     }
 
+    /**
+     * @brief Handles a single level/floor of a map
+     * @details Each level holds it's own representation of the player
+     *          which is retrieved by the engine through the map to
+     *          interact with it.
+     * 
+     */
     class Level
     {
     public:
@@ -87,6 +96,15 @@ namespace pat::map
          * @return const details::Room& 
          */
         const details::Room& get_first_room() const;
+
+        /**
+         * @brief Create a player object to be held by the level
+         * 
+         * @param ch 
+         * @param color 
+         * @return Actor* managed pointer to the created actor
+         */
+        Actor* create_player(int ch, const TCODColor& color);
 
     private:
         /**

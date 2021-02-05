@@ -57,12 +57,12 @@ namespace pat
          * 
          * @return const map::Level& 
          */
-        const map::Level& current_level() const;
+        map::Level& current_level();
 
     private:
         std::vector<map::Level> m_levels;
         // TODO add method to change current level
-        std::size_t m_current = 0;
+        std::size_t m_current;
     };
 }
 

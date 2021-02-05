@@ -44,7 +44,7 @@ namespace pat
         bool is_running() const;
 
     private:
-        std::unique_ptr<Actor> m_player;
+        Actor* m_player;  ///< Managed ptr by a level in the map
         int m_fov_radius;
         bool m_compute_fov;
         std::unique_ptr<Map> m_map;

@@ -6,11 +6,14 @@
 
 using namespace pat;
 
-Map::Map(std::size_t depth)
+Map::Map(std::size_t depth) :
+    m_current(0)
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
         m_levels.emplace_back(map::details::level_w, map::details::level_h);
+
+    // generate the first level
     m_levels[m_current].generate();
 }
 
@@ -35,7 +38,7 @@ void Map::render()
     m_levels[m_current].render();
 }
 
-const map::Level& Map::current_level() const
+map::Level& Map::current_level()
 {
     return m_levels[m_current];
 }
