@@ -45,6 +45,8 @@ namespace pat
 
     private:
         std::unique_ptr<Actor> m_player;
+        int m_fov_radius;
+        bool m_compute_fov;
         std::unique_ptr<Map> m_map;
     };
 }

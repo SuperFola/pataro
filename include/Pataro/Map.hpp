@@ -28,6 +28,15 @@ namespace pat
         bool is_wall(int x, int y) const;
 
         /**
+         * @brief Compute the player field of view
+         * 
+         * @param x player position
+         * @param y player position
+         * @param fov_radius in tiles
+         */
+        void compute_fov(int x, int y, int fov_radius);
+
+        /**
          * @brief Render the map on the screen
          * 
          */

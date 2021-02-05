@@ -18,6 +18,11 @@ bool Map::is_wall(int x, int y) const
     return m_levels[m_current].is_wall(x, y);
 }
 
+void Map::compute_fov(int x, int y, int fov_radius)
+{
+    m_levels[m_current].compute_fov(x, y, fov_radius);
+}
+
 void Map::render() const
 {
     m_levels[m_current].render();

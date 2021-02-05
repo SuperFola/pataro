@@ -5,7 +5,8 @@
 
 using namespace pat;
 
-Engine::Engine(unsigned width, unsigned height, const std::string& title)
+Engine::Engine(unsigned width, unsigned height, const std::string& title) :
+    m_fov_radius(10), m_compute_fov(true)
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
@@ -35,19 +36,23 @@ void Engine::update()
     switch (key.vk)
     {
         case TCODK_UP:
-            m_player->move(0, -1, m_map.get());
+            if (m_player->move(0, -1, m_map.get()))
+                m_compute_fov true;
             break;
 
         case TCODK_DOWN:
-            m_player->move(0, 1, m_map.get());
+            if (m_player->move(0, 1, m_map.get()))
+                m_compute_fov true;
             break;
 
         case TCODK_LEFT:
-            m_player->move(-1, 0, m_map.get());
+            if (m_player->move(-1, 0, m_map.get()))
+                m_compute_fov true;
             break;
 
         case TCODK_RIGHT:
-            m_player->move(1, 0, m_map.get());
+            if (m_player->move(1, 0, m_map.get()))
+                m_compute_fov true;
             break;
 
         case TCODK_F3:
@@ -57,6 +62,12 @@ void Engine::update()
 
         default:
             break;
+    }
+
+    if (m_compute_fov)
+    {
+        m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
+        m_compute_fov = false;
     }
 }
 
