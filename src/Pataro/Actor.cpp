@@ -14,11 +14,13 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(m_x, m_y, m_color);
 }
 
-void Actor::move(int dx, int dy, Map* map)
+bool Actor::move(int dx, int dy, Map* map)
 {
     if (!map->is_wall(m_x + dx, m_y + dy))
     {
         m_x += dx;
         m_y += dy;
+        return true;
     }
+    return false;
 }
