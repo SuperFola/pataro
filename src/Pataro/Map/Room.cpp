@@ -5,15 +5,15 @@
 using namespace pat;
 using namespace pat::map::details;
 
-Room::Room(int x, int y, int w, int h) :
-    m_x(x), m_y(y), m_width(w), m_height(h)
+Room::Room(int x_, int y_, int w, int h) :
+    x(x_), y(y_), width(w), height(h)
 {
     TCODRandom* rng = TCODRandom::getInstance();
     if (rng->getInt(0, 3) == 0)
-        m_actor = Actor(x + w / 2, y + h / 2, '@', TCODColor::yellow);
+        m_has_actor = true;
 }
 
-std::optional<Actor> Room::get_actor() const
+bool Room::has_actor() const
 {
     return m_actor;
 }

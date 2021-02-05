@@ -1,7 +1,6 @@
 #include <Pataro/Map/Level.hpp>
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
-#include <Pataro/Actor.hpp>
 
 #include <libtcod.hpp>
 
@@ -54,15 +53,14 @@ void Level::render() const
         }
     }
 
-    for (const details::Room& room : m_rooms)
-    {
-        if (std::optional<Actor> a = room.get_actor(); a.has_value())
-            a.value().render();
-    }
+    for (const Actor& actor : m_actors)
+        actor.render();
 }
 
 const details::Room& Level::get_first_room() const
-{}
+{
+    return m_rooms[0];
+}
 
 void Level::dig(int x1, int y1, int x2, int y2)
 {
@@ -100,4 +98,7 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         (x1 > x2) ? x1 - x2 : x2 - x1,
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
+
+    if (m_rooms.back().has_actor())
+        m_actors.emplace_back(x + w / 2, y + h / 2, '@', TCODColor::yellow);
 }

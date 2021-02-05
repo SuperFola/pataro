@@ -1,4 +1,5 @@
 #include <Pataro/Engine.hpp>
+#include <Pataro/Map/Room.hpp>
 
 #include <libtcod.hpp>
 
@@ -11,8 +12,15 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(1);
-    // create player
-    m_player = std::make_unique<Actor>(40, 25, '@', TCODColor::white);
+    const map::details::Room& first_room = m_map->current_level().get_first_room();
+
+    // create player at the center of the first room
+    m_player = std::make_unique<Actor>(
+        first_room.x + first_room.w / 2,
+        first_room.y + first_room.h / 2,
+        '@',
+        TCODColor::white
+    );
 }
 
 void Engine::update()

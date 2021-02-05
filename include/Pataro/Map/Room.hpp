@@ -1,13 +1,9 @@
 #ifndef PATARO_MAP_ROOM_HPP
 #define PATARO_MAP_ROOM_HPP
 
-#include <Pataro/Actor.hpp>
-
-#include <optional>
-
 namespace pat::map::details
 {
-    class Room
+    struct Room
     {
     public:
         /**
@@ -21,15 +17,16 @@ namespace pat::map::details
         Room(int x, int y, int w, int h);
 
         /**
-         * @brief Get the actor object
+         * @brief check if the room has an actor
          * 
-         * @return std::optional<Actor> 
+         * @return bool 
          */
-        std::optional<pat::Actor> get_actor() const;
+        bool has_actor() const;
+
+        const int x, y, width, height;
 
     private:
-        int m_x, m_y, m_width, m_height;
-        std::optional<Actor> m_actor = {};
+        bool m_has_actor = false;
     };
 }
 

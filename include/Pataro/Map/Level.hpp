@@ -3,6 +3,7 @@
 
 #include <Pataro/Map/Tile.hpp>
 #include <Pataro/Map/Room.hpp>
+#include <Pataro/Actor.hpp>
 
 #include <vector>
 
@@ -73,6 +74,7 @@ namespace pat::map
 
         std::vector<details::Tile> m_tiles;
         std::vector<details::Room> m_rooms;
+        std::vector<Actor> m_actors;
         int m_width;
         int m_height;
     };
