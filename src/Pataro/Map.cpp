@@ -22,3 +22,8 @@ void Map::render() const
 {
     m_levels[m_current].render();
 }
+
+const map::Level& Map::current_level() const
+{
+    return m_levels[m_current];
+}
