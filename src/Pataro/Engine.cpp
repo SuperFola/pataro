@@ -1,5 +1,6 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Map/Room.hpp>
+#include <Pataro/Utils.hpp>
 
 #include <libtcod.hpp>
 
@@ -56,8 +57,7 @@ void Engine::update()
             break;
 
         case TCODK_F3:
-            // TODO make it better
-            TCODSystem::saveScreenshot("screenshot.png");
+            TCODSystem::saveScreenshot("screenshot_" + details::date_to_string() + ".png");
             break;
 
         default:
