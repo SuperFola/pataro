@@ -4,8 +4,6 @@
 
 #include <libtcod.hpp>
 
-#include <algorithm>
-
 using namespace pat::map;
 
 Level::Level(int width, int height) :
@@ -18,10 +16,10 @@ Level::Level(int width, int height) :
         nullptr,
         // number
         8,
-        // min width
-        details::room_min_w,
-        // min height
-        details::room_min_h,
+        // max width
+        details::room_max_w,
+        // max height
+        details::room_max_h,
         // max width ratio
         1.5f,
         // max height ratio
@@ -56,11 +54,28 @@ void Level::render() const
     }
 }
 
-void Level::dig(int x, int y, int w, int h)
+void Level::dig(int x1, int y1, int x2, int y2)
 {
-    for (int xx = x; xx < std::min(m_width, x + w); ++xx)
+    if (x2 < x1)
     {
-        for (int yy = y; yy < std::min(m_height, y + h); ++yy)
-            m_tiles[xx + yy * m_width].can_walk = true;
+        int x3 = x1;
+        x1 = x2;
+        x2 = x3;
+    }
+    if (y2 < y1)
+    {
+        int y3 = y1;
+        y1 = y2;
+        y2 = y3;
+    }
+
+    for (int x = x1; x <= x2; ++x)
+    {
+        for (int y = y1; y <= y2; ++y)
+        {
+            int p = x + y * m_width;
+            if (p < m_width * m_height)
+                m_tiles[p].can_walk = true;
+        }
     }
 }

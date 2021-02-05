@@ -41,14 +41,14 @@ namespace pat::map
 
     private:
         /**
-         * @brief Dig a rectangular zone in the level
+         * @brief Dig a rectangular zone between (x1, y1) and (x2, y2)
          * 
-         * @param x 
-         * @param y 
-         * @param w the width of the zone
-         * @param h the height of the zone
+         * @param x1 
+         * @param y1 
+         * @param x2 
+         * @param y2 
          */
-        void dig(int x, int y, int w, int h);
+        void dig(int x1, int y1, int x2, int y2);
 
         friend class details::BSPListener;
 

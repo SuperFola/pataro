@@ -7,8 +7,9 @@ using namespace pat;
 Engine::Engine(unsigned width, unsigned height, const std::string& title)
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
+    TCODSystem::setFps(30);
 
-    m_map = std::make_unique<Map>(5);
+    m_map = std::make_unique<Map>(1);
 
     // create player
     m_actors.emplace_back(std::make_unique<Actor>(40, 25, '@', TCODColor::white));
@@ -42,6 +43,11 @@ void Engine::update()
 
         case TCODK_RIGHT:
             m_player->move(1, 0, m_map.get());
+            break;
+
+        case TCODK_F3:
+            // TODO make it better
+            TCODSystem::saveScreenshot("screenshot.png");
             break;
 
         default:

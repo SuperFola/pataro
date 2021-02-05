@@ -3,8 +3,12 @@
 
 namespace pat::map::details
 {
-    constexpr int room_min_w = 12;
-    constexpr int room_min_h = 8;
+    constexpr int room_max_w = 12;
+    constexpr int room_max_h = 12;
+
+    constexpr int room_min_w = 6;
+    constexpr int room_min_h = 6;
+
     constexpr int level_w = 80;
     constexpr int level_h = 50;
 }
