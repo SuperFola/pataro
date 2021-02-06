@@ -55,7 +55,7 @@ namespace pat
     private:
         GameState m_state = GameState::StartUp;
 
-        std::shared_ptr<Actor>* m_player;  ///< Pointer shared between the levels and the engine
+        std::shared_ptr<Actor> m_player;  ///< Pointer shared between the levels and the engine
         int m_fov_radius = 10;  // TODO move this into a configuration struct
 
         std::unique_ptr<Map> m_map;

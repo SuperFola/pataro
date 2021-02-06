@@ -106,7 +106,7 @@ void Level::update()
     }
 }
 
-void Level::enter(const std::shared_ptr<Actor>& player)
+void Level::enter(const std::shared_ptr<pat::Actor>& player)
 {
     m_actors.emplace_back(player);
     m_actors.back()->put_at(
@@ -115,9 +115,9 @@ void Level::enter(const std::shared_ptr<Actor>& player)
     );
 }
 
-void Level::exit(const std::shared_ptr<Actor>& player)
+void Level::exit(const std::shared_ptr<pat::Actor>& player)
 {
-    std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
+    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
         return actor.get() == player.get();
     });
 }

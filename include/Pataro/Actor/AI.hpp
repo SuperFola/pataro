@@ -6,10 +6,13 @@ namespace pat
     class Actor;
 }
 
-namespace pat::actors
+namespace pat::actor
 {
     class AI
-    {};
+    {
+    public:
+        inline void update(Actor*) {}  // TODO
+    };
 }
 
 #endif
