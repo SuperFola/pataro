@@ -8,6 +8,7 @@
 namespace pat
 {
     class Actor;
+    class Engine;
 
     class Map
     {
@@ -76,8 +77,9 @@ namespace pat
         /**
          * @brief Update the current level
          * 
+         * @param engine 
          */
-        void update();
+        void update(Engine* engine);
 
         /**
          * @brief get the current level

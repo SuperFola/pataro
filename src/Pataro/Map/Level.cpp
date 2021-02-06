@@ -3,6 +3,7 @@
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Map.hpp>
+#include <Pataro/Engine.hpp>
 
 #include <algorithm>
 
@@ -66,7 +67,7 @@ void Level::compute_fov(int x, int y, int fov_radius)
 
 void Level::render()
 {
-    // TODO clean up
+    // TODO clean up the colors from the level::render
     static const TCODColor darkWall(0, 0, 100);
     static const TCODColor darkGround(50, 50, 150);
     static const TCODColor lightWall(130, 110, 50);
@@ -92,15 +93,12 @@ void Level::render()
     }
 }
 
-void Level::update(pat::Map* map_ptr)
+void Level::update(pat::Engine* engine)
 {
     // called once per new turn
 
     for (const auto& actor : m_actors)
-    {
-        if (actor->is_blocking())
-            actor->update(map_ptr);
-    }
+        actor->update(engine);
 }
 
 void Level::enter(const std::shared_ptr<pat::Actor>& player)
@@ -196,7 +194,7 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
-    // TODO make it better
+    // TODO make the monster generation better
     TCODRandom* rng = TCODRandom::getInstance();
     int nb_monsters = rng->getInt(0, details::max_room_monsters);
 

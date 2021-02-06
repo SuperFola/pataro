@@ -1,6 +1,7 @@
 #include <Pataro/Map.hpp>
 
 #include <Pataro/Map/Constants.hpp>
+#include <Pataro/Engine.hpp>
 
 #include <libtcod.hpp>
 
@@ -48,7 +49,7 @@ void Map::render()
     m_levels[m_current].render();
 }
 
-void Map::update()
+void Map::update(pat::Engine* engine)
 {
-    m_levels[m_current].update(this);
+    m_levels[m_current].update(engine);
 }

@@ -10,6 +10,11 @@
 #include <vector>
 #include <memory>
 
+namespace pat
+{
+    class Engine;
+}
+
 namespace pat::map
 {
     namespace details
@@ -102,9 +107,9 @@ namespace pat::map
         /**
          * @brief Update the levels (actors and stuff)
          * 
-         * @param map_ptr 
+         * @param engine 
          */
-        void update(Map* map_ptr);
+        void update(Engine* engine);
 
         /**
          * @brief Add a copy of the player to the level
