@@ -2,6 +2,8 @@
 
 #include <Pataro/Actor.hpp>
 
+#include <libtcod.hpp>
+
 using namespace pat::actor;
 
 Destructible::Destructible(float max_hp, float defense, const std::string& corpse_name) :
@@ -24,4 +26,7 @@ float Destructible::take_damage(pat::Actor* owner, float damage)
 }
 
 void Destructible::die(pat::Actor* owner)
-{}
+{
+    owner->morph_into('%', m_corpse_name, TCODColor::darkRed);
+    owner->set_blocking(false);
+}

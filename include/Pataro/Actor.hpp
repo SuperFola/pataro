@@ -33,6 +33,15 @@ namespace pat
         Actor(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
         /**
+         * @brief Morph the actor into... something else
+         * 
+         * @param ch 
+         * @param name 
+         * @param color 
+         */
+        void morph_into(int ch, const std::string& name, const TCODColor& color);
+
+        /**
          * @brief display the actor on screen
          * 
         */
@@ -44,6 +53,7 @@ namespace pat
         inline const std::string& get_name() const { return m_name; }
 
         inline bool is_blocking() const { return m_blocks; }
+        inline void set_blocking(bool value) { m_blocks = false; }
 
         /**
          * @brief Update the actor
