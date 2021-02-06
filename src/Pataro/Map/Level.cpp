@@ -87,13 +87,23 @@ void Level::render()
         }
     }
 
-    // render them in reverse order because the last actors
-    // are the dead ones
-    for (auto it = m_actors.rbegin(), end = m_actors.rend(); it != end; ++it)
-    {
-        if (m_map->isInFov((*it)->get_x(), (*it)->get_y()))
-            (*it)->render();
-    }
+    auto render_ = [this](bool render_dead_ones) {
+        for (const auto& actor : m_actors)
+        {
+            if (m_map->isInFov(actor->get_x(), actor->get_y()))
+            {
+                actor::Destructible* d = actor->destructible();
+                if (d != nullptr && (render_dead_ones ? d->is_dead() : !d->is_dead()))
+                    actor->render();
+                else if (d == nullptr)
+                    actor->render();
+            }
+        }
+    };
+
+    // render the dead ones first, then the alive ones
+    render_(/* render_dead_ones */ true);
+    render_(/* render_dead_ones */ false);
 }
 
 void Level::update(pat::Engine* engine)
@@ -122,23 +132,6 @@ void Level::exit(const std::shared_ptr<pat::Actor>& player)
     auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
         return actor.get() == player.get();
     });
-}
-
-void Level::send_to_back(pat::Actor* actor_ptr)
-{
-    std::shared_ptr<pat::Actor> culprit;
-
-    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&actor_ptr, &culprit](const auto& actor) -> bool {
-        if (actor.get() == actor_ptr)
-        {
-            culprit = actor;
-            return true;
-        }
-        return false;
-    });
-
-    if (culprit)
-        m_actors.emplace_back(culprit);
 }
 
 void Level::generate()

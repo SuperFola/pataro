@@ -30,5 +30,4 @@ void Destructible::die(pat::Actor* owner, pat::Map* map)
 {
     owner->morph_into('%', m_corpse_name, TCODColor::darkRed);
     owner->set_blocking(false);
-    map->current_level().send_to_back(owner);
 }
