@@ -22,7 +22,7 @@ bool Level::can_walk(int x, int y) const
 
     for (const std::unique_ptr<Actor>& actor : m_actors)
     {
-        if (actor->get_x() == x && actor->get_y() == y)
+        if (actor->get_x() == x && actor->get_y() == y && actor->is_blocking())
             return false;
     }
     return true;

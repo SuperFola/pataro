@@ -38,20 +38,12 @@ namespace pat
         */
         void render() const;
 
-        inline int get_x() const
-        {
-            return m_x;
-        }
+        inline int get_x() const { return m_x; }
+        inline int get_y() const { return m_y; }
 
-        inline int get_y() const
-        {
-            return m_y;
-        }
+        inline const std::string& get_name() const { return m_name; }
 
-        inline const std::string& get_name() const
-        {
-            return m_name;
-        }
+        inline bool is_blocking() const { return m_blocks; }
 
         /**
          * @brief Update the actor
