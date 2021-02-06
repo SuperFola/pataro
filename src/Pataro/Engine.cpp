@@ -71,7 +71,6 @@ void Engine::render()
     TCODConsole::root->clear();
 
     m_map->render();
-    m_player->render();
 
     TCODConsole::flush();
 }
