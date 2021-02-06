@@ -21,7 +21,7 @@ void MonsterAI::update(pat::Actor* owner, pat::Engine* engine)
     if (engine->get_map()->is_in_fov(owner->get_x(), owner->get_y()))
         move_or_attack(
             owner,
-            engine()->get_player()->get_x(),
+            engine->get_player()->get_x(),
             engine->get_player()->get_y(),
             engine
         );

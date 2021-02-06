@@ -1,6 +1,8 @@
 #include <Pataro/Engine.hpp>
+
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Utils.hpp>
+#include <Pataro/Constants.hpp>
 
 #include <libtcod.hpp>
 
