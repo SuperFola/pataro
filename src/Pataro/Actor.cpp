@@ -19,7 +19,7 @@ void Actor::render() const
 void Actor::update()
 {}
 
-bool Actor::move_or_attack(int x, int y, Map* map)
+bool Actor::move_or_attack(int dx, int dy, Map* map)
 {
     if (map->is_wall(x, y))
         return false;
@@ -29,8 +29,8 @@ bool Actor::move_or_attack(int x, int y, Map* map)
         std::cout << "The " << a->get_name() << " laugh at your puny efforts to attack it\n";
         return false;
     }
-    m_x = x;
-    m_y = y;
+    m_x += dx;
+    m_y += dy;
     return true;
 }
 

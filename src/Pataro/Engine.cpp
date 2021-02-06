@@ -23,33 +23,22 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 
 void Engine::update()
 {
+    if (m_state == GameStatus::StartUp)
+        m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
+    m_state = GameStatus::Idle;
+
     TCOD_key_t key;
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr);
 
-    int x = m_player->get_x(),
-        y = m_player->get_y();
+    int dx = 0,
+        dy = 0;
 
     switch (key.vk)
     {
-        case TCODK_UP:
-            if (m_player->move(0, -1, m_map.get()))
-                m_compute_fov = true;
-            break;
-
-        case TCODK_DOWN:
-            if (m_player->move(0, 1, m_map.get()))
-                m_compute_fov = true;
-            break;
-
-        case TCODK_LEFT:
-            if (m_player->move(-1, 0, m_map.get()))
-                m_compute_fov = true;
-            break;
-
-        case TCODK_RIGHT:
-            if (m_player->move(1, 0, m_map.get()))
-                m_compute_fov = true;
-            break;
+        case TCODK_UP:    --dy; break;
+        case TCODK_DOWN:  ++dy; break;
+        case TCODK_LEFT:  --dx; break;
+        case TCODK_RIGHT: ++dx; break;
 
         case TCODK_F3:
             TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
@@ -59,10 +48,12 @@ void Engine::update()
             break;
     }
 
-    if (m_compute_fov)
+    if (dy != 0 || dx != 0)
     {
-        m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
-        m_compute_fov = false;
+        m_state = GameStatus::NewTurn;
+
+        if (player->move_or_attack(dx, dy, m_map.get()))
+            m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
     }
 }
 

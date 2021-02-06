@@ -44,9 +44,22 @@ namespace pat
             return m_name;
         }
 
+        /**
+         * @brief Update the actor
+         * 
+         */
         void update();
 
-        bool move_or_attack(int x, int y, Map* map);
+        /**
+         * @brief Move the actor / attack if an entity is blocking the way
+         * 
+         * @param dx 
+         * @param dy 
+         * @param map 
+         * @return true we were able to move
+         * @return false we were blocked by a wall / an ennemy
+         */
+        bool move_or_attack(int dx, int dy, Map* map);
 
         /**
          * @brief Move the actor

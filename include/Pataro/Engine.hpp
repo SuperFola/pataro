@@ -56,7 +56,6 @@ namespace pat
         GameStatus m_state = GameStatus::StartUp;
         Actor* m_player;  ///< Managed ptr by a level in the map
         int m_fov_radius = 10;
-        bool m_compute_fov = true;
         std::unique_ptr<Map> m_map;
     };
 }
