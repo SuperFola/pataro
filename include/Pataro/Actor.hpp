@@ -1,6 +1,10 @@
 #ifndef PATARO_ACTOR_HPP
 #define PATARO_ACTOR_HPP
 
+#include <Pataro/Actor/AI.hpp>
+#include <Pataro/Actor/Attacker.hpp>
+#include <Pataro/Actor/Destructible.hpp>
+
 #include <libtcod.hpp>
 
 #include <string>
@@ -9,6 +13,11 @@ namespace pat
 {
     class Map;
 
+    /**
+     * @brief An actor class representing items, traps, doors, monsters, players...
+     * @details It uses composition to represent all of those kind of actors.
+     * 
+     */
     class Actor
     {
     public:
@@ -73,11 +82,15 @@ namespace pat
         bool move(int dx, int dy, Map* map);
 
     private:
-        int m_x;
-        int m_y;
+        int m_x, m_y;
         int m_ch;
         std::string m_name;
         TCODColor m_color;
+
+        bool m_blocks = true;  ///< Can we walk on this actor?
+        std::unique_ptr<details::Attacker> m_attacker = nullptr;  ///< For actors that deal damages
+        std::unique_ptr<details::Destructible> m_destructible = nullptr;  ///< For destructible actors
+        std::unique_ptr<details::AI> m_ai = nullptr;  ///< For self updating actors
     };
 }
 

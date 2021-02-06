@@ -17,7 +17,10 @@ void Actor::render() const
 }
 
 void Actor::update()
-{}
+{
+    if (m_ai)
+        m_ai->update(this);
+}
 
 bool Actor::move_or_attack(int dx, int dy, Map* map)
 {
@@ -29,8 +32,10 @@ bool Actor::move_or_attack(int dx, int dy, Map* map)
         std::cout << "The " << a->get_name() << " laugh at your puny efforts to attack it\n";
         return false;
     }
+
     m_x += dx;
     m_y += dy;
+
     return true;
 }
 
