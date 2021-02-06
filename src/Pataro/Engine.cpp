@@ -26,12 +26,12 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 void Engine::update()
 {
     if (m_state == GameState::StartUp)
-        m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
+        m_map->compute_fov(m_player->get_x(), m_player->get_y(), details::player_fov);
     m_state = GameState::Idle;
 
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &m_lastkey, nullptr);
 
-    switch (key.vk)
+    switch (m_lastkey.vk)
     {
         case TCODK_F3:
             TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());

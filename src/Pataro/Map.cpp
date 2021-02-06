@@ -38,6 +38,11 @@ void Map::compute_fov(int x, int y, int fov_radius)
     m_levels[m_current].compute_fov(x, y, fov_radius);
 }
 
+bool Map::is_in_fov(int x, int y)
+{
+    return m_levels[m_current].is_in_fov(x, y);
+}
+
 void Map::render()
 {
     m_levels[m_current].render();

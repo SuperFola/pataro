@@ -23,9 +23,17 @@ namespace pat::actor::details
         void update(Actor* owner, Engine* engine) override;
 
     private:
+        /**
+         * @brief Move the player around, or if possible, attack
+         * 
+         * @param owner 
+         * @param dx 
+         * @param dy 
+         * @param engine 
+         * @return true we were able to move
+         * @return false 
+         */
         bool move_or_attack(Actor* owner, int dx, int dy, Engine* engine);
-
-        int m_fov_radius = 10;
     };
 }
 

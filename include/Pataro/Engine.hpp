@@ -54,6 +54,7 @@ namespace pat
 
         inline void change_state(GameState state) { m_state = state; }
         inline Map* get_map() { return m_map.get(); }
+        inline Actor* get_player() { return m_player.get(); }
         inline TCOD_key_t lastkey() { return m_lastkey; }
 
     private:

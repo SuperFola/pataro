@@ -58,6 +58,16 @@ namespace pat
         void compute_fov(int x, int y, int fov_radius);
 
         /**
+         * @brief Check if a tile is in the field of view
+         * 
+         * @param x 
+         * @param y 
+         * @return true 
+         * @return false 
+         */
+        bool is_in_fov(int x, int y);
+
+        /**
          * @brief Render the map on the screen
          * 
          */

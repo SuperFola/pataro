@@ -3,6 +3,7 @@
 #include <Pataro/Actor.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Actor/Destructible.hpp>
+#include <Pataro/Constants.hpp>
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ void PlayerAI::update(pat::Actor* owner, pat::Engine* engine)
         engine->change_state(pat::GameState::NewTurn);
 
         if (move_or_attack(owner, dx, dy, engine->get_map()))
-            engine->get_map()->compute_fov(owner->get_x(), owner->get_y(), m_fov_radius);
+            engine->get_map()->compute_fov(owner->get_x(), owner->get_y(), details::player_fov);
     }
 }
 
