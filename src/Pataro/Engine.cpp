@@ -60,9 +60,9 @@ void Engine::update()
 
     // if it's a new turn, update all the actors
     if (m_state == GameState::NewTurn)
-    {
         m_map->update();
-    }
+
+    // TODO handle player death
 }
 
 void Engine::render()

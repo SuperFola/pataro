@@ -6,6 +6,7 @@
 namespace pat
 {
     class Actor;
+    class Map;
 }
 
 namespace pat::actor
@@ -27,16 +28,18 @@ namespace pat::actor
          * 
          * @param owner 
          * @param damage 
+         * @param map 
          * @return float the number of hit points actually taken
          */
-        float take_damage(Actor* owner, float damage);
+        float take_damage(Actor* owner, float damage, Map* map);
 
         /**
          * @brief What happens when the owning entity dies is handled here
          * 
          * @param owner 
+         * @param map 
          */
-        virtual void die(Actor* owner);
+        virtual void die(Actor* owner, Map* map);
 
         inline bool is_dead() { return m_hp <= 0.f; }
 

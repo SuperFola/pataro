@@ -83,10 +83,12 @@ void Level::render()
         }
     }
 
-    for (const auto& actor : m_actors)
+    // render them in reverse order because the last actors
+    // are the dead ones
+    for (auto it = m_actors.rbegin(), end = m_actors.rend(); it != end; ++it)
     {
-        if (m_map->isInFov(actor->get_x(), actor->get_y()))
-            actor->render();
+        if (m_map->isInFov((*it)->get_x(), (*it)->get_y()))
+            (*it)->render();
     }
 }
 
@@ -94,13 +96,6 @@ void Level::update(pat::Map* map_ptr)
 {
     // called once per new turn
 
-    // draw non blocking actors first
-    for (const auto& actor : m_actors)
-    {
-        if (!actor->is_blocking())
-            actor->update(map_ptr);
-    }
-    // then blocking actors
     for (const auto& actor : m_actors)
     {
         if (actor->is_blocking())
@@ -110,6 +105,8 @@ void Level::update(pat::Map* map_ptr)
 
 void Level::enter(const std::shared_ptr<pat::Actor>& player)
 {
+    // the player just entered the level, put it in the middle
+    // of the first room
     m_actors.emplace_back(player);
     m_actors.back()->put_at(
         m_rooms[0].x + m_rooms[0].width / 2,
@@ -122,6 +119,23 @@ void Level::exit(const std::shared_ptr<pat::Actor>& player)
     auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
         return actor.get() == player.get();
     });
+}
+
+void Level::send_to_back(pat::Actor* actor_ptr)
+{
+    std::shared_ptr<pat::Actor> culprit;
+
+    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&actor_ptr, &culprit](const auto& actor) -> bool {
+        if (actor.get() == actor_ptr)
+        {
+            culprit = actor;
+            return true;
+        }
+        return false;
+    });
+
+    if (culprit)
+        m_actors.emplace_back(culprit);
 }
 
 void Level::generate()

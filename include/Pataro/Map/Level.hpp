@@ -121,6 +121,13 @@ namespace pat::map
          */
         void exit(const std::shared_ptr<Actor>& player);
 
+        /**
+         * @brief Send an actor to the back because it's dead
+         * 
+         * @param actor 
+         */
+        void send_to_back(Actor* actor);
+
     private:
         /**
          * @brief Generate the world
