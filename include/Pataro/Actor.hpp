@@ -63,6 +63,10 @@ namespace pat
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = false; }
 
+        inline actor::Attacker* attacker() { return m_attacker.get(); }
+        inline actor::Destructible* destructible() { return m_destructible.get(); }
+        inline actor::AI* ai() { return m_ai.get(); }
+
         /**
          * @brief Move the actor / attack if an entity is blocking the way
          * 

@@ -42,6 +42,7 @@ namespace pat::actor
         virtual void die(Actor* owner, Map* map);
 
         inline bool is_dead() { return m_hp <= 0.f; }
+        inline float defense() { return m_defense; }
 
     private:
         float m_max_hp, m_hp;

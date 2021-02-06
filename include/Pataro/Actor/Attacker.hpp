@@ -4,12 +4,33 @@
 namespace pat
 {
     class Actor;
+    class Map;
 }
 
 namespace pat::actor
 {
     class Attacker
-    {};
+    {
+    public:
+        /**
+         * @brief Construct a new Attacker object
+         * 
+         * @param power 
+         */
+        Attacker(float power);
+
+        /**
+         * @brief The owner is attacking a given target
+         * 
+         * @param owner 
+         * @param target 
+         * @param map 
+         */
+        void attack(Actor* owner, Actor* target, Map* map);
+
+    private:
+        float m_power;
+    };
 }
 
 #endif
