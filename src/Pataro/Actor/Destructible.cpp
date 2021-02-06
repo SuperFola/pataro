@@ -18,7 +18,7 @@ float Destructible::take_damage(pat::Actor* owner, float damage, pat::Map* map)
     {
         m_hp -= damage;
         if (is_dead())
-            die(owner);
+            die(owner, map);
     }
     else
         damage = 0.f;

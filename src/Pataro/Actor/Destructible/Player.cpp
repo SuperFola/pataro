@@ -3,6 +3,8 @@
 #include <Pataro/Actor.hpp>
 #include <Pataro/Map.hpp>
 
+#include <iostream>
+
 using namespace pat::actor::details;
 
 PlayerDestructible::PlayerDestructible(float max_hp, float defense, const std::string& corpse_name) :
