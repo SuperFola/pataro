@@ -4,6 +4,7 @@
 namespace pat
 {
     class Actor;
+    class Map;
 }
 
 namespace pat::actor
@@ -11,7 +12,7 @@ namespace pat::actor
     class AI
     {
     public:
-        inline void update(Actor*) {}  // TODO
+        inline void update(Actor*, Map*) {}  // TODO
     };
 }
 

@@ -45,5 +45,5 @@ void Map::render()
 
 void Map::update()
 {
-    m_levels[m_current].update();
+    m_levels[m_current].update(this);
 }

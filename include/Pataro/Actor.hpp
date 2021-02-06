@@ -47,6 +47,13 @@ namespace pat
         */
         void render() const;
 
+        /**
+         * @brief Update the actor
+         * 
+         * @param map_ptr 
+         */
+        void update(Map* map_ptr);
+
         inline int get_x() const { return m_x; }
         inline int get_y() const { return m_y; }
         inline void put_at(int x, int y) { m_x = x; m_y = y; }
@@ -55,12 +62,6 @@ namespace pat
 
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = false; }
-
-        /**
-         * @brief Update the actor
-         * 
-         */
-        void update();
 
         /**
          * @brief Move the actor / attack if an entity is blocking the way

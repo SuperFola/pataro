@@ -102,8 +102,9 @@ namespace pat::map
         /**
          * @brief Update the levels (actors and stuff)
          * 
+         * @param map_ptr 
          */
-        void update();
+        void update(Map* map_ptr);
 
         /**
          * @brief Add a copy of the player to the level

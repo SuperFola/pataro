@@ -1,6 +1,8 @@
 #include <Pataro/Map/Level.hpp>
+
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
+#include <Pataro/Map.hpp>
 
 #include <algorithm>
 
@@ -88,7 +90,7 @@ void Level::render()
     }
 }
 
-void Level::update()
+void Level::update(pat::Map* map_ptr)
 {
     // called once per new turn
 
@@ -96,13 +98,13 @@ void Level::update()
     for (const auto& actor : m_actors)
     {
         if (!actor->is_blocking())
-            actor->update();
+            actor->update(map_ptr);
     }
     // then blocking actors
     for (const auto& actor : m_actors)
     {
         if (actor->is_blocking())
-            actor->update();
+            actor->update(map_ptr);
     }
 }
 

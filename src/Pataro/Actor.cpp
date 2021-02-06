@@ -23,10 +23,10 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(m_x, m_y, m_color);
 }
 
-void Actor::update()
+void Actor::update(Map* map_ptr)
 {
     if (m_ai)
-        m_ai->update(this);
+        m_ai->update(this, map_ptr);
 }
 
 bool Actor::move_or_attack(int dx, int dy, Map* map)
