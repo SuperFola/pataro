@@ -58,12 +58,13 @@ namespace pat
         inline TCOD_key_t lastkey() { return m_lastkey; }
 
     private:
+        unsigned m_width, m_height;
+        TCOD_key_t m_lastkey;
+
         GameState m_state = GameState::StartUp;
 
         std::shared_ptr<Actor> m_player;  ///< Pointer shared between the levels and the engine
         std::unique_ptr<Map> m_map;
-
-        TCOD_key_t m_lastkey;
     };
 }
 

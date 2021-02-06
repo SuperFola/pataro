@@ -4,6 +4,9 @@
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Engine.hpp>
+#include <Pataro/Actor/Attacker.hpp>
+#include <Pataro/Actor/AI/Monster.hpp>
+#include <Pataro/Actor/Destructible/Monster.hpp>
 
 #include <algorithm>
 
@@ -96,9 +99,11 @@ void Level::render()
 void Level::update(pat::Engine* engine)
 {
     // called once per new turn
-
     for (const auto& actor : m_actors)
-        actor->update(engine);
+    {
+        if (actor.get() != engine->get_player())
+            actor->update(engine);
+    }
 }
 
 void Level::enter(const std::shared_ptr<pat::Actor>& player)
@@ -204,12 +209,22 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         int y = rng->getInt(y1, y2);
         if (can_walk(x, y))
         {
+            // create an orc
             if (rng->getInt(0, 100) < 80)
-                // create an orc
+            {
                 m_actors.emplace_back(std::make_shared<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
+                m_actors.back()->set_attacker<actor::Attacker>(3);
+                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(10, 0, "dead orc");
+            }
+            // create a troll
             else
-                // create a troll
+            {
                 m_actors.emplace_back(std::make_shared<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
+                m_actors.back()->set_attacker<actor::Attacker>(4);
+                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(16, 1, "troll carcass");
+            }
+
+            m_actors.back()->set_ai<actor::details::MonsterAI>();
         }
         --nb_monsters;
     }

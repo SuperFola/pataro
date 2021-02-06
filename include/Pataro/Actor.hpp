@@ -8,6 +8,8 @@
 #include <libtcod.hpp>
 
 #include <string>
+#include <utility>
+#include <memory>
 
 namespace pat
 {
@@ -66,6 +68,24 @@ namespace pat
         inline actor::Attacker*     attacker() { return m_attacker.get(); }
         inline actor::Destructible* destructible() { return m_destructible.get(); }
         inline actor::AI*           ai() { return m_ai.get(); }
+
+        template <class A, typename... Args>
+        void set_attacker(Args&&... args)
+        {
+            m_attacker = std::make_unique<A>(std::forward<Args>(args)...);
+        }
+
+        template <class D, typename... Args>
+        void set_destructible(Args&&... args)
+        {
+            m_destructible = std::make_unique<D>(std::forward<Args>(args)...);
+        }
+
+        template <class AI, typename... Args>
+        void set_ai(Args&&... args)
+        {
+            m_ai = std::make_unique<AI>(std::forward<Args>(args)...);
+        }
 
     private:
         int m_x, m_y;
