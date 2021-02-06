@@ -21,10 +21,10 @@ void Actor::update()
 
 bool Actor::move_or_attack(int dx, int dy, Map* map)
 {
-    if (map->is_wall(x, y))
+    if (map->is_wall(m_x + dx, m_y + dy))
         return false;
 
-    if (Actor* a = map->get_actor(x, y); a != nullptr)
+    if (Actor* a = map->get_actor(m_x + dx, m_y + dy); a != nullptr)
     {
         std::cout << "The " << a->get_name() << " laugh at your puny efforts to attack it\n";
         return false;

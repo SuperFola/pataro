@@ -109,6 +109,8 @@ namespace pat::map
          */
         Actor* create_player(int ch, const std::string& name, const TCODColor& color);
 
+        std::vector<std::unique_ptr<Actor>>* get_actors();
+
     private:
         /**
          * @brief Generate the world

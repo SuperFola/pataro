@@ -15,7 +15,6 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(1);
-    const map::details::Room& first_room = m_map->current_level().get_first_room();
 
     // create the player at the center of the first room
     m_player = m_map->current_level().create_player('@', "Player", TCODColor::white);
@@ -23,9 +22,9 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
 
 void Engine::update()
 {
-    if (m_state == GameStatus::StartUp)
+    if (m_state == GameState::StartUp)
         m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
-    m_state = GameStatus::Idle;
+    m_state = GameState::Idle;
 
     TCOD_key_t key;
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr);
@@ -50,10 +49,20 @@ void Engine::update()
 
     if (dy != 0 || dx != 0)
     {
-        m_state = GameStatus::NewTurn;
+        m_state = GameState::NewTurn;
 
-        if (player->move_or_attack(dx, dy, m_map.get()))
+        if (m_player->move_or_attack(dx, dy, m_map.get()))
             m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
+    }
+
+    // if it's a new turn, update all the actors
+    if (m_state == GameState::NewTurn)
+    {
+        for (const std::unique_ptr<Actor>& actor : *m_map->current_level().get_actors())
+        {
+            if (actor.get() != m_player)
+                actor->update();
+        }
     }
 }
 

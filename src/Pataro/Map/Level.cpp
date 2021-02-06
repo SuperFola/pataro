@@ -100,6 +100,11 @@ pat::Actor* Level::create_player(int ch, const std::string& name, const TCODColo
     return m_actors.back().get();
 }
 
+std::vector<std::unique_ptr<pat::Actor>>* Level::get_actors()
+{
+    return &m_actors;
+}
+
 void Level::generate()
 {
     m_map = std::make_unique<TCODMap>(m_width, m_height);
