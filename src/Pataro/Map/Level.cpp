@@ -90,8 +90,20 @@ void Level::render()
 
 void Level::update()
 {
+    // called once per new turn
+
+    // draw non blocking actors first
     for (const auto& actor : m_actors)
-        actor->update();
+    {
+        if (!actor->is_blocking())
+            actor->update();
+    }
+    // then blocking actors
+    for (const auto& actor : m_actors)
+    {
+        if (actor->is_blocking())
+            actor->update();
+    }
 }
 
 void Level::enter(const std::shared_ptr<Actor>& player)
