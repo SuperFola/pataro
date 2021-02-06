@@ -10,6 +10,15 @@
 
 namespace pat
 {
+    enum class GameStatus
+    {
+        StartUp,
+        Idle,
+        NewTurn,
+        Victory,
+        Defeat
+    };
+
     class Engine
     {
     public:
@@ -44,9 +53,10 @@ namespace pat
         bool is_running() const;
 
     private:
+        GameStatus m_state = GameStatus::StartUp;
         Actor* m_player;  ///< Managed ptr by a level in the map
-        int m_fov_radius;
-        bool m_compute_fov;
+        int m_fov_radius = 10;
+        bool m_compute_fov = true;
         std::unique_ptr<Map> m_map;
     };
 }
