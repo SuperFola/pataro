@@ -100,13 +100,6 @@ namespace pat::map
         void render();
 
         /**
-         * @brief Get the first room object
-         * 
-         * @return const details::Room& 
-         */
-        const details::Room& get_first_room() const;
-
-        /**
          * @brief Create a player object to be held by the level
          * 
          * @param ch 

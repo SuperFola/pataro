@@ -86,11 +86,6 @@ void Level::render()
     }
 }
 
-const details::Room& Level::get_first_room() const
-{
-    return m_rooms[0];
-}
-
 pat::Actor* Level::create_player(int ch, const std::string& name, const TCODColor& color)
 {
     // put it in the middle of the maze
