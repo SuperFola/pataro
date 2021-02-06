@@ -1,24 +1,18 @@
 #include <Pataro/Utils.hpp>
 
-#define _CRT_SECURE_NO_WARNINGS
-#include <ctime>
-
-#include <iomanip>
-#include <sstream>
-#include <iostream>
+#include <time.h>
 
 namespace pat::details
 {
     std::string date_to_string()
     {
-        auto t = std::time(nullptr);
-        // TODO this is considered unsafe, fix this
-        auto tm = *std::localtime(&t);
+        time_t t = time(nullptr);
+        char buffer[70];
+        struct tm time_struct;
 
-        std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y_%H-%M-%S");
-        return oss.str();
+        localtime_s(&time_struct, &t);
+        strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &time_struct);
+
+        return std::string(buffer, strlen(buffer));
     }
 }
-
-#undef _CRT_SECURE_NO_WARNINGS
