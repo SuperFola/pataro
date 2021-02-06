@@ -80,9 +80,9 @@ namespace pat
         TCODColor m_color;
 
         bool m_blocks = true;  ///< Can we walk on this actor?
-        std::unique_ptr<details::Attacker> m_attacker = nullptr;  ///< For actors that deal damages
-        std::unique_ptr<details::Destructible> m_destructible = nullptr;  ///< For destructible actors
-        std::unique_ptr<details::AI> m_ai = nullptr;  ///< For self updating actors
+        std::unique_ptr<actor::Attacker> m_attacker = nullptr;  ///< For actors that deal damages
+        std::unique_ptr<actor::Destructible> m_destructible = nullptr;  ///< For destructible actors
+        std::unique_ptr<actor::AI> m_ai = nullptr;  ///< For self updating actors
     };
 }
 

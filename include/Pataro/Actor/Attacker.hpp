@@ -6,7 +6,7 @@ namespace pat
     class Actor;
 }
 
-namespace pat::details
+namespace pat::actor
 {
     class Attacker
     {};
