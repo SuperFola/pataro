@@ -1,6 +1,6 @@
 #include <Pataro/Actor.hpp>
 
-#include <Pataro/Map.hpp>
+#include <Pataro/Engine.hpp>
 
 #include <iostream>
 
@@ -23,36 +23,8 @@ void Actor::render() const
     TCODConsole::root->setCharForeground(m_x, m_y, m_color);
 }
 
-void Actor::update(Map* map_ptr)
+void Actor::update(Engine* engine)
 {
     if (m_ai)
-        m_ai->update(this, map_ptr);
-}
-
-bool Actor::move_or_attack(int dx, int dy, Map* map)
-{
-    if (map->is_wall(m_x + dx, m_y + dy))
-        return false;
-
-    if (Actor* a = map->get_actor(m_x + dx, m_y + dy); a != nullptr)
-    {
-        std::cout << "The " << a->get_name() << " laugh at your puny efforts to attack it\n";
-        return false;
-    }
-
-    m_x += dx;
-    m_y += dy;
-
-    return true;
-}
-
-bool Actor::move(int dx, int dy, Map* map)
-{
-    if (map->can_walk(m_x + dx, m_y + dy))
-    {
-        m_x += dx;
-        m_y += dy;
-        return true;
-    }
-    return false;
+        m_ai->update(this, engine);
 }

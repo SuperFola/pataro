@@ -29,33 +29,16 @@ void Engine::update()
         m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
     m_state = GameState::Idle;
 
-    TCOD_key_t key;
-    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr);
-
-    int dx = 0,
-        dy = 0;
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &m_lastkey, nullptr);
 
     switch (key.vk)
     {
-        case TCODK_UP:    --dy; break;
-        case TCODK_DOWN:  ++dy; break;
-        case TCODK_LEFT:  --dx; break;
-        case TCODK_RIGHT: ++dx; break;
-
         case TCODK_F3:
             TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
             break;
 
         default:
             break;
-    }
-
-    if (dy != 0 || dx != 0)
-    {
-        m_state = GameState::NewTurn;
-
-        if (m_player->move_or_attack(dx, dy, m_map.get()))
-            m_map->compute_fov(m_player->get_x(), m_player->get_y(), m_fov_radius);
     }
 
     // if it's a new turn, update all the actors

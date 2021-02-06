@@ -4,7 +4,7 @@
 namespace pat
 {
     class Actor;
-    class Map;
+    class Engine;
 }
 
 namespace pat::actor
@@ -12,7 +12,13 @@ namespace pat::actor
     class AI
     {
     public:
-        inline void update(Actor*, Map*) {}  // TODO
+        /**
+         * @brief Update an entity with some intelligence
+         * 
+         * @param owner 
+         * @param engine 
+         */
+        virtual void update(Actor* owner, Engine* engine) = 0;
     };
 }
 

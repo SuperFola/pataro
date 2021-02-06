@@ -52,13 +52,17 @@ namespace pat
          */
         bool is_running() const;
 
+        inline void change_state(GameState state) { m_state = state; }
+        inline Map* get_map() { return m_map.get(); }
+        inline TCOD_key_t lastkey() { return m_lastkey; }
+
     private:
         GameState m_state = GameState::StartUp;
 
         std::shared_ptr<Actor> m_player;  ///< Pointer shared between the levels and the engine
-        int m_fov_radius = 10;  // TODO move this into a configuration struct
-
         std::unique_ptr<Map> m_map;
+
+        TCOD_key_t m_lastkey;
     };
 }
 

@@ -11,7 +11,7 @@
 
 namespace pat
 {
-    class Map;
+    class Engine;
 
     /**
      * @brief An actor class representing items, traps, doors, monsters, players...
@@ -50,12 +50,12 @@ namespace pat
         /**
          * @brief Update the actor
          * 
-         * @param map_ptr 
+         * @param engine 
          */
-        void update(Map* map_ptr);
+        void update(Engine* engine);
 
-        inline int get_x() const { return m_x; }
-        inline int get_y() const { return m_y; }
+        inline int  get_x() const { return m_x; }
+        inline int  get_y() const { return m_y; }
         inline void put_at(int x, int y) { m_x = x; m_y = y; }
 
         inline const std::string& get_name() const { return m_name; }
@@ -63,31 +63,9 @@ namespace pat
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = false; }
 
-        inline actor::Attacker* attacker() { return m_attacker.get(); }
+        inline actor::Attacker*     attacker() { return m_attacker.get(); }
         inline actor::Destructible* destructible() { return m_destructible.get(); }
-        inline actor::AI* ai() { return m_ai.get(); }
-
-        /**
-         * @brief Move the actor / attack if an entity is blocking the way
-         * 
-         * @param dx 
-         * @param dy 
-         * @param map 
-         * @return true we were able to move
-         * @return false we were blocked by a wall / an ennemy
-         */
-        bool move_or_attack(int dx, int dy, Map* map);
-
-        /**
-         * @brief Move the actor
-         * 
-         * @param dx 
-         * @param dy 
-         * @param map a pointer to the map, to check for collisions
-         * @return true if we were able to move
-         * @return false otherwise
-         */
-        bool move(int dx, int dy, Map* map);
+        inline actor::AI*           ai() { return m_ai.get(); }
 
     private:
         int m_x, m_y;
