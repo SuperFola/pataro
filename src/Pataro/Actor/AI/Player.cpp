@@ -37,10 +37,13 @@ void PlayerAI::update(pat::Actor* owner, pat::Engine* engine)
 
 bool PlayerAI::move_or_attack(Actor* owner, int dx, int dy, Engine* engine)
 {
-    if (engine->get_map()->is_wall(m_x + dx, m_y + dy))
+    int x = owner->get_x(),
+        y = owner->get_y();
+
+    if (engine->get_map()->is_wall(x + dx, y + dy))
         return false;
 
-    if (Actor* a = engine->get_map()->get_actor(m_x + dx, m_y + dy); a != nullptr)
+    if (Actor* a = engine->get_map()->get_actor(x + dx, y + dy); a != nullptr)
     {
         Destructible* d = a->destructible();
 
@@ -56,8 +59,6 @@ bool PlayerAI::move_or_attack(Actor* owner, int dx, int dy, Engine* engine)
         }
     }
 
-    m_x += dx;
-    m_y += dy;
-
+    actor->put_at(x + dx, y + dy);
     return true;
 }
