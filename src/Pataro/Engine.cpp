@@ -16,8 +16,11 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title)
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(1);
 
-    // create the player at the center of the first room
-    m_player = m_map->current_level().create_player('@', "Player", TCODColor::white);
+    // create the player
+    m_player = std::make_shared<Actor>(
+        0, 0, '@', "Player", TCODColor::white
+    );
+    m_map->current_level().enter(m_player);
 }
 
 void Engine::update()
@@ -58,11 +61,7 @@ void Engine::update()
     // if it's a new turn, update all the actors
     if (m_state == GameState::NewTurn)
     {
-        for (const std::unique_ptr<Actor>& actor : *m_map->current_level().get_actors())
-        {
-            if (actor.get() != m_player)
-                actor->update();
-        }
+        m_map->update();
     }
 }
 

@@ -2,6 +2,8 @@
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
 
+#include <algorithm>
+
 using namespace pat::map;
 
 Level::Level(int width, int height) :
@@ -20,7 +22,7 @@ bool Level::can_walk(int x, int y) const
     if (is_wall(x, y))
         return false;
 
-    for (const std::unique_ptr<Actor>& actor : m_actors)
+    for (const auto& actor : m_actors)
     {
         if (actor->get_x() == x && actor->get_y() == y && actor->is_blocking())
             return false;
@@ -30,7 +32,7 @@ bool Level::can_walk(int x, int y) const
 
 pat::Actor* Level::get_actor(int x, int y) const
 {
-    for (const std::unique_ptr<Actor>& actor : m_actors)
+    for (const auto& actor : m_actors)
     {
         if (actor->get_x() == x && actor->get_y() == y)
             return actor.get();
@@ -79,30 +81,33 @@ void Level::render()
         }
     }
 
-    for (const std::unique_ptr<Actor>& actor : m_actors)
+    for (const auto& actor : m_actors)
     {
         if (m_map->isInFov(actor->get_x(), actor->get_y()))
             actor->render();
     }
 }
 
-pat::Actor* Level::create_player(int ch, const std::string& name, const TCODColor& color)
+void Level::update()
 {
-    // put it in the middle of the maze
-    m_actors.emplace_back(std::make_unique<Actor>(
-        m_rooms[0].x +  m_rooms[0].width / 2,
-        m_rooms[0].y +  m_rooms[0].height / 2,
-        ch,
-        name,
-        color
-    ));
-
-    return m_actors.back().get();
+    for (const auto& actor : m_actors)
+        actor->update();
 }
 
-std::vector<std::unique_ptr<pat::Actor>>* Level::get_actors()
+void Level::enter(const std::shared_ptr<Actor>& player)
 {
-    return &m_actors;
+    m_actors.emplace_back(player);
+    m_actors.back()->put_at(
+        m_rooms[0].x + m_rooms[0].width / 2,
+        m_rooms[0].y + m_rooms[0].height / 2
+    );
+}
+
+void Level::exit(const std::shared_ptr<Actor>& player)
+{
+    std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
+        return actor.get() == player.get();
+    });
 }
 
 void Level::generate()
@@ -127,7 +132,6 @@ void Level::generate()
     );
     details::BSPListener listener(this);
     bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
-
 }
 
 void Level::dig(int x1, int y1, int x2, int y2)
@@ -176,10 +180,10 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         {
             if (rng->getInt(0, 100) < 80)
                 // create an orc
-                m_actors.emplace_back(std::make_unique<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
+                m_actors.emplace_back(std::make_shared<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
             else
                 // create a troll
-                m_actors.emplace_back(std::make_unique<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
+                m_actors.emplace_back(std::make_shared<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
         }
         --nb_monsters;
     }

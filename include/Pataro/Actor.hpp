@@ -49,6 +49,7 @@ namespace pat
 
         inline int get_x() const { return m_x; }
         inline int get_y() const { return m_y; }
+        inline void put_at(int x, int y) { m_x = x; m_y = y; }
 
         inline const std::string& get_name() const { return m_name; }
 

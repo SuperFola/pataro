@@ -43,7 +43,7 @@ void Map::render()
     m_levels[m_current].render();
 }
 
-map::Level& Map::current_level()
+void Map::update()
 {
-    return m_levels[m_current];
+    m_levels[m_current].update();
 }

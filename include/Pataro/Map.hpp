@@ -64,11 +64,17 @@ namespace pat
         void render();
 
         /**
+         * @brief Update the current level
+         * 
+         */
+        void update();
+
+        /**
          * @brief get the current level
          * 
          * @return const map::Level& 
          */
-        map::Level& current_level();
+        inline map::Level& current_level() { return m_levels[m_current]; }
 
     private:
         std::vector<map::Level> m_levels;

@@ -100,16 +100,25 @@ namespace pat::map
         void render();
 
         /**
-         * @brief Create a player object to be held by the level
+         * @brief Update the levels (actors and stuff)
          * 
-         * @param ch 
-         * @param name 
-         * @param color 
-         * @return Actor* managed pointer to the created actor
          */
-        Actor* create_player(int ch, const std::string& name, const TCODColor& color);
+        void update();
 
-        std::vector<std::unique_ptr<Actor>>* get_actors();
+        /**
+         * @brief Add a copy of the player to the level
+         * 
+         * @param player 
+         */
+        void enter(const std::shared_ptr<Actor>& player);
+
+        /**
+         * @brief Remove the player from the level
+         * @details Avoid dealing with more than one player when we come back
+         * 
+         * @param player 
+         */
+        void exit(const std::shared_ptr<Actor>& player);
 
     private:
         /**
@@ -145,7 +154,7 @@ namespace pat::map
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;
         std::vector<details::Room> m_rooms;
-        std::vector<std::unique_ptr<Actor>> m_actors;
+        std::vector<std::shared_ptr<Actor>> m_actors;
         int m_width;
         int m_height;
     };
