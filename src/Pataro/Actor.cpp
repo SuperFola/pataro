@@ -2,6 +2,8 @@
 
 #include <Pataro/Map.hpp>
 
+#include <iostream>
+
 using namespace pat;
 
 Actor::Actor(int x, int y, int ch, const std::string& name, const TCODColor& color) :
@@ -16,6 +18,21 @@ void Actor::render() const
 
 void Actor::update()
 {}
+
+bool Actor::move_or_attack(int x, int y, Map* map)
+{
+    if (map->is_wall(x, y))
+        return false;
+
+    if (Actor* a = map->get_actor(x, y); a != nullptr)
+    {
+        std::cout << "The " << a->get_name() << " laugh at your puny efforts to attack it\n";
+        return false;
+    }
+    m_x = x;
+    m_y = y;
+    return true;
+}
 
 bool Actor::move(int dx, int dy, Map* map)
 {

@@ -28,6 +28,16 @@ bool Level::can_walk(int x, int y) const
     return true;
 }
 
+pat::Actor* Level::get_actor(int x, int y) const
+{
+    for (const std::unique_ptr<Actor>& actor : m_actors)
+    {
+        if (actor->get_x() == x && actor->get_y() == y)
+            return actor.get();
+    }
+    return nullptr;
+}
+
 bool Level::is_in_fov(int x, int y)
 {
     if (m_map->isInFov(x, y))
@@ -154,6 +164,7 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
+    // TODO make it better
     TCODRandom* rng = TCODRandom::getInstance();
     int nb_monsters = rng->getInt(0, details::max_room_monsters);
 

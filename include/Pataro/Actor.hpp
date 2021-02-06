@@ -39,7 +39,14 @@ namespace pat
             return m_y;
         }
 
+        inline const std::string& get_name() const
+        {
+            return m_name;
+        }
+
         void update();
+
+        bool move_or_attack(int x, int y, Map* map);
 
         /**
          * @brief Move the actor

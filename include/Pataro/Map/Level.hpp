@@ -56,6 +56,15 @@ namespace pat::map
         bool can_walk(int x, int y) const;
 
         /**
+         * @brief Tries to get an actor at x, y
+         * 
+         * @param x 
+         * @param y 
+         * @return Actor* nullptr if no actor was found
+         */
+        Actor* get_actor(int x, int y) const;
+
+        /**
          * @brief Check if a tile is in the field of view
          * 
          * @param x 
