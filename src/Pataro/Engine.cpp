@@ -8,8 +8,7 @@
 
 using namespace pat;
 
-Engine::Engine(unsigned width, unsigned height, const std::string& title) :
-    m_fov_radius(10), m_compute_fov(true)
+Engine::Engine(unsigned width, unsigned height, const std::string& title)
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
@@ -19,7 +18,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     const map::details::Room& first_room = m_map->current_level().get_first_room();
 
     // create the player at the center of the first room
-    m_player = m_map->current_level().create_player('@', TCODColor::white);
+    m_player = m_map->current_level().create_player('@', "Player", TCODColor::white);
 }
 
 void Engine::update()

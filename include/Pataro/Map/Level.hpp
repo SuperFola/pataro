@@ -110,10 +110,11 @@ namespace pat::map
          * @brief Create a player object to be held by the level
          * 
          * @param ch 
+         * @param name 
          * @param color 
          * @return Actor* managed pointer to the created actor
          */
-        Actor* create_player(int ch, const TCODColor& color);
+        Actor* create_player(int ch, const std::string& name, const TCODColor& color);
 
     private:
         /**
