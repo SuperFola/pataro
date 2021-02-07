@@ -206,15 +206,15 @@ void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
             if (rng->getInt(0, 100) < 80)
             {
                 m_actors.emplace_back(std::make_shared<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
-                m_actors.back()->set_attacker<actor::Attacker>(3);
-                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(10, 0, "dead orc");
+                m_actors.back()->set_attacker<actor::Attacker>(3.0f);
+                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(10.0f, 0.0f, "dead orc");
             }
             // create a troll
             else
             {
                 m_actors.emplace_back(std::make_shared<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
-                m_actors.back()->set_attacker<actor::Attacker>(4);
-                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(16, 1, "troll carcass");
+                m_actors.back()->set_attacker<actor::Attacker>(4.0f);
+                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(16.0f, 1.0f, "troll carcass");
             }
 
             m_actors.back()->set_ai<actor::details::MonsterAI>();

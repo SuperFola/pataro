@@ -10,7 +10,7 @@ BSPListener::BSPListener(Level* level) :
     m_level(level), m_room_nb(0)
 {}
 
-bool BSPListener::visitNode(TCODBsp* node, void* userData)
+bool BSPListener::visitNode(TCODBsp* node, [[maybe_unused]] void* userData)
 {
     if (node->isLeaf())
     {

@@ -26,7 +26,7 @@ float Destructible::take_damage(pat::Actor* owner, float damage, pat::Map* map)
     return damage;
 }
 
-void Destructible::die(pat::Actor* owner, pat::Map* map)
+void Destructible::die(pat::Actor* owner, [[maybe_unused]] pat::Map* map)
 {
     owner->morph_into('%', m_corpse_name, TCODColor::darkRed);
     owner->set_blocking(false);
