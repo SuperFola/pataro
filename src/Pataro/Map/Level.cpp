@@ -61,6 +61,10 @@ pat::Actor* Level::get_actor(int x, int y) const
             }
             else
                 possibility = actor.get();
+
+            // if we found a possibility of actor which is alive, return it
+            if (actor::Destructible* dp = possibility->destructible(); dp != nullptr && !dp->is_dead())
+                break;
         }
     }
     return possibility;
