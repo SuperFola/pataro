@@ -12,6 +12,8 @@ namespace pat::actor
     class AI
     {
     public:
+        virtual ~AI() = default;
+
         /**
          * @brief Update an entity with some intelligence
          * 
