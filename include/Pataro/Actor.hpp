@@ -63,7 +63,7 @@ namespace pat
         inline const std::string& get_name() const { return m_name; }
 
         inline bool is_blocking() const { return m_blocks; }
-        inline void set_blocking(bool value) { m_blocks = false; }
+        inline void set_blocking(bool value) { m_blocks = value; }
 
         inline actor::Attacker*     attacker() { return m_attacker.get(); }
         inline actor::Destructible* destructible() { return m_destructible.get(); }
