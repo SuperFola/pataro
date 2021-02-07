@@ -6,6 +6,7 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Actor/Attacker.hpp>
 #include <Pataro/Actor/AI/Monster.hpp>
+#include <Pataro/Actor/Destructible.hpp>
 #include <Pataro/Actor/Destructible/Monster.hpp>
 
 #include <algorithm>
@@ -38,12 +39,31 @@ bool Level::can_walk(int x, int y) const
 
 pat::Actor* Level::get_actor(int x, int y) const
 {
+    pat::Actor* possibility = nullptr;
+
     for (const auto& actor : m_actors)
     {
         if (actor->get_x() == x && actor->get_y() == y)
-            return actor.get();
+        {
+            if (possibility != nullptr)
+            {
+                actor::Destructible* d = actor->destructible();
+                actor::Destructible* dp = possibility->destructible();
+
+                // if there is another possibility which is alive, discard current one
+
+                if (dp != nullptr && dp->is_dead() && !d->is_dead())  // the new one is alive, the old one is dead, keep the alive one
+                    possibility = actor.get();
+                else if (dp != nullptr && dp->is_dead() && d->is_dead())  // both dead, keep new one because why not
+                    possibility = actor.get();
+                else if (dp == nullptr && d != nullptr)  // if the possibility doesn't have a destructible, select the other if it has one
+                    possibility = actor.get();
+            }
+            else
+                possibility = actor.get();
+        }
     }
-    return nullptr;
+    return possibility;
 }
 
 bool Level::is_in_fov(int x, int y)
