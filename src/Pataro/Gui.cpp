@@ -16,7 +16,7 @@ void Gui::render(TCODConsole* dest, int x, int y)
     float val, max_val;
     m_get_val(&val, &max_val);
 
-    render_bar({1, 1}, 20, "HP", val, max_val, TCODColor::red, TCODColor::darkerRed);
+    render_bar(1, 1, 20, "HP", val, max_val, TCODColor::red, TCODColor::darkerRed);
 
     TCODConsole::blit(
         m_con.get(),
@@ -27,24 +27,22 @@ void Gui::render(TCODConsole* dest, int x, int y)
     );
 }
 
-void Gui::render_bar(const Pos_t& pos, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg)
+void Gui::render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg)
 {
     m_con->setDefaultBackground(bg);
-    m_con->rect(pos.first, pos.second, width, 1, false, TCOD_BKGND_SET);
+    m_con->rect(x, y, width, 1, false, TCOD_BKGND_SET);
 
     int bar_width = static_cast<int>(value / max_val * width);
     if (bar_width > 0)
     {
         m_con->setDefaultBackground(fg);
-        m_con->rect(pos.first, pos.second, bar_width, 1, false, TCOD_BKGND_SET);
+        m_con->rect(x, y, bar_width, 1, false, TCOD_BKGND_SET);
     }
 
     m_con->setDefaultForeground(TCODColor::white);
-    // FIXME it's given a warning
-    m_con->printEx(
-        pos.first + width / 2, pos.second,
-        TCOD_BKGND_NONE,
-        TCOD_CENTER,
+    m_con->printf(
+        x + width / 2, y,
+        TCOD_BKGND_NONE, TCOD_CENTER,
         "%s : %g/%g", name.c_str(), value, max_val
     );
 }

@@ -14,7 +14,6 @@ namespace pat
     {
     public:
         using Proxy_t = std::function<void(float*, float*)>;
-        using Pos_t = std::pair<int, int>;
 
         /**
          * @brief Construct a new Gui object
@@ -34,11 +33,15 @@ namespace pat
          */
         void render(TCODConsole* dest, int x, int y);
 
+        template <typename... Args>
+        void message(const TCODColor& color, const char* text, Args&&... args)
+        {}
+
         inline unsigned get_width()  { return m_width; }
         inline unsigned get_height() { return m_height; }
 
     private:
-        void render_bar(const Pos_t& pos, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
+        void render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
 
         std::unique_ptr<TCODConsole> m_con;
         unsigned m_width, m_height;
