@@ -72,11 +72,11 @@ pat::Actor* Level::get_actor(int x, int y) const
 
 bool Level::is_in_fov(int x, int y)
 {
+    if (x < 0 || y < 0 || x >= m_width || y >= m_height)
+        return false;
+
     if (m_map->isInFov(x, y))
-    {
-        m_tiles[x + y * m_width].explored = true;
-        return true;
-    }
+        return m_tiles[x + y * m_width].explored = true;
     return false;
 }
 

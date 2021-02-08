@@ -29,7 +29,7 @@ void Gui::render(TCODConsole* dest, int x, int y)
 
         ++msg_y;
         if (color_coeff < 1.f)
-            color_coeff += 0.3f;
+            color_coeff += 0.2f;
     }
 
     TCODConsole::blit(
