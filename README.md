@@ -26,7 +26,8 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 - [x] everyone has health points, attack power, and AI
 - [ ] transitionning from libtcod event system to SDL event system
 - [ ] the world map moves with the player
-- [ ] GUI about the player, its inventory...
+- [x] GUI about the player, events...
+- [ ] inventory GUI
 - [ ] items handling, generation and spawn
 - [ ] spells and ranged combat
 - [ ] travelling between levels / floors
