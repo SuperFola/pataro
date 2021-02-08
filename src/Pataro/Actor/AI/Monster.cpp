@@ -53,16 +53,30 @@ void MonsterAI::move_or_attack(pat::Actor* owner, int xf, int yf, pat::Engine* e
         dy = static_cast<int>(std::round(dy / distance));
 
         if (map->can_walk(x + dx, y + dy))
-            owner->put_at(x + dx, y + dy);
-        else if (map->can_walk(x + step_dx, y))  // wall sliding 1
-            owner->put_at(x + step_dx, y);
-        else if (map->can_walk(x, y + step_dy))  // wall sliding 2
-            owner->put_at(x, y + step_dy);
-        else if (Attacker* a = owner->attacker(); a != nullptr)  // if we have a component to attack, attack the player
         {
-            // check that the player is in range
-            if (map->get_actor(x + 1, y) == p || map->get_actor(x - 1, y) == p || map->get_actor(x, y + 1) == p || map->get_actor(x, y - 1) == p)
-                a->attack(owner, p, map);
+            owner->put_at(x + dx, y + dy);
+            return;
         }
+        else if (map->can_walk(x + step_dx, y))  // wall sliding 1
+        {
+            owner->put_at(x + step_dx, y);
+            return;
+        }
+        else if (map->can_walk(x, y + step_dy))  // wall sliding 2
+        {
+            owner->put_at(x, y + step_dy);
+            return;
+        }
+    }
+
+    if (Attacker* a = owner->attacker(); a != nullptr)  // if we have a component to attack, attack the player
+    {
+        pat::Actor *e0 = map->get_actor(x + dx, y + dy),
+                    *e1 = map->get_actor(x + step_dx, y),
+                    *e2 = map->get_actor(x, y + step_dy);
+
+        // check that the player is in range
+        if (e0 == p || e1 == p || e2 == p)
+            a->attack(owner, p, map);
     }
 }
