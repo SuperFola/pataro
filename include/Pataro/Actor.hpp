@@ -46,8 +46,10 @@ namespace pat
         /**
          * @brief display the actor on screen
          * 
+         * @param dx x offset on screen
+         * @param dy y offset on screen
         */
-        void render() const;
+        void render(int dx=0, int dy=0) const;
 
         /**
          * @brief Update the actor

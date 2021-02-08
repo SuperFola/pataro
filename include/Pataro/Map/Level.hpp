@@ -102,8 +102,9 @@ namespace pat::map
         /**
          * @brief Render the level on screen as well as its actors
          * 
+         * @param engine 
          */
-        void render();
+        void render(Engine* engine);
 
         /**
          * @brief Update the levels (actors and stuff)

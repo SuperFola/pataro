@@ -92,7 +92,7 @@ void Level::compute_fov(int x, int y, int fov_radius)
     m_map->computeFov(x, y, fov_radius);
 }
 
-void Level::render()
+void Level::render(pat::Engine* engine)
 {
     // TODO clean up the colors from the level::render
     static const TCODColor darkWall(0, 0, 100);
@@ -100,27 +100,30 @@ void Level::render()
     static const TCODColor lightWall(130, 110, 50);
     static const TCODColor lightGround(200, 180, 50);
 
+    int dx = engine->get_player()->get_x() - engine->width()  / 2,
+        dy = engine->get_player()->get_y() - engine->height() / 2;
+
     for (int x = 0; x < m_width; ++x)
     {
         for (int y = 0; y < m_height; ++y)
         {
             if (is_in_fov(x, y))
-                TCODConsole::root->setCharBackground(x, y, is_wall(x, y) ? lightWall : lightGround);
+                TCODConsole::root->setCharBackground(x - dx, y - dy, is_wall(x, y) ? lightWall : lightGround);
             else if (is_explored(x, y))
-                TCODConsole::root->setCharBackground(x, y, is_wall(x, y) ? darkWall : darkGround);
+                TCODConsole::root->setCharBackground(x - dx, y - dy, is_wall(x, y) ? darkWall : darkGround);
         }
     }
 
-    auto render_ = [this](bool render_dead_ones) {
+    auto render_ = [this, &dx, &dy](bool render_dead_ones) {
         for (const auto& actor : m_actors)
         {
             if (m_map->isInFov(actor->get_x(), actor->get_y()))
             {
                 actor::Destructible* d = actor->destructible();
                 if (d != nullptr && (render_dead_ones ? d->is_dead() : !d->is_dead()))
-                    actor->render();
+                    actor->render(dx, dy);
                 else if (d == nullptr)
-                    actor->render();
+                    actor->render(dx, dy);
             }
         }
     };

@@ -53,6 +53,9 @@ namespace pat
          */
         bool is_running() const;
 
+        inline unsigned width()  { return m_width; }
+        inline unsigned height() { return m_height; }
+
         inline void change_state(GameState state) { m_state = state; }
         inline Actor* get_player() { return m_player.get(); }
         inline Map*   get_map()    { return m_map.get(); }

@@ -69,7 +69,7 @@ void Engine::render()
 {
     TCODConsole::root->clear();
 
-    m_map->render();
+    m_map->render(this);
     m_gui->render(this, TCODConsole::root, 0, m_height - m_gui->get_height());
 
     TCODConsole::flush();

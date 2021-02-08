@@ -68,15 +68,18 @@ void Gui::render_bar(int x, int y, int width, const std::string& name, float val
 void Gui::render_mouse_look(Engine* engine)
 {
     const TCOD_mouse_t& mouse = engine->mouse();
+    int x = mouse.cx + (engine->get_player()->get_x() - engine->width() / 2),
+        y = mouse.cy + (engine->get_player()->get_y() - engine->height() / 2);
+
     // no rendering needed if the mouse is out of the fov
-    if (!engine->get_map()->is_in_fov(mouse.cx, mouse.cy))
+    if (!engine->get_map()->is_in_fov(x, y))
         return;
 
     std::string text = "";
     bool first = true;
     for (const auto& actor : engine->get_map()->current_level().get_actors())
     {
-        if (actor->get_x() == mouse.cx && actor->get_y() == mouse.cy)
+        if (actor->get_x() == x && actor->get_y() == y)
         {
             if (!first)
                 text += ", ";

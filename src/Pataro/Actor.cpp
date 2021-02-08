@@ -15,10 +15,10 @@ void Actor::morph_into(int ch, const std::string& name, const TCODColor& color)
     m_color = color;
 }
 
-void Actor::render() const
+void Actor::render(int dx, int dy) const
 {
-    TCODConsole::root->setChar(m_x, m_y, m_ch);
-    TCODConsole::root->setCharForeground(m_x, m_y, m_color);
+    TCODConsole::root->setChar(m_x - dx, m_y - dy, m_ch);
+    TCODConsole::root->setCharForeground(m_x - dx, m_y - dy, m_color);
 }
 
 void Actor::update(Engine* engine)

@@ -73,8 +73,9 @@ namespace pat
         /**
          * @brief Render the map on the screen
          * 
+         * @param engine 
          */
-        void render();
+        void render(Engine* engine);
 
         /**
          * @brief Update the current level
