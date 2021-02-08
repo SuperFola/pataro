@@ -69,14 +69,6 @@ void MonsterAI::move_or_attack(pat::Actor* owner, int xf, int yf, pat::Engine* e
         }
     }
 
-    if (Attacker* a = owner->attacker(); a != nullptr)  // if we have a component to attack, attack the player
-    {
-        pat::Actor *e0 = map->get_actor(x + dx, y + dy),
-                    *e1 = map->get_actor(x + step_dx, y),
-                    *e2 = map->get_actor(x, y + step_dy);
-
-        // check that the player is in range
-        if (e0 == p || e1 == p || e2 == p)
-            a->attack(owner, p, map);
-    }
+    if (Attacker* a = owner->attacker(); a != nullptr && map->get_actor(x + dx, y + dy) == p)  // if we have a component to attack, attack the player
+        a->attack(owner, p, map);
 }
