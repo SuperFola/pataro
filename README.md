@@ -25,7 +25,7 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 - [x] monsters spawn, can follow the player (if they are in their field of view) and attack them
 - [x] everyone has health points, attack power, and AI
 - [ ] transitionning from libtcod event system to SDL event system
-- [ ] the world map moves with the player
+- [x] the world map moves with the player
 - [x] GUI about the player, events...
 - [ ] inventory GUI
 - [ ] items handling, generation and spawn
