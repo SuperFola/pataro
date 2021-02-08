@@ -146,13 +146,12 @@ namespace pat::map
         /**
          * @brief Dig a rectangular zone between (x1, y1) and (x2, y2) and register a room
          * 
-         * @param first_room
          * @param x1 
          * @param y1 
          * @param x2 
          * @param y2 
          */
-        void create_room(bool first_room, int x1, int y1, int x2, int y2);
+        void create_room(int x1, int y1, int x2, int y2);
 
         friend class details::BSPListener;
         friend class pat::Map;

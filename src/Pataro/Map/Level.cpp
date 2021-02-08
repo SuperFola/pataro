@@ -205,7 +205,7 @@ void Level::dig(int x1, int y1, int x2, int y2)
     }
 }
 
-void Level::create_room(bool first_room, int x1, int y1, int x2, int y2)
+void Level::create_room(int x1, int y1, int x2, int y2)
 {
     dig(x1, y1, x2, y2);
 
