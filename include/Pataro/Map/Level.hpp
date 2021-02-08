@@ -127,6 +127,8 @@ namespace pat::map
          */
         void exit(const std::shared_ptr<Actor>& player);
 
+        inline const std::vector<std::shared_ptr<Actor>>& get_actors() { return m_actors; }
+
     private:
         /**
          * @brief Generate the world

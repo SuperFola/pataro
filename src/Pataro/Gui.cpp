@@ -34,6 +34,8 @@ void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
             color_coeff += 0.2f;
     }
 
+    render_mouse_look(engine);
+
     TCODConsole::blit(
         m_con.get(),
         0, 0,   // x_src, y_src
@@ -61,6 +63,31 @@ void Gui::render_bar(int x, int y, int width, const std::string& name, float val
         TCOD_BKGND_NONE, TCOD_CENTER,
         "%s : %g/%g", name.c_str(), value, max_val
     );
+}
+
+void Gui::render_mouse_look(Engine* engine)
+{
+    const TCOD_mouse_t& mouse = engine->mouse();
+    // no rendering needed if the mouse is out of the fov
+    if (!engine->get_map()->is_in_fov(mouse.cx, mouse.cy))
+        return;
+
+    std::string text = "";
+    bool first = true;
+    for (const auto& actor : engine->get_map()->current_level().get_actors())
+    {
+        if (actor->get_x() == mouse.cx && actor->get_y() == mouse.cy)
+        {
+            if (!first)
+                text += ", ";
+            else
+                first = false;
+            text += actor->get_name();
+        }
+    }
+
+    m_con->setDefaultForeground(TCODColor::lightGrey);
+    m_con->print(1, 0, text.c_str());
 }
 
 Gui::Message::Message(const std::string& text_, const TCODColor& color_) :

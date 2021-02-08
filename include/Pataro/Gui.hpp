@@ -56,9 +56,21 @@ namespace pat
         inline unsigned get_height() { return m_height; }
 
     private:
+        /**
+         * @brief Render a bar on the panel, given a text, color, position and val/max_val
+         * 
+         * @param x on panel position
+         * @param y on panel position
+         * @param width max bar length
+         * @param name 
+         * @param value 
+         * @param max_val 
+         * @param fg color for the bar
+         * @param bg background color for the bar
+         */
         void render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
 
-        void render_mouse_look();
+        void render_mouse_look(Engine* engine);
 
         struct Message {
             std::string text;
