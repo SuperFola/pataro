@@ -22,12 +22,20 @@ namespace pat
          * @param width size of the GUI console
          * @param height size of the GUI console
          * @param proxy a function to retrieve the value and the max value
-         * @param dest a pointer to the console to draw on
-         * @param pos position where to draw
          */
-        Gui(unsigned width, unsigned height, const Proxy_t& proxy, TCODConsole* dest, const Pos_t& pos);
+        Gui(unsigned width, unsigned height, const Proxy_t& proxy);
 
-        void render();
+        /**
+         * @brief Render the GUI on a given TCOD console
+         * 
+         * @param dest 
+         * @param x 
+         * @param y 
+         */
+        void render(TCODConsole* dest, int x, int y);
+
+        inline unsigned get_width()  { return m_width; }
+        inline unsigned get_height() { return m_height; }
 
     private:
         void render_bar(const Pos_t& pos, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
@@ -35,8 +43,6 @@ namespace pat
         std::unique_ptr<TCODConsole> m_con;
         unsigned m_width, m_height;
         Proxy_t m_get_val;
-        TCODConsole* m_dest;
-        Pos_t m_pos;
     };
 }
 

@@ -37,8 +37,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
         *val     = m_player->destructible()->hp();
         *max_val = m_player->destructible()->max_hp();
     };
-    unsigned gui_height = 7;  // TODO put it elsewhere
-    m_gui = std::make_unique<Gui>(m_width, gui_height, proxy_player_hp, TCODConsole::root, Gui::Pos_t{0, m_height - gui_height});
+    m_gui = std::make_unique<Gui>(m_width, 7, proxy_player_hp);
 }
 
 void Engine::update()
@@ -70,7 +69,7 @@ void Engine::render()
     TCODConsole::root->clear();
 
     m_map->render();
-    m_gui->render();
+    m_gui->render(TCODConsole::root, 0, m_height - m_gui->get_height());
 
     TCODConsole::flush();
 }

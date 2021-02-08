@@ -2,14 +2,13 @@
 
 using namespace pat;
 
-Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy, TCODConsole* destination, const Pos_t& pos) :
-    m_width(width), m_height(height), m_get_val(proxy),
-    m_dest(destination), m_pos(pos)
+Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy) :
+    m_width(width), m_height(height), m_get_val(proxy)
 {
     m_con = std::make_unique<TCODConsole>(m_width, m_height);
 }
 
-void Gui::render()
+void Gui::render(TCODConsole* dest, int x, int y)
 {
     m_con->setDefaultBackground(TCODColor::black);
     m_con->clear();
@@ -23,8 +22,8 @@ void Gui::render()
         m_con.get(),
         0, 0,   // x_src, y_src
         m_width, m_height,  // w_src, h_src
-        m_dest,
-        m_pos.first, m_pos.second  // x_dst, y_dst
+        dest,
+        x, y  // x_dst, y_dst
     );
 }
 
