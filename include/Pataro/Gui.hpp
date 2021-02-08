@@ -31,11 +31,12 @@ namespace pat
         /**
          * @brief Render the GUI on a given TCOD console
          * 
-         * @param dest 
+         * @param engine 
+         * @param dest the destination TCOD console
          * @param x 
          * @param y 
          */
-        void render(TCODConsole* dest, int x, int y);
+        void render(Engine* engine, TCODConsole* dest, int x, int y);
 
         template <typename... Args>
         void message(const TCODColor& color, Args&&... args)
@@ -56,6 +57,8 @@ namespace pat
 
     private:
         void render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
+
+        void render_mouse_look();
 
         struct Message {
             std::string text;

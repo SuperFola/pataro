@@ -10,7 +10,7 @@ Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy) :
     m_con = std::make_unique<TCODConsole>(m_width, m_height);
 }
 
-void Gui::render(TCODConsole* dest, int x, int y)
+void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
 {
     // TODO put this elsewhere
     static const int bar_width = 20;

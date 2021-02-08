@@ -47,7 +47,7 @@ void Engine::update()
         m_map->compute_fov(m_player->get_x(), m_player->get_y(), details::player_fov);
     m_state = GameState::Idle;
 
-    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &m_lastkey, nullptr);
+    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
     m_player->update(this);
 
     switch (m_lastkey.vk)
@@ -70,7 +70,7 @@ void Engine::render()
     TCODConsole::root->clear();
 
     m_map->render();
-    m_gui->render(TCODConsole::root, 0, m_height - m_gui->get_height());
+    m_gui->render(this, TCODConsole::root, 0, m_height - m_gui->get_height());
 
     TCODConsole::flush();
 }
