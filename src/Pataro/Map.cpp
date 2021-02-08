@@ -1,19 +1,17 @@
 #include <Pataro/Map.hpp>
 
-#include <Pataro/Map/Constants.hpp>
 #include <Pataro/Engine.hpp>
 
 #include <libtcod.hpp>
 
 using namespace pat;
 
-Map::Map(std::size_t depth) :
+Map::Map(unsigned width, unsigned height, std::size_t depth) :
     m_current(0)
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
-        // TODO make level size random or pass them as parameters
-        m_levels.emplace_back(map::details::level_w, map::details::level_h);
+        m_levels.emplace_back(width, height);
 
     // generate the first level
     m_levels[m_current].generate();

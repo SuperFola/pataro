@@ -16,9 +16,11 @@ namespace pat
         /**
          * @brief Construct a new Map object
          * 
+         * @param width 
+         * @param height 
          * @param depth number of levels to generate
          */
-        Map(std::size_t depth);
+        Map(unsigned width, unsigned height, std::size_t depth);
 
         /**
          * @brief Check if a tile at (x, y) is a wall
