@@ -1,5 +1,7 @@
 #include <Pataro/Gui.hpp>
 
+#include <Pataro/Engine.hpp>
+
 using namespace pat;
 
 Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy) :

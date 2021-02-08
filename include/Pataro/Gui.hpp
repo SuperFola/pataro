@@ -12,6 +12,8 @@
 
 namespace pat
 {
+    class Engine;
+
     class Gui
     {
     public:

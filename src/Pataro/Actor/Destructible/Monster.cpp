@@ -3,8 +3,6 @@
 #include <Pataro/Actor.hpp>
 #include <Pataro/Engine.hpp>
 
-#include <iostream>
-
 using namespace pat::actor::details;
 
 MonsterDestructible::MonsterDestructible(float max_hp, float defense, const std::string& corpse_name) :

@@ -4,8 +4,6 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Actor/Destructible.hpp>
 
-#include <iostream>
-
 using namespace pat::actor;
 
 Attacker::Attacker(float power) :

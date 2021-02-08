@@ -5,8 +5,6 @@
 #include <Pataro/Actor/Destructible.hpp>
 #include <Pataro/Constants.hpp>
 
-#include <iostream>
-
 using namespace pat::actor::details;
 
 void PlayerAI::update(pat::Actor* owner, pat::Engine* engine)

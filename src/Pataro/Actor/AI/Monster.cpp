@@ -7,7 +7,6 @@
 #include <Pataro/Constants.hpp>
 #include <Pataro/Actor/Constants.hpp>
 
-#include <iostream>
 #include <cmath>
 
 using namespace pat::actor::details;

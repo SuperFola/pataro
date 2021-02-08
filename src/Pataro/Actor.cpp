@@ -2,8 +2,6 @@
 
 #include <Pataro/Engine.hpp>
 
-#include <iostream>
-
 using namespace pat;
 
 Actor::Actor(int x, int y, int ch, const std::string& name, const TCODColor& color) :
