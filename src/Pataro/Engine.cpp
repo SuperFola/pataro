@@ -3,6 +3,7 @@
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Utils.hpp>
 #include <Pataro/Constants.hpp>
+#include <Pataro/Map/Constants.hpp>
 #include <Pataro/Actor/AI/Player.hpp>
 #include <Pataro/Actor/Attacker.hpp>
 #include <Pataro/Actor/Destructible/Player.hpp>
@@ -10,6 +11,7 @@
 #include <libtcod.hpp>
 
 #include <string>
+#include <utility>
 
 using namespace pat;
 
@@ -20,7 +22,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     TCODSystem::setFps(30);
 
     // instantiate a map with 1 level(s)
-    m_map = std::make_unique<Map>(1);
+    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
 
     // create the player
     m_player = std::make_shared<Actor>(0, 0, '@', "Player", TCODColor::white);
@@ -31,10 +33,12 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     m_map->current_level().enter(m_player);
 
     // setup gui
-    m_gui = std::make_unique<Gui>(80, 7, [this](float* val, float* max_val) -> void {
+    Gui::Proxy_t proxy_player_hp = [this](float* val, float* max_val) -> void {
         *val     = m_player->destructible()->hp();
         *max_val = m_player->destructible()->max_hp();
-    });
+    };
+    unsigned gui_height = 7;  // TODO put it elsewhere
+    m_gui = std::make_unique<Gui>(m_width, gui_height, proxy_player_hp, TCODConsole::root, Gui::Pos_t{0, m_height - gui_height});
 }
 
 void Engine::update()
