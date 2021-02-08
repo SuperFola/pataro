@@ -12,6 +12,7 @@
 
 namespace pat
 {
+    class Map;
     class Engine;
 }
 
@@ -154,7 +155,7 @@ namespace pat::map
         void create_room(int x1, int y1, int x2, int y2);
 
         friend class details::BSPListener;
-        friend class pat::Map;
+        friend class Map;
 
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;

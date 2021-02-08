@@ -51,11 +51,11 @@ bool PlayerAI::move_or_attack(pat::Actor* owner, int dx, int dy, pat::Engine* en
         // found a possible ennemy, attack it
         if (d != nullptr && !d->is_dead())
         {
-            owner->attacker()->attack(owner, a, engine->get_map());
+            owner->attacker()->attack(owner, a, engine);
             return false;
         }
         else if (d != nullptr && d->is_dead())
-            std::cout << "There is a " << a->get_name() << " here\n";
+            engine->get_gui()->message(TCODColor::lightGrey, "There is a ", a->get_name(), " here");
     }
 
     owner->put_at(x + dx, y + dy);

@@ -3,8 +3,8 @@
 #include <Pataro/Map/Level.hpp>
 #include <Pataro/Map/Constants.hpp>
 
-using namespace pat::map;
 using namespace pat::map::details;
+using namespace pat::map;
 
 BSPListener::BSPListener(Level* level) :
     m_level(level), m_room_nb(0)

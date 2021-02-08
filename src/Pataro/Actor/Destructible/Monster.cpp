@@ -1,7 +1,7 @@
 #include <Pataro/Actor/Destructible/Monster.hpp>
 
 #include <Pataro/Actor.hpp>
-#include <Pataro/Map.hpp>
+#include <Pataro/Engine.hpp>
 
 #include <iostream>
 
@@ -11,8 +11,8 @@ MonsterDestructible::MonsterDestructible(float max_hp, float defense, const std:
     Destructible(max_hp, defense, corpse_name)
 {}
 
-void MonsterDestructible::die(pat::Actor* owner, pat::Map* map)
+void MonsterDestructible::die(pat::Actor* owner, pat::Engine* engine)
 {
-    std::cout << owner->get_name() << " is dead\n";
-    Destructible::die(owner, map);
+    engine->get_gui()->message(TCODColor::lightGrey, owner->get_name(), " is dead");
+    Destructible::die(owner, engine);
 }

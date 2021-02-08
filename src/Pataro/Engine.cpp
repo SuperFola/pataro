@@ -21,15 +21,14 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
 
-    // instantiate a map with 1 level(s)
-    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
-
     // create the player
     m_player = std::make_shared<Actor>(0, 0, '@', "Player", TCODColor::white);
     m_player->set_ai<actor::details::PlayerAI>();
     m_player->set_attacker<actor::Attacker>(5.f);
     m_player->set_destructible<actor::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
 
+    // instantiate a map with 1 level(s)
+    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
     m_map->current_level().enter(m_player);
 
     // setup gui
@@ -38,6 +37,8 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
         *max_val = m_player->destructible()->max_hp();
     };
     m_gui = std::make_unique<Gui>(m_width, 7, proxy_player_hp);
+
+    m_gui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
 void Engine::update()

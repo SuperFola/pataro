@@ -54,8 +54,9 @@ namespace pat
         bool is_running() const;
 
         inline void change_state(GameState state) { m_state = state; }
-        inline Map* get_map() { return m_map.get(); }
         inline Actor* get_player() { return m_player.get(); }
+        inline Map* get_map() { return m_map.get(); }
+        inline Gui* get_gui() { return m_gui.get(); }
         inline TCOD_key_t lastkey() { return m_lastkey; }
 
     private:

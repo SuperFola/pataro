@@ -8,7 +8,7 @@
 namespace pat
 {
     class Actor;
-    class Map;
+    class Engine;
 }
 
 namespace pat::actor::details
@@ -25,7 +25,7 @@ namespace pat::actor::details
          */
         MonsterDestructible(float max_hp, float defense, const std::string& corpse_name);
 
-        void die(Actor* owner, Map* map) override;
+        void die(Actor* owner, Engine* engine) override;
     };
 }
 

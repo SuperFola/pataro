@@ -4,7 +4,7 @@
 namespace pat
 {
     class Actor;
-    class Map;
+    class Engine;
 }
 
 namespace pat::actor
@@ -24,9 +24,9 @@ namespace pat::actor
          * 
          * @param owner 
          * @param target 
-         * @param map 
+         * @param engine 
          */
-        void attack(Actor* owner, Actor* target, Map* map);
+        void attack(Actor* owner, Actor* target, Engine* engine);
 
     private:
         float m_power;

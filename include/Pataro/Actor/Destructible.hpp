@@ -6,7 +6,7 @@
 namespace pat
 {
     class Actor;
-    class Map;
+    class Engine;
 }
 
 namespace pat::actor
@@ -28,18 +28,18 @@ namespace pat::actor
          * 
          * @param owner 
          * @param damage 
-         * @param map 
+         * @param engine 
          * @return float the number of hit points actually taken
          */
-        float take_damage(Actor* owner, float damage, Map* map);
+        float take_damage(Actor* owner, float damage, Engine* engine);
 
         /**
          * @brief What happens when the owning entity dies is handled here
          * 
          * @param owner 
-         * @param map 
+         * @param engine 
          */
-        virtual void die(Actor* owner, Map* map);
+        virtual void die(Actor* owner, Engine* engine);
 
         inline bool  is_dead() { return m_hp <= 0.f; }
         inline float max_hp()  { return m_max_hp; }
