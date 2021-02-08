@@ -32,6 +32,8 @@ namespace pat::actor::details
          * @param engine 
          */
         void move_or_attack(Actor* owner, int x, int y, Engine* engine);
+
+        int m_move_count;
     };
 }
 
