@@ -29,6 +29,12 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     m_player->set_destructible<actor::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
 
     m_map->current_level().enter(m_player);
+
+    // setup gui
+    m_gui = std::make_unique<Gui>(80, 7, [this](float* val, float* max_val) -> void {
+        *val     = m_player->destructible()->hp();
+        *max_val = m_player->destructible()->max_hp();
+    });
 }
 
 void Engine::update()
@@ -60,14 +66,7 @@ void Engine::render()
     TCODConsole::root->clear();
 
     m_map->render();
-
-    // embryo of GUI
-    TCODConsole::root->printf(
-        1, m_height - 2,
-        "HP: %d/%d",
-        static_cast<int>(m_player->destructible()->hp()),
-        static_cast<int>(m_player->destructible()->max_hp())
-    );
+    m_gui->render();
 
     TCODConsole::flush();
 }

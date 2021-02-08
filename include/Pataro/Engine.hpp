@@ -7,6 +7,7 @@
 
 #include <Pataro/Actor.hpp>
 #include <Pataro/Map.hpp>
+#include <Pataro/Gui.hpp>
 
 namespace pat
 {
@@ -65,6 +66,7 @@ namespace pat
 
         std::shared_ptr<Actor> m_player;  ///< Pointer shared between the levels and the engine
         std::unique_ptr<Map> m_map;
+        std::unique_ptr<Gui> m_gui;
     };
 }
 

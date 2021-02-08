@@ -12,6 +12,7 @@ Map::Map(std::size_t depth) :
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
+        // TODO make level size random or pass them as parameters
         m_levels.emplace_back(map::details::level_w, map::details::level_h);
 
     // generate the first level
