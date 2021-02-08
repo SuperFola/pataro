@@ -27,7 +27,7 @@ void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
     for (const Message& msg : m_log)
     {
         m_con->setDefaultForeground(msg.color * color_coeff);
-        m_con->printf(bar_width + 2, msg_y, TCOD_BKGND_NONE, TCOD_LEFT, msg.text.c_str());
+        m_con->printf(bar_width + 2, msg_y, msg.text.c_str());
 
         ++msg_y;
         if (color_coeff < 1.f)
@@ -87,7 +87,7 @@ void Gui::render_mouse_look(Engine* engine)
     }
 
     m_con->setDefaultForeground(TCODColor::lightGrey);
-    m_con->print(1, 0, text.c_str());
+    m_con->printf(1, 0, text.c_str());
 }
 
 Gui::Message::Message(const std::string& text_, const TCODColor& color_) :
