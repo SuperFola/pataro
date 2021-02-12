@@ -9,6 +9,12 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 ## Deps
 
 * download [tcod 1.16.0-a15](https://github.com/libtcod/libtcod/releases/tag/1.16.0-alpha.15) and put it under tcod/
+    * on Linux:
+        * download the source
+        * install `scons`
+        * under `tcod/buildsys/scons` run `scons build`
+        * copy `tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/lictcod.lib` to `tcod/`
+        * finally `ln -s src/ include/`
 * CMake >= 3.8
 
 ## Controls
