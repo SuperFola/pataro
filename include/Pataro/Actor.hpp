@@ -4,6 +4,8 @@
 #include <Pataro/Actor/AI.hpp>
 #include <Pataro/Actor/Attacker.hpp>
 #include <Pataro/Actor/Destructible.hpp>
+#include <Pataro/Actor/Pickable.hpp>
+#include <Pataro/Actor/Container.hpp>
 
 #include <libtcod.hpp>
 
@@ -99,6 +101,8 @@ namespace pat
         std::unique_ptr<actor::Attacker> m_attacker = nullptr;  ///< For actors that deal damages
         std::unique_ptr<actor::Destructible> m_destructible = nullptr;  ///< For destructible actors
         std::unique_ptr<actor::AI> m_ai = nullptr;  ///< For self updating actors
+        std::unique_ptr<actor::Pickable> m_pickable = nullptr;  ///< Something that can be picked up and used
+        std::unique_ptr<actor::Container> m_container = nullptr;  ///< Something that can contain actors
     };
 }
 
