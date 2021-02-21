@@ -44,6 +44,14 @@ namespace pat
         Actor(const Actor& actor);
 
         /**
+         * @brief Copy an actor
+         * 
+         * @param actor 
+         * @return Actor& 
+         */
+        Actor& operator=(const Actor& actor);
+
+        /**
          * @brief Morph the actor into... something else
          * 
          * @param ch 
