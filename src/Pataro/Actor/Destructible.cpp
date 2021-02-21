@@ -31,3 +31,14 @@ void Destructible::die(pat::Actor* owner, [[maybe_unused]] pat::Engine* engine)
     owner->morph_into('%', m_corpse_name, TCODColor::darkRed);
     owner->set_blocking(false);
 }
+
+float Destructible::heal(float amount)
+{
+    m_hp += amount;
+    if (m_hp > m_max_hp)
+    {
+        amount -= m_hp - m_max_hp;
+        m_hp = m_max_hp;
+    }
+    return amount;
+}

@@ -41,6 +41,14 @@ namespace pat::actor
          */
         virtual void die(Actor* owner, Engine* engine);
 
+        /**
+         * @brief Heals damages
+         * 
+         * @param amount 
+         * @return float 
+         */
+        float heal(float amount);
+
         inline bool  is_dead() { return m_hp <= 0.f; }
         inline float max_hp()  { return m_max_hp; }
         inline float hp()      { return m_hp; }
