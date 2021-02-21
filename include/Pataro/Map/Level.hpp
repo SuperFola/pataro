@@ -130,6 +130,9 @@ namespace pat::map
 
         inline const std::vector<std::shared_ptr<Actor>>& get_actors() { return m_actors; }
 
+        friend class details::BSPListener;
+        friend class pat::Map;
+
     private:
         /**
          * @brief Generate the world
@@ -156,9 +159,6 @@ namespace pat::map
          * @param y2 
          */
         void create_room(int x1, int y1, int x2, int y2);
-
-        friend class details::BSPListener;
-        friend class Map;
 
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;

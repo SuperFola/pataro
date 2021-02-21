@@ -14,8 +14,8 @@
 using namespace pat::map;
 
 Level::Level(int width, int height) :
-    m_width(width), m_height(height),
-    m_tiles(width * height, details::Tile())
+    m_tiles(width * height, details::Tile()),
+    m_width(width), m_height(height)
 {}
 
 bool Level::is_wall(int x, int y) const

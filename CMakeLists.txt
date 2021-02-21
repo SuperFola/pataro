@@ -13,11 +13,12 @@ include_directories(
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/tcod/libtcod.lib)
 
 if (MSVC)
+    target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/tcod/libtcod.lib)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()
+    target_link_libraries(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/tcod/libtcod.so)
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
 endif()
 

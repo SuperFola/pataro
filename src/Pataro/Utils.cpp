@@ -1,6 +1,7 @@
 #include <Pataro/Utils.hpp>
 
 #include <time.h>
+#include <string.h>
 
 namespace pat::details
 {
@@ -10,7 +11,7 @@ namespace pat::details
         char buffer[70];
         struct tm time_struct;
 
-        localtime_s(&time_struct, &t);
+        localtime_r(&t, &time_struct);
         strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &time_struct);
 
         return std::string(buffer, strlen(buffer));
