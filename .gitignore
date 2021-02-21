@@ -6,3 +6,6 @@ tcod/
 *.so
 *.dll
 *.exe
+
+# user settings, just ignore them
+.vscode/settings.json
