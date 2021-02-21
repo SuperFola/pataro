@@ -4,7 +4,12 @@
 namespace pat::actor
 {
     class Pickable
-    {};
+    {
+    public:
+        Pickable();
+
+        virtual ~Pickable() = default;
+    };
 }
 
 #endif

@@ -24,6 +24,12 @@ namespace pat::actor
         Destructible(float max_hp, float defense, const std::string& corpse_name);
 
         /**
+         * @brief Destroy the Destructible object
+         * 
+         */
+        virtual ~Destructible() = default;
+
+        /**
          * @brief Handles damages given to the destructible
          * 
          * @param owner 
