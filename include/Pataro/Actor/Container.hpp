@@ -26,7 +26,7 @@ namespace pat::actor
 
     private:
         std::size_t m_max_size;
-        std::vector<Actor*> m_inventory;
+        std::vector<Actor> m_inventory;
     };
 }
 

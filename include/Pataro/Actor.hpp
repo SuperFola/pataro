@@ -36,6 +36,9 @@ namespace pat
         */
         Actor(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
+        // TODO because the container component is copying actors, we should have a copy constructor
+        // thus be able to clone in a polymorphic way the components
+
         /**
          * @brief Morph the actor into... something else
          * 
@@ -68,6 +71,8 @@ namespace pat
 
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
+
+        inline unsigned long long id() const { return m_id; }
 
         #define GET_COMPONENT(Type, name)                        \
             inline actor::Type* name() { return m_##name.get(); }
@@ -102,6 +107,7 @@ namespace pat
         int m_ch;  ///< ascii character representing the actor
         std::string m_name;
         TCODColor m_color;
+        unsigned long long m_id;
 
         bool m_blocks = true;  ///< Can we walk on this actor?
         std::unique_ptr<actor::Attacker> m_attacker = nullptr;  ///< For actors that deal damages
