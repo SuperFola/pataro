@@ -73,27 +73,26 @@ namespace pat
         inline actor::Destructible* destructible() { return m_destructible.get(); }
         inline actor::AI*           ai() { return m_ai.get(); }
 
-        template <class A, typename... Args>
-        void set_attacker(Args&&... args)
-        {
-            m_attacker = std::make_unique<A>(std::forward<Args>(args)...);
-        }
+        #define SET_COMPONENT(name) \
+            template <typename T, typename... Args> \
+            void set_##name(Args&&... args)         \
+            {                                       \
+                m_##name = std::make_unique<T>(     \
+                    std::forward<Args>(args)...     \
+                );                                  \
+            }
 
-        template <class D, typename... Args>
-        void set_destructible(Args&&... args)
-        {
-            m_destructible = std::make_unique<D>(std::forward<Args>(args)...);
-        }
+        SET_COMPONENT(attacker)
+        SET_COMPONENT(destructible)
+        SET_COMPONENT(ai)
+        SET_COMPONENT(pickable)
+        SET_COMPONENT(container)
 
-        template <class AI, typename... Args>
-        void set_ai(Args&&... args)
-        {
-            m_ai = std::make_unique<AI>(std::forward<Args>(args)...);
-        }
+        #undef SET_COMPONENT
 
     private:
-        int m_x, m_y;
-        int m_ch;
+        int m_x, m_y;  ///< Position of the actor on the map
+        int m_ch;  ///< ascii character representing the actor
         std::string m_name;
         TCODColor m_color;
 
