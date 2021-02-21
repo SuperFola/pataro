@@ -7,6 +7,7 @@
 #include <Pataro/Actor/AI/Player.hpp>
 #include <Pataro/Actor/Attacker.hpp>
 #include <Pataro/Actor/Destructible/Player.hpp>
+#include <Pataro/Actor/Container.hpp>
 
 #include <libtcod.hpp>
 
@@ -26,6 +27,7 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     m_player->set_ai<actor::details::PlayerAI>();
     m_player->set_attacker<actor::Attacker>(5.f);
     m_player->set_destructible<actor::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
+    m_player->set_container<actor::Container>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
