@@ -21,8 +21,7 @@ bool Pickable::use(pat::Actor* owner, pat::Actor* wearer, pat::Engine* engine)
     if (Container* c = wearer->container(); c != nullptr)
     {
         c->remove(owner);
-        // delete owner from current level
-        engine->get_map()->current_level().remove(owner);
+        // TODO delete owner
         return true;
     }
     return false;
