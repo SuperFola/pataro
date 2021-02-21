@@ -121,12 +121,11 @@ namespace pat::map
         void enter(const std::shared_ptr<Actor>& player);
 
         /**
-         * @brief Remove the player from the level
-         * @details Avoid dealing with more than one player when we come back
+         * @brief Remove an actor from the level
          * 
-         * @param player 
+         * @param actor 
          */
-        void exit(const std::shared_ptr<Actor>& player);
+        void remove(Actor* actor);
 
         inline const std::vector<std::shared_ptr<Actor>>& get_actors() { return m_actors; }
 

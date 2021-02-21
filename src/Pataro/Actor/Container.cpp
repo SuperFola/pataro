@@ -2,13 +2,15 @@
 
 #include <Pataro/Actor.hpp>
 
+#include <algorithm>
+
 using namespace pat::actor;
 
 Container::Container(std::size_t size) :
     m_max_size(size)
 {}
 
-bool Container::add(const pat::Actor& actor)
+bool Container::add(pat::Actor* actor)
 {
     // inventory full
     if (m_max_size > 0 && m_inventory.size() >= m_max_size)
@@ -16,4 +18,11 @@ bool Container::add(const pat::Actor& actor)
 
     m_inventory.push_back(actor);
     return true;
+}
+
+void Container::remove(pat::Actor* actor)
+{
+    auto it = std::remove_if(m_inventory.begin(), m_inventory.end(), [&actor](pat::Actor* actor_) -> bool {
+        return actor_ == actor;
+    });
 }

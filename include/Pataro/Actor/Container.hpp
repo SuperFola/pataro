@@ -20,13 +20,13 @@ namespace pat::actor
          */
         Container(std::size_t size);
 
-        bool add(const Actor& actor);
+        bool add(Actor* actor);
 
-        // TODO add remove(actor)
+        void remove(Actor* actor);
 
     private:
         std::size_t m_max_size;
-        std::vector<Actor> m_inventory;
+        std::vector<Actor*> m_inventory;
     };
 }
 

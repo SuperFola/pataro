@@ -154,10 +154,10 @@ void Level::enter(const std::shared_ptr<pat::Actor>& player)
     );
 }
 
-void Level::exit(const std::shared_ptr<pat::Actor>& player)
+void Level::remove(pat::Actor* actor)
 {
-    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&player](const auto& actor) -> bool {
-        return actor.get() == player.get();
+    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&actor](const auto& actor_) -> bool {
+        return actor_.get() == actor;
     });
 }
 

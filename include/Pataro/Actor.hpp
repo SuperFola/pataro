@@ -69,11 +69,18 @@ namespace pat
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
 
-        inline actor::Attacker*     attacker() { return m_attacker.get(); }
-        inline actor::Destructible* destructible() { return m_destructible.get(); }
-        inline actor::AI*           ai() { return m_ai.get(); }
+        #define GET_COMPONENT(Type, name)                        \
+            inline actor::Type* name() { return m_##name.get(); }
 
-        #define SET_COMPONENT(name) \
+        GET_COMPONENT(Attacker, attacker)
+        GET_COMPONENT(Destructible, destructible)
+        GET_COMPONENT(AI, ai)
+        GET_COMPONENT(Pickable, pickable)
+        GET_COMPONENT(Container, container)
+
+        #undef GET_COMPONENT
+
+        #define SET_COMPONENT(name)                 \
             template <typename T, typename... Args> \
             void set_##name(Args&&... args)         \
             {                                       \
