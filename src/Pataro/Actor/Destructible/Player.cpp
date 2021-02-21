@@ -14,3 +14,8 @@ void PlayerDestructible::die(pat::Actor* owner, pat::Engine* engine)
     engine->get_gui()->message(TCODColor::red, owner->get_name(), " is dead");
     Destructible::die(owner, engine);
 }
+
+PlayerDestructible* PlayerDestructible::clone_impl() const
+{
+    return new PlayerDestructible(*this);
+}

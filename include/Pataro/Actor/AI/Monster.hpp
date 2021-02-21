@@ -22,6 +22,9 @@ namespace pat::actor::details
          */
         void update(Actor* owner, Engine* engine) override;
 
+    protected:
+        virtual MonsterAI* clone_impl() const override;
+
     private:
         /**
          * @brief Move the monster around, or if possible, attack

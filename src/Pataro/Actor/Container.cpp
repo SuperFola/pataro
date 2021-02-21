@@ -26,3 +26,8 @@ void Container::remove(pat::Actor* actor)
         return actor_.id() == actor->id();
     });
 }
+
+Container* Container::clone_impl() const
+{
+    return new Container(*this);
+}

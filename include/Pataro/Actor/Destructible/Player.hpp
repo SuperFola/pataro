@@ -26,6 +26,9 @@ namespace pat::actor::details
         PlayerDestructible(float max_hp, float defense, const std::string& corpse_name);
 
         void die(Actor* owner, Engine* engine);
+
+    protected:
+        virtual PlayerDestructible* clone_impl() const override;
     };
 }
 

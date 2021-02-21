@@ -27,3 +27,8 @@ bool Pickable::use(pat::Actor* owner, pat::Actor* wearer, pat::Engine* engine)
     }
     return false;
 }
+
+Pickable* Pickable::clone_impl() const
+{
+    return new Pickable(*this);
+}

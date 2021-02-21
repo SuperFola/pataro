@@ -26,6 +26,9 @@ namespace pat::actor::details
         MonsterDestructible(float max_hp, float defense, const std::string& corpse_name);
 
         void die(Actor* owner, Engine* engine) override;
+
+    protected:
+        virtual MonsterDestructible* clone_impl() const override;
     };
 }
 

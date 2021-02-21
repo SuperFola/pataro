@@ -36,8 +36,12 @@ namespace pat
         */
         Actor(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
-        // TODO because the container component is copying actors, we should have a copy constructor
-        // thus be able to clone in a polymorphic way the components
+        /**
+         * @brief Construct a new Actor object
+         * 
+         * @param actor 
+         */
+        Actor(const Actor& actor);
 
         /**
          * @brief Morph the actor into... something else

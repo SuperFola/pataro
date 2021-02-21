@@ -34,6 +34,11 @@ void PlayerAI::update(pat::Actor* owner, pat::Engine* engine)
     }
 }
 
+PlayerAI* PlayerAI::clone_impl() const
+{
+    return new PlayerAI(*this);
+}
+
 bool PlayerAI::move_or_attack(pat::Actor* owner, int dx, int dy, pat::Engine* engine)
 {
     int x = owner->get_x(),

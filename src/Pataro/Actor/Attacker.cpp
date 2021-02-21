@@ -25,3 +25,8 @@ void Attacker::attack(pat::Actor* owner, pat::Actor* target, pat::Engine* engine
     else
         engine->get_gui()->message(TCODColor::lightGrey, owner->get_name(), " attacks ", target->get_name(), " in vain");
 }
+
+Attacker* Attacker::clone_impl() const
+{
+    return new Attacker(*this);
+}

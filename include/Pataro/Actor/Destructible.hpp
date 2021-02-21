@@ -2,6 +2,7 @@
 #define PATARO_ACTOR_DESTRUCTIBLE_HPP
 
 #include <string>
+#include <memory>
 
 namespace pat
 {
@@ -59,6 +60,16 @@ namespace pat::actor
         inline float max_hp()  { return m_max_hp; }
         inline float hp()      { return m_hp; }
         inline float defense() { return m_defense; }
+
+        /**
+         * @brief Clone the class
+         * 
+         * @return std::unique_ptr<Destructible> 
+         */
+        inline std::unique_ptr<Destructible> clone() const { return std::unique_ptr<Destructible>(clone_impl()); }
+
+    protected:
+        virtual Destructible* clone_impl() const;
 
     private:
         float m_max_hp, m_hp;

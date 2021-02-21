@@ -1,6 +1,8 @@
 #ifndef PATARO_ACTOR_PICKABLE_HPP
 #define PATARO_ACTOR_PICKABLE_HPP
 
+#include <memory>
+
 namespace pat
 {
     class Actor;
@@ -40,6 +42,16 @@ namespace pat::actor
          * 
          */
         virtual ~Pickable() = default;
+
+        /**
+         * @brief Clone the class
+         * 
+         * @return std::unique_ptr<Pickable> 
+         */
+        inline std::unique_ptr<Pickable> clone() const { return std::unique_ptr<Pickable>(clone_impl()); }
+
+    protected:
+        virtual Pickable* clone_impl() const;
     };
 }
 

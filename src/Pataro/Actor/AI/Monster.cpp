@@ -32,6 +32,11 @@ void MonsterAI::update(pat::Actor* owner, pat::Engine* engine)
         );
 }
 
+MonsterAI* MonsterAI::clone_impl() const
+{
+    return new MonsterAI(*this);
+}
+
 void MonsterAI::move_or_attack(pat::Actor* owner, int xf, int yf, pat::Engine* engine)
 {
     int x = owner->get_x(),
