@@ -7,7 +7,7 @@
 
 namespace pat
 {
-    class Actor;
+    class Entity;
     class Engine;
 
     class Map
@@ -33,7 +33,7 @@ namespace pat
         bool is_wall(int x, int y) const;
 
         /**
-         * @brief check if an actor can walk on a given tile
+         * @brief check if an entity can walk on a given tile
          * 
          * @param x 
          * @param y 
@@ -43,13 +43,13 @@ namespace pat
         bool can_walk(int x, int y) const;
 
         /**
-         * @brief Tries to get an actor at x, y
+         * @brief Tries to get an entity at x, y
          * 
          * @param x 
          * @param y 
-         * @return Actor* nullptr if no actor was found
+         * @return Entity* nullptr if no entity was found
          */
-        Actor* get_actor(int x, int y) const;
+        Entity* get_entity(int x, int y) const;
 
         /**
          * @brief Compute the player field of view

@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 
-#include <Pataro/Actor.hpp>
+#include <Pataro/Entity.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
 
@@ -39,7 +39,7 @@ namespace pat
         void update();
 
         /**
-         * @brief Render all the actors
+         * @brief Render all the Entities
          * @details It flushes the screen at the end.
          * 
          */
@@ -57,9 +57,9 @@ namespace pat
         inline unsigned height() { return m_height; }
 
         inline void change_state(GameState state) { m_state = state; }
-        inline Actor* get_player() { return m_player.get(); }
-        inline Map*   get_map()    { return m_map.get(); }
-        inline Gui*   get_gui()    { return m_gui.get(); }
+        inline Entity* get_player() { return m_player.get(); }
+        inline Map*    get_map()    { return m_map.get(); }
+        inline Gui*    get_gui()    { return m_gui.get(); }
         inline const TCOD_key_t&   lastkey() { return m_lastkey; }
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
 
@@ -70,7 +70,7 @@ namespace pat
 
         GameState m_state = GameState::StartUp;
 
-        std::shared_ptr<Actor> m_player;  ///< Pointer shared between the levels and the engine
+        std::shared_ptr<Entity> m_player;  ///< Pointer shared between the levels and the engine
         std::unique_ptr<Map> m_map;
         std::unique_ptr<Gui> m_gui;
     };

@@ -77,15 +77,15 @@ void Gui::render_mouse_look(Engine* engine)
 
     std::string text = "";
     bool first = true;
-    for (const auto& actor : engine->get_map()->current_level().get_actors())
+    for (const auto& entity : engine->get_map()->current_level().get_entities())
     {
-        if (actor->get_x() == x && actor->get_y() == y)
+        if (entity->get_x() == x && entity->get_y() == y)
         {
             if (!first)
                 text += ", ";
             else
                 first = false;
-            text += actor->get_name();
+            text += entity->get_name();
         }
     }
 

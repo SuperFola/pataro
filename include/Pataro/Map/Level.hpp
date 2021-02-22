@@ -3,7 +3,7 @@
 
 #include <Pataro/Map/Tile.hpp>
 #include <Pataro/Map/Room.hpp>
-#include <Pataro/Actor.hpp>
+#include <Pataro/Entity.hpp>
 
 #include <libtcod.hpp>
 
@@ -52,7 +52,7 @@ namespace pat::map
         bool is_wall(int x, int y) const;
 
         /**
-         * @brief check if an actor can walk on a given tile
+         * @brief check if an Entity can walk on a given tile
          * 
          * @param x 
          * @param y 
@@ -62,13 +62,13 @@ namespace pat::map
         bool can_walk(int x, int y) const;
 
         /**
-         * @brief Tries to get an actor at x, y
+         * @brief Tries to get an Entity at x, y
          * 
          * @param x 
          * @param y 
-         * @return Actor* nullptr if no actor was found
+         * @return Entity* nullptr if no Entity was found
          */
-        Actor* get_actor(int x, int y) const;
+        Entity* get_entity(int x, int y) const;
 
         /**
          * @brief Check if a tile is in the field of view
@@ -100,14 +100,14 @@ namespace pat::map
         void compute_fov(int x, int y, int fov_radius);
 
         /**
-         * @brief Render the level on screen as well as its actors
+         * @brief Render the level on screen as well as its Entities
          * 
          * @param engine 
          */
         void render(Engine* engine);
 
         /**
-         * @brief Update the levels (actors and stuff)
+         * @brief Update the levels (Entities and stuff)
          * 
          * @param engine 
          */
@@ -118,16 +118,16 @@ namespace pat::map
          * 
          * @param player 
          */
-        void enter(const std::shared_ptr<Actor>& player);
+        void enter(const std::shared_ptr<Entity>& player);
 
         /**
-         * @brief Remove an actor from the level
+         * @brief Remove an Entity from the level
          * 
-         * @param actor 
+         * @param Entity 
          */
-        void remove(Actor* actor);
+        void remove(Entity* Entity);
 
-        inline const std::vector<std::shared_ptr<Actor>>& get_actors() { return m_actors; }
+        inline const std::vector<std::shared_ptr<Entity>>& get_entities() { return m_entities; }
 
         friend class details::BSPListener;
         friend class pat::Map;
@@ -162,7 +162,7 @@ namespace pat::map
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;
         std::vector<details::Room> m_rooms;
-        std::vector<std::shared_ptr<Actor>> m_actors;
+        std::vector<std::shared_ptr<Entity>> m_entities;
         int m_width;
         int m_height;
     };
