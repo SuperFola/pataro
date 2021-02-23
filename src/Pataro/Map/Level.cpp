@@ -4,10 +4,7 @@
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Engine.hpp>
-#include <Pataro/Components/Attacker.hpp>
-#include <Pataro/Components/AI/Monster.hpp>
 #include <Pataro/Components/Destructible.hpp>
-#include <Pataro/Components/Destructible/Monster.hpp>
 
 #include <algorithm>
 
@@ -219,8 +216,6 @@ void Level::create_room(int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
-    // TODO make the monster generation better
-    // TODO add a monster factory
     TCODRandom* rng = TCODRandom::getInstance();
     int nb_monsters = rng->getInt(0, details::max_room_monsters);
 
@@ -229,24 +224,7 @@ void Level::create_room(int x1, int y1, int x2, int y2)
         int x = rng->getInt(x1, x2);
         int y = rng->getInt(y1, y2);
         if (can_walk(x, y))
-        {
-            // create an orc
-            if (rng->getInt(0, 100) < 80)
-            {
-                m_entities.emplace_back(std::make_shared<Entity>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
-                m_entities.back()->set_attacker<component::Attacker>(3.0f);
-                m_entities.back()->set_destructible<component::details::MonsterDestructible>(10.0f, 0.0f, "dead orc");
-            }
-            // create a troll
-            else
-            {
-                m_entities.emplace_back(std::make_shared<Entity>(x, y, 'T', "troll", TCODColor::darkerGreen));
-                m_entities.back()->set_attacker<component::Attacker>(4.0f);
-                m_entities.back()->set_destructible<component::details::MonsterDestructible>(16.0f, 1.0f, "troll carcass");
-            }
-
-            m_entities.back()->set_ai<component::details::MonsterAI>();
-        }
+            m_entities.emplace_back(m_factory.get_random_monster(x, y));
         --nb_monsters;
     }
 }

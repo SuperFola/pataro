@@ -4,6 +4,7 @@
 #include <Pataro/Map/Tile.hpp>
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Entities/Factory.hpp>
 
 #include <libtcod.hpp>
 
@@ -165,6 +166,7 @@ namespace pat::map
         std::vector<std::shared_ptr<Entity>> m_entities;
         int m_width;
         int m_height;
+        entity::Factory m_factory;  ///< Entity factory
     };
 }
 
