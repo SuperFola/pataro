@@ -26,5 +26,6 @@ std::unique_ptr<Action> Entity::update(Engine* engine)
     if (m_ai)
         m_ai->update(this, engine);
 
+    // TODO actually use me
     return std::make_unique<Action>();
 }
