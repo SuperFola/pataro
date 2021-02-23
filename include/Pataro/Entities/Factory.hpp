@@ -18,7 +18,15 @@ namespace pat::entity
          */
         Factory();
 
-        std::shared_ptr<Entity> get_random_monster(int x, int y);
+        /**
+         * @brief Generate a random monster
+         * 
+         * @param x position on the map
+         * @param y position on the map
+         * @param difficulty scaling difficulty factor. Less than 1 means easy, greater than 1 means harder
+         * @return std::shared_ptr<Entity> 
+         */
+        std::shared_ptr<Entity> get_random_monster(int x, int y, float difficulty=1.f);
 
     private:
         TCODRandom* m_rng;
