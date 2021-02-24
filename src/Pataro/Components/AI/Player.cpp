@@ -1,17 +1,18 @@
 #include <Pataro/Components/AI/Player.hpp>
 
-#include <Pataro/Constants.hpp>
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
+#include <Pataro/Actions/Move.hpp>
+#include <Pataro/Actions/Attack.hpp>
 
 using namespace pat::component::details;
 
-void PlayerAI::update(pat::Entity* owner, pat::Engine* engine)
+std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* engine)
 {
     // do nothing if we're dead
     if (Destructible* d = owner->destructible(); d != nullptr && d->is_dead())
-        return;
+        return nullptr;
 
     int dx = 0,
         dy = 0;
@@ -30,34 +31,28 @@ void PlayerAI::update(pat::Entity* owner, pat::Engine* engine)
     if (dy != 0 || dx != 0)
     {
         engine->change_state(pat::GameState::NewTurn);
-
-        if (move_or_attack(owner, dx, dy, engine))
-            engine->get_map()->compute_fov(owner->get_x(), owner->get_y(), pat::details::player_fov);
+        return move_or_attack(owner, dx, dy, engine);
     }
+
+    return nullptr;
 }
 
-bool PlayerAI::move_or_attack(pat::Entity* owner, int dx, int dy, pat::Engine* engine)
+std::unique_ptr<pat::Action> PlayerAI::move_or_attack(pat::Entity* owner, int dx, int dy, pat::Engine* engine)
 {
     int x = owner->get_x(),
         y = owner->get_y();
 
+    // physics
     if (engine->get_map()->is_wall(x + dx, y + dy))
-        return false;
+        return nullptr;
 
     if (Entity* a = engine->get_map()->get_entity(x + dx, y + dy); a != nullptr)
     {
-        Destructible* d = a->destructible();
-
         // found a possible ennemy, attack it
-        if (d != nullptr && !d->is_dead())
-        {
-            owner->attacker()->attack(owner, a, engine);
-            return false;
-        }
-        else if (d != nullptr && d->is_dead())
-            engine->get_gui()->message(TCODColor::lightGrey, "There is a ", a->get_name(), " here");
+        if (Destructible* d = a->destructible(); d != nullptr && !d->is_dead())
+            return std::make_unique<pat::action::AttackAction>(owner, a);
     }
 
-    owner->put_at(x + dx, y + dy);
-    return true;
+    // move, nothing is preventing us from moving
+    return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
 }

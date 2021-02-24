@@ -2,6 +2,9 @@
 #define PATARO_COMPONENTS_AI_MONSTER_HPP
 
 #include <Pataro/Components/AI.hpp>
+#include <Pataro/Action.hpp>
+
+#include <memory>
 
 namespace pat
 {
@@ -19,8 +22,9 @@ namespace pat::component::details
          * 
          * @param owner 
          * @param engine 
+         * @return std::unique_ptr<Action> 
          */
-        void update(Entity* owner, Engine* engine) override;
+        std::unique_ptr<Action> update(Entity* owner, Engine* engine) override;
 
     private:
         /**
@@ -30,8 +34,9 @@ namespace pat::component::details
          * @param x position of the wanted destination
          * @param y position of the wanted destination
          * @param engine 
+         * @return std::unique_ptr<Action> 
          */
-        void move_or_attack(Entity* owner, int x, int y, Engine* engine);
+        std::unique_ptr<Action> move_or_attack(Entity* owner, int x, int y, Engine* engine);
 
         int m_move_count;
     };

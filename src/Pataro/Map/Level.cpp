@@ -136,7 +136,13 @@ void Level::update(pat::Engine* engine)
     for (const auto& entity : m_entities)
     {
         if (entity.get() != engine->get_player())
-            entity->update(engine);
+        {
+            std::unique_ptr<pat::Action> action = entity->update(engine);
+            if (action)
+            {
+                pat::ActionResult ar = action->perform(engine);
+            }
+        }
     }
 }
 

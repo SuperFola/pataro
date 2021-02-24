@@ -16,7 +16,8 @@ bool Container::add(pat::Entity* actor)
     if (m_max_size > 0 && m_inventory.size() >= m_max_size)
         return false;
 
-    m_inventory.emplace_back(*actor);
+    // FIXME
+    // m_inventory.emplace_back(*actor);
     return true;
 }
 

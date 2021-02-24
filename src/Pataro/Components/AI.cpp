@@ -1,4 +1,4 @@
-#include <Pataro/Component/AI.hpp>
+#include <Pataro/Components/AI.hpp>
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>

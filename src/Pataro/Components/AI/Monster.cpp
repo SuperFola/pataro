@@ -6,16 +6,18 @@
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Constants.hpp>
+#include <Pataro/Actions/Move.hpp>
+#include <Pataro/Actions/Attack.hpp>
 
 #include <cmath>
 
 using namespace pat::component::details;
 
-void MonsterAI::update(pat::Entity* owner, pat::Engine* engine)
+std::unique_ptr<pat::Action> MonsterAI::update(pat::Entity* owner, pat::Engine* engine)
 {
     // do nothing if we're dead
     if (Destructible* d = owner->destructible(); d != nullptr && d->is_dead())
-        return;
+        return nullptr;
 
     // the monster is in the field of view of the player
     // thus it should go toward it
@@ -25,15 +27,17 @@ void MonsterAI::update(pat::Entity* owner, pat::Engine* engine)
         --m_move_count;
 
     if (m_move_count > 0)
-        move_or_attack(
+        return move_or_attack(
             owner,
             engine->get_player()->get_x(),
             engine->get_player()->get_y(),
             engine
         );
+
+    return nullptr;
 }
 
-void MonsterAI::move_or_attack(pat::Entity* owner, int xf, int yf, pat::Engine* engine)
+std::unique_ptr<pat::Action> MonsterAI::move_or_attack(pat::Entity* owner, int xf, int yf, pat::Engine* engine)
 {
     int x = owner->get_x(),
         y = owner->get_y();
@@ -43,7 +47,6 @@ void MonsterAI::move_or_attack(pat::Entity* owner, int xf, int yf, pat::Engine* 
     int step_dx = (dx > 0) ? 1 : -1,
         step_dy = (dy > 0) ? 1 : -1;
 
-    pat::Entity* p = engine->get_player();
     pat::Map* map = engine->get_map();
 
     float distance = std::sqrt(static_cast<float>(dx * dx + dy * dy));
@@ -53,24 +56,17 @@ void MonsterAI::move_or_attack(pat::Entity* owner, int xf, int yf, pat::Engine* 
         dy = static_cast<int>(std::round(dy / distance));
 
         if (map->can_walk(x + dx, y + dy))
-        {
-            owner->put_at(x + dx, y + dy);
-            return;
-        }
+            return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
         else if (map->can_walk(x + step_dx, y))  // wall sliding 1
-        {
-            owner->put_at(x + step_dx, y);
-            return;
-        }
+            return std::make_unique<pat::action::MoveAction>(owner, step_dx, 0);
         else if (map->can_walk(x, y + step_dy))  // wall sliding 2
-        {
-            owner->put_at(x, y + step_dy);
-            return;
-        }
+            return std::make_unique<pat::action::MoveAction>(owner, 0, step_dy);
     }
 
     // attack the entity blocking us if we have what's needed to attack
     // FIXME currently attacking only the player, is that wanted?
-    if (Attacker* a = owner->attacker(); a != nullptr && map->get_entity(x + dx, y + dy) == p)  // if we have a component to attack, attack the player
-        a->attack(owner, p, engine);
+    if (pat::Entity* p = engine->get_player(); map->get_entity(x + dx, y + dy) == p)
+        return std::make_unique<pat::action::AttackAction>(owner, p);
+
+    return nullptr;
 }

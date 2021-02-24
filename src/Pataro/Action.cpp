@@ -4,5 +4,7 @@
 
 using namespace pat;
 
-ActionResult Action::perform(pat::Engine* engine)
-{}
+ActionResult Action::perform([[maybe_unused]] pat::Engine* engine)
+{
+    return ActionResult::Success;
+}

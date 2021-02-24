@@ -21,11 +21,21 @@ void Entity::render(int dx, int dy) const
     TCODConsole::root->setCharForeground(m_x - dx, m_y - dy, m_color);
 }
 
-std::unique_ptr<Action> Entity::update(Engine* engine)
+std::unique_ptr<pat::Action> Entity::update(Engine* engine)
 {
     if (m_ai)
-        m_ai->update(this, engine);
+        return m_ai->update(this, engine);
+    return nullptr;
+}
 
-    // TODO actually use me
-    return std::make_unique<Action>();
+void Entity::put_at(int x, int y)
+{
+    m_x = x;
+    m_y = y;
+}
+
+void Entity::move(int dx, int dy)
+{
+    m_x += dx;
+    m_y += dy;
 }

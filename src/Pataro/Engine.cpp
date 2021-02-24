@@ -50,7 +50,11 @@ void Engine::update()
     m_state = GameState::Idle;
 
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
-    m_player->update(this);
+    std::unique_ptr<pat::Action> action = m_player->update(this);
+    if (action)
+    {
+        pat::ActionResult ar = action->perform(this);
+    }
 
     switch (m_lastkey.vk)
     {

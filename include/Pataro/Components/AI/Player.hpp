@@ -2,6 +2,9 @@
 #define PATARO_COMPONENTS_AI_PLAYER_HPP
 
 #include <Pataro/Components/AI.hpp>
+#include <Pataro/Action.hpp>
+
+#include <memory>
 
 namespace pat
 {
@@ -19,8 +22,9 @@ namespace pat::component::details
          * 
          * @param owner 
          * @param engine 
+         * @return std::unique_ptr<Action> 
          */
-        void update(Entity* owner, Engine* engine) override;
+        std::unique_ptr<pat::Action> update(Entity* owner, Engine* engine) override;
 
     private:
         /**
@@ -30,10 +34,9 @@ namespace pat::component::details
          * @param dx 
          * @param dy 
          * @param engine 
-         * @return true we were able to move
-         * @return false 
+         * @return std::unique_ptr<Action> 
          */
-        bool move_or_attack(Entity* owner, int dx, int dy, Engine* engine);
+        std::unique_ptr<Action> move_or_attack(Entity* owner, int dx, int dy, Engine* engine);
     };
 }
 
