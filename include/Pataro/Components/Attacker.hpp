@@ -21,14 +21,7 @@ namespace pat::component
          */
         Attacker(float power);
 
-        /**
-         * @brief The owner is attacking a given target
-         * 
-         * @param owner 
-         * @param target 
-         * @param engine 
-         */
-        void attack(Entity* owner, Entity* target, Engine* engine);
+        inline float power() const { return m_power; }
 
     private:
         float m_power;
