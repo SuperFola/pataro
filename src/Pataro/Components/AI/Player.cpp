@@ -31,28 +31,8 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
     if (dy != 0 || dx != 0)
     {
         engine->change_state(pat::GameState::NewTurn);
-        return move_or_attack(owner, dx, dy, engine);
+        return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
     }
 
     return nullptr;
-}
-
-std::unique_ptr<pat::Action> PlayerAI::move_or_attack(pat::Entity* owner, int dx, int dy, pat::Engine* engine)
-{
-    int x = owner->get_x(),
-        y = owner->get_y();
-
-    // physics
-    if (engine->get_map()->is_wall(x + dx, y + dy))
-        return nullptr;
-
-    if (Entity* a = engine->get_map()->get_entity(x + dx, y + dy); a != nullptr)
-    {
-        // found a possible ennemy, attack it
-        if (Destructible* d = a->destructible(); d != nullptr && !d->is_dead())
-            return std::make_unique<pat::action::AttackAction>(owner, a);
-    }
-
-    // move, nothing is preventing us from moving
-    return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
 }

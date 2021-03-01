@@ -1,6 +1,8 @@
 #ifndef PATARO_ACTION_HPP
 #define PATARO_ACTION_HPP
 
+#include <type_traits>
+
 namespace pat
 {
     class Engine;
@@ -30,6 +32,13 @@ namespace pat
          * @return ActionResult 
          */
         virtual ActionResult perform(Engine* engine);
+
+    protected:
+        template <typename A, typename... Args>
+        ActionResult alternate(Args&&... args)
+        {
+            return A(std::forward<Args>(args)...).perform();
+        }
     };
 }
 

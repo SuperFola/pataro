@@ -49,6 +49,7 @@ std::unique_ptr<pat::Action> MonsterAI::move_or_attack(pat::Entity* owner, int x
 
     pat::Map* map = engine->get_map();
 
+    // tracking the player
     float distance = std::sqrt(static_cast<float>(dx * dx + dy * dy));
     if (distance >= 2.f)
     {
@@ -62,11 +63,6 @@ std::unique_ptr<pat::Action> MonsterAI::move_or_attack(pat::Entity* owner, int x
         else if (map->can_walk(x, y + step_dy))  // wall sliding 2
             return std::make_unique<pat::action::MoveAction>(owner, 0, step_dy);
     }
-
-    // attack the entity blocking us if we have what's needed to attack
-    // FIXME currently attacking only the player, is that wanted?
-    if (pat::Entity* p = engine->get_player(); map->get_entity(x + dx, y + dy) == p)
-        return std::make_unique<pat::action::AttackAction>(owner, p);
 
     return nullptr;
 }
