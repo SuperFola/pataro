@@ -12,7 +12,7 @@ Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy) :
 
 void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
 {
-    // TODO put this elsewhere
+    // TODO put this bar_width elsewhere
     static const int bar_width = 20;
 
     m_con->setDefaultBackground(TCODColor::black);
