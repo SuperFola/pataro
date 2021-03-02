@@ -71,9 +71,9 @@ jobs:
           unzip 1.16.0-alpha.15.zip
           mv libtcod-1.16.0-alpha.15 tcod
           (cd tcod/buildsys/scons; scons build)
+          ls -als . ; ls -als tcod/
           ln -s tcod/src/ tcod/include/
           cp tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/libtcod.lib tcod/
-          ls -als . ; ls -als tcod/
         fi
 
     - name: Configure CMake
