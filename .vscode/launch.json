@@ -34,7 +34,7 @@
                 // Add libraries from tcod to the runtime PATH.
                 {"name": "Path", "value": "${env:Path};${workspaceFolder}/tcod"}
             ],
-            "console": "internalConsole",
+            "console": "externalTerminal",
         }
     ]
 }
