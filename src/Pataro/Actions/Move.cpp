@@ -23,7 +23,7 @@ pat::ActionResult MoveAction::perform([[maybe_unused]] pat::Engine* engine)
     if (Entity* e = engine->get_map()->get_entity(x + m_dx, y + m_dy); e != nullptr &&
         // so that our player can attack, and monsters will only attack them
         (m_source == engine->get_player() || engine->get_player() == e))
-        return alternate<AttackAction>(m_source, e);
+        return alternate<AttackAction>(engine, m_source, e);
 
     // physics
     if (engine->get_map()->is_wall(x + m_dx, y + m_dy))

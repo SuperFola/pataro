@@ -35,9 +35,9 @@ namespace pat
 
     protected:
         template <typename A, typename... Args>
-        ActionResult alternate(Args&&... args)
+        ActionResult alternate(Engine* engine, Args&&... args)
         {
-            return A(std::forward<Args>(args)...).perform();
+            return A(std::forward<Args>(args)...).perform(engine);
         }
     };
 }

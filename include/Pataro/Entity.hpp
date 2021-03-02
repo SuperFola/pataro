@@ -54,12 +54,11 @@ namespace pat
         void render(int dx=0, int dy=0) const;
 
         /**
-         * @brief Update the Entity
+         * @brief Make the entity gain energy based on its speed, and if they have enough, update it
          * 
          * @param engine 
-         * @return std::unique_ptr<Action> the action to perform
          */
-        std::unique_ptr<Action> update(Engine* engine);
+        void take_turn(Engine* engine);
 
         inline int  get_x() const { return m_x; }
         inline int  get_y() const { return m_y; }
@@ -72,39 +71,34 @@ namespace pat
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
 
-        #define GET_COMPONENT(Type, name)                        \
-            inline component::Type* name() { return m_##name.get(); }
-
-        GET_COMPONENT(Attacker, attacker)
-        GET_COMPONENT(Destructible, destructible)
-        GET_COMPONENT(AI, ai)
-        GET_COMPONENT(Container, container)
-
+        #define GET_COMPONENT(Type, name) inline component::Type* name() { return m_##name.get(); }
+        #define SET_COMPONENT(name)       template <typename T, typename... Args> void set_##name(Args&&... args) { m_##name = std::make_unique<T>(std::forward<Args>(args)...); }
+        #define GET_SET_CMPNT(Type, name) GET_COMPONENT(Type, name) SET_COMPONENT(name)
+            GET_SET_CMPNT(Attacker, attacker)
+            GET_SET_CMPNT(Destructible, destructible)
+            GET_SET_CMPNT(AI, ai)
+            GET_SET_CMPNT(Container, container)
+        #undef SET_COMPONENT
         #undef GET_COMPONENT
 
-        #define SET_COMPONENT(name)                 \
-            template <typename T, typename... Args> \
-            void set_##name(Args&&... args)         \
-            {                                       \
-                m_##name = std::make_unique<T>(     \
-                    std::forward<Args>(args)...     \
-                );                                  \
-            }
-
-        SET_COMPONENT(attacker)
-        SET_COMPONENT(destructible)
-        SET_COMPONENT(ai)
-        SET_COMPONENT(container)
-
-        #undef SET_COMPONENT
-
     private:
+        /**
+         * @brief Update the Entity
+         * 
+         * @param engine 
+         * @return std::unique_ptr<Action> the action to perform
+         */
+        std::unique_ptr<Action> update(Engine* engine);
+
         int m_x, m_y;       ///< Position of the Entity on the map
         int m_ch;           ///< ascii character representing the Entity
         std::string m_name;
-        TCODColor m_color;  ///< color of the ascii character
-
+        TCODColor m_color;     ///< color of the ascii character
+        float m_energy = 0.f;  ///< default energy level (needed for actions)
+        // TODO make the speed variable when creating an entity (ie the user should be able to choose the speed)
+        float m_speed = 1.f;   ///< default speed (needed to get energy, higher is better)
         bool m_blocks = true;  ///< Can we walk on this Entity?
+
         std::unique_ptr<component::Attacker>     m_attacker     = nullptr;  ///< For Entities that deal damages
         std::unique_ptr<component::Destructible> m_destructible = nullptr;  ///< For destructible Entities
         std::unique_ptr<component::AI>           m_ai           = nullptr;  ///< For self updating Entities
