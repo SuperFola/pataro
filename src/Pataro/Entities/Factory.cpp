@@ -4,6 +4,8 @@
 #include <Pataro/Components/Destructible/Monster.hpp>
 #include <Pataro/Components/AI/Monster.hpp>
 
+#include <cmath>
+
 using namespace pat::entity;
 
 Factory::Factory() :
@@ -14,8 +16,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_monster(int x, int y, float dif
 {
     std::shared_ptr<Entity> entity;
 
-    // FIXME make this non linear, maybe logarithmic or exponential
-    float biaised_difficulty = difficulty;
+    float biaised_difficulty = std::sqrt(difficulty);
 
     // create an orc
     if (m_rng->getInt(0, 100) < 80)
