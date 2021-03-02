@@ -22,12 +22,18 @@ In `include/Pataro/Map/Level.hpp` and `src/Pataro/Map/Level.cpp`.
 
 Generates rooms, monsters, handles the field of view, collisions with actors and walls. Updates all the actor except the player, given a pointer to the engine.
 
-## The actor
+## The actions
 
-in `include/Pataro/Actor.hpp`, `include/Pataro/Actor/`, `src/Pataro/Actor.cpp` and `src/Pataro/Actor/`.
+In `include/Pataro/Action.hpp`, `include/Pataro/Actions/`, `src/Pataro/Action.cpp` and `src/Pataro/Actions/`.
 
-Handles the position, the blocking state, representation of the actor on the overworld. Also handles components such as attacker, destructible and AI through composition.
+Handle everything the entities can do.
 
-Updates its AI when called, given a pointer to the engine.
+## The entity
+
+In `include/Pataro/Entity.hpp`, `include/Pataro/Entities/`, `src/Pataro/Entity.cpp` and `src/Pataro/Entities/`.
+
+Handles the position, the blocking state, representation of the entity on the overworld. Also handles components such as attacker, destructible and AI through composition.
+
+Updates its AI when called, given a pointer to the engine. It returns an action which is ran by the engine.
 
 Note that the PlayerAI is just reading the engine last key.
