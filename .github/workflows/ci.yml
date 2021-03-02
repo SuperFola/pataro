@@ -71,7 +71,7 @@ jobs:
           unzip 1.16.0-alpha.15.zip
           mv libtcod-1.16.0-alpha.15 tcod
           (cd tcod/buildsys/scons; scons build)
-          ls -als tcod/buildsys/scons
+          ls -als tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG
           ln -s tcod/include/ tcod/src/
           cp tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/libtcod.lib tcod/
         fi
