@@ -58,6 +58,7 @@ jobs:
           (cd tcod/buildsys/scons; scons build)
           cp tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/lictcod.lib tcod/
           ln -s tcod/src/ tcod/include/
+          ls -als . ; ls -als tcod/
         elif [[ ${{ matrix.config.cc }} == 'clang' && ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key 2>/dev/null | sudo apt-key add -
           sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main' -y
