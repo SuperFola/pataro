@@ -54,11 +54,26 @@ namespace pat
         void render(int dx=0, int dy=0) const;
 
         /**
-         * @brief Make the entity gain energy based on its speed, and if they have enough, update it
+         * @brief Update the Entity
          * 
          * @param engine 
+         * @return std::unique_ptr<Action> the action to perform
          */
-        void take_turn(Engine* engine);
+        std::unique_ptr<Action> update(Engine* engine);
+
+        /**
+         * @brief Increase the energy count with the entity speed
+         * 
+         */
+        void gain_energy();
+
+        /**
+         * @brief Checks if the entity has enough energy to perform an action
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool has_enough_energy() const;
 
         inline int  get_x() const { return m_x; }
         inline int  get_y() const { return m_y; }
@@ -82,14 +97,6 @@ namespace pat
         #undef GET_COMPONENT
 
     private:
-        /**
-         * @brief Update the Entity
-         * 
-         * @param engine 
-         * @return std::unique_ptr<Action> the action to perform
-         */
-        std::unique_ptr<Action> update(Engine* engine);
-
         int m_x, m_y;       ///< Position of the Entity on the map
         int m_ch;           ///< ascii character representing the Entity
         std::string m_name;
