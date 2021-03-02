@@ -4,10 +4,7 @@
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Engine.hpp>
-#include <Pataro/Actor/Attacker.hpp>
-#include <Pataro/Actor/AI/Monster.hpp>
-#include <Pataro/Actor/Destructible.hpp>
-#include <Pataro/Actor/Destructible/Monster.hpp>
+#include <Pataro/Components/Destructible.hpp>
 
 #include <algorithm>
 
@@ -29,41 +26,41 @@ bool Level::can_walk(int x, int y) const
     if (is_wall(x, y))
         return false;
 
-    for (const auto& actor : m_actors)
+    for (const auto& entity : m_entities)
     {
-        if (actor->get_x() == x && actor->get_y() == y && actor->is_blocking())
+        if (entity->get_x() == x && entity->get_y() == y && entity->is_blocking())
             return false;
     }
     return true;
 }
 
-pat::Actor* Level::get_actor(int x, int y) const
+pat::Entity* Level::get_entity(int x, int y) const
 {
-    pat::Actor* possibility = nullptr;
+    pat::Entity* possibility = nullptr;
 
-    for (const auto& actor : m_actors)
+    for (const auto& entity : m_entities)
     {
-        if (actor->get_x() == x && actor->get_y() == y)
+        if (entity->get_x() == x && entity->get_y() == y)
         {
             if (possibility != nullptr)
             {
-                actor::Destructible* d = actor->destructible();
-                actor::Destructible* dp = possibility->destructible();
+                component::Destructible* d = entity->destructible();
+                component::Destructible* dp = possibility->destructible();
 
                 // if there is another possibility which is alive, discard current one
 
                 if (dp != nullptr && dp->is_dead() && !d->is_dead())  // the new one is alive, the old one is dead, keep the alive one
-                    possibility = actor.get();
+                    possibility = entity.get();
                 else if (dp != nullptr && dp->is_dead() && d->is_dead())  // both dead, keep new one because why not
-                    possibility = actor.get();
+                    possibility = entity.get();
                 else if (dp == nullptr && d != nullptr)  // if the possibility doesn't have a destructible, select the other if it has one
-                    possibility = actor.get();
+                    possibility = entity.get();
             }
             else
-                possibility = actor.get();
+                possibility = entity.get();
 
-            // if we found a possibility of actor which is alive, return it
-            if (actor::Destructible* dp = possibility->destructible(); dp != nullptr && !dp->is_dead())
+            // if we found a possibility of entity which is alive, return it
+            if (component::Destructible* dp = possibility->destructible(); dp != nullptr && !dp->is_dead())
                 break;
         }
     }
@@ -115,15 +112,15 @@ void Level::render(pat::Engine* engine)
     }
 
     auto render_ = [this, &dx, &dy](bool render_dead_ones) {
-        for (const auto& actor : m_actors)
+        for (const auto& entity : m_entities)
         {
-            if (m_map->isInFov(actor->get_x(), actor->get_y()))
+            if (m_map->isInFov(entity->get_x(), entity->get_y()))
             {
-                actor::Destructible* d = actor->destructible();
+                component::Destructible* d = entity->destructible();
                 if (d != nullptr && (render_dead_ones ? d->is_dead() : !d->is_dead()))
-                    actor->render(dx, dy);
+                    entity->render(dx, dy);
                 else if (d == nullptr)
-                    actor->render(dx, dy);
+                    entity->render(dx, dy);
             }
         }
     };
@@ -136,28 +133,36 @@ void Level::render(pat::Engine* engine)
 void Level::update(pat::Engine* engine)
 {
     // called once per new turn
-    for (const auto& actor : m_actors)
+    for (const auto& entity : m_entities)
     {
-        if (actor.get() != engine->get_player())
-            actor->update(engine);
+        if (entity.get() != engine->get_player())
+        {
+            entity->gain_energy();
+            if (entity->has_enough_energy())
+            {
+                std::unique_ptr<pat::Action> action = entity->update(engine);
+                if (action != nullptr)
+                    action->perform(engine);
+            }
+        }
     }
 }
 
-void Level::enter(const std::shared_ptr<pat::Actor>& player)
+void Level::enter(const std::shared_ptr<pat::Entity>& player)
 {
     // the player just entered the level, put it in the middle
     // of the first room
-    m_actors.emplace_back(player);
-    m_actors.back()->put_at(
+    m_entities.emplace_back(player);
+    m_entities.back()->put_at(
         m_rooms[0].x + m_rooms[0].width / 2,
         m_rooms[0].y + m_rooms[0].height / 2
     );
 }
 
-void Level::remove(pat::Actor* actor)
+void Level::remove(pat::Entity* entity)
 {
-    auto it = std::remove_if(m_actors.begin(), m_actors.end(), [&actor](const auto& actor_) -> bool {
-        return actor_.get() == actor;
+    auto it = std::remove_if(m_entities.begin(), m_entities.end(), [&entity](const auto& entity_) -> bool {
+        return entity_.get() == entity;
     });
 }
 
@@ -219,7 +224,6 @@ void Level::create_room(int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
-    // TODO make the monster generation better
     TCODRandom* rng = TCODRandom::getInstance();
     int nb_monsters = rng->getInt(0, details::max_room_monsters);
 
@@ -228,24 +232,7 @@ void Level::create_room(int x1, int y1, int x2, int y2)
         int x = rng->getInt(x1, x2);
         int y = rng->getInt(y1, y2);
         if (can_walk(x, y))
-        {
-            // create an orc
-            if (rng->getInt(0, 100) < 80)
-            {
-                m_actors.emplace_back(std::make_shared<Actor>(x, y, 'o', "orc", TCODColor::desaturatedGreen));
-                m_actors.back()->set_attacker<actor::Attacker>(3.0f);
-                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(10.0f, 0.0f, "dead orc");
-            }
-            // create a troll
-            else
-            {
-                m_actors.emplace_back(std::make_shared<Actor>(x, y, 'T', "troll", TCODColor::darkerGreen));
-                m_actors.back()->set_attacker<actor::Attacker>(4.0f);
-                m_actors.back()->set_destructible<actor::details::MonsterDestructible>(16.0f, 1.0f, "troll carcass");
-            }
-
-            m_actors.back()->set_ai<actor::details::MonsterAI>();
-        }
+            m_entities.emplace_back(m_factory.get_random_monster(x, y));
         --nb_monsters;
     }
 }

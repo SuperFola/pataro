@@ -28,9 +28,9 @@ bool Map::can_walk(int x, int y) const
     return m_levels[m_current].can_walk(x, y);
 }
 
-pat::Actor* Map::get_actor(int x, int y) const
+pat::Entity* Map::get_entity(int x, int y) const
 {
-    return m_levels[m_current].get_actor(x, y);
+    return m_levels[m_current].get_entity(x, y);
 }
 
 void Map::compute_fov(int x, int y, int fov_radius)

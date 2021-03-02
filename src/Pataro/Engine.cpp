@@ -4,10 +4,10 @@
 #include <Pataro/Utils.hpp>
 #include <Pataro/Constants.hpp>
 #include <Pataro/Map/Constants.hpp>
-#include <Pataro/Actor/AI/Player.hpp>
-#include <Pataro/Actor/Attacker.hpp>
-#include <Pataro/Actor/Destructible/Player.hpp>
-#include <Pataro/Actor/Container.hpp>
+#include <Pataro/Components/AI/Player.hpp>
+#include <Pataro/Components/Attacker.hpp>
+#include <Pataro/Components/Destructible/Player.hpp>
+#include <Pataro/Components/Container.hpp>
 
 #include <libtcod.hpp>
 
@@ -23,11 +23,11 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title) :
     TCODSystem::setFps(30);
 
     // create the player
-    m_player = std::make_shared<Actor>(0, 0, '@', "Player", TCODColor::white);
-    m_player->set_ai<actor::details::PlayerAI>();
-    m_player->set_attacker<actor::Attacker>(5.f);
-    m_player->set_destructible<actor::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
-    m_player->set_container<actor::Container>(26);  ///< One slot per letter in the alphabet
+    m_player = std::make_shared<Entity>(0, 0, '@', "Player", TCODColor::white);
+    m_player->set_ai<component::details::PlayerAI>();
+    m_player->set_attacker<component::Attacker>(5.f);
+    m_player->set_destructible<component::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
+    m_player->set_container<component::Container>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
@@ -50,7 +50,9 @@ void Engine::update()
     m_state = GameState::Idle;
 
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
-    m_player->update(this);
+    std::unique_ptr<Action> action = m_player->update(this);
+    if (action)
+        action->perform(this);
 
     switch (m_lastkey.vk)
     {
@@ -62,7 +64,7 @@ void Engine::update()
             break;
     }
 
-    // if it's a new turn, update all the actors
+    // if it's a new turn, update all the Entities
     if (m_state == GameState::NewTurn)
         m_map->update(this);
 }
