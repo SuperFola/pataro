@@ -1,0 +1,82 @@
+name: CMake
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.name }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC",
+            os: windows-latest, os_short: "Windows",
+            build_type: "Release", cc: "cl", cxx: "cl",
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "Ubuntu Latest GCC",
+            os: ubuntu-latest, os_short: "Ubuntu",
+            build_type: "Release", cc: "gcc-8", cxx: "g++-8"
+          }
+        - {
+            name: "Ubuntu Latest Clang",
+            os: ubuntu-latest, os_short: "Ubuntu",
+            build_type: "Release", cc: "clang", cxx: "clang++"
+          }
+        - {
+            name: "macOS Latest Clang",
+            os: macos-latest, os_short: "macOS",
+            build_type: "Release", cc: "clang", cxx: "clang++"
+          }
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Update compilers
+      if: ${{ matrix.config.cc }} == 'gcc' && ${{ matrix.config.os_short }} == 'Ubuntu'
+      shell: bash
+      run: |
+        if [[ ${{ matrix.config.cc }} == 'gcc' && ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
+          sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get -yq install g++-8 gcc-8 scons
+          wget https://github.com/libtcod/libtcod/archive/1.16.0-alpha.15.zip
+          unzip 1.16.0-alpha.15.zip
+          mv 1.16.0-alpha.15 tcod
+          (cd tcod/buildsys/scons; scons build)
+          cp tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/lictcod.lib tcod/
+          ln -s tcod/src/ tcod/include/
+        elif [[ ${{ matrix.config.cc }} == 'clang' && ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key 2>/dev/null | sudo apt-key add -
+          sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main' -y
+          sudo apt-get update -q
+          sudo apt-get install -y clang-9 lld-9 libc++-9-dev libc++abi-9-dev clang-tools-9
+        elif [[ ${{ matrix.config.os_short }} == 'macOS' ]]; then
+          brew install gcc && brew link gcc && CXX=/usr/local/bin/g++-9
+          brew install openssl
+        elif [[ ${{ matrix.config.os_short }} == 'Windows' ]]; then
+          wget https://github.com/libtcod/libtcod/releases/download/1.16.0-alpha.15/libtcod-1.16.0-alpha.15-x86-msvc.zip
+          unzip libtcod-1.16.0-alpha.15-x86-msvc.zip
+          mv libtcod-1.16.0-alpha.15-x86-msvc tcod
+        fi
+
+    - name: Configure CMake
+      shell: bash
+      run: cmake -Bbuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }}
+
+    - name: Build
+      shell: bash
+      run: |
+        cmake --build build --config $BUILD_TYPE

@@ -1,0 +1,27 @@
+actions:
+  - include/Pataro/Action.hpp
+  - include/Pataro/Actions/*
+  - src/Pataro/Action.cpp
+  - src/Pataro/Actions/*
+
+components:
+  - include/Pataro/Components/*
+  - src/Pataro/Components/*
+
+entities:
+  - include/Pataro/Entity.hpp
+  - include/Pataro/Entities/*
+  - src/Pataro/Entity.cpp
+  - src/Pataro/Entities/*
+
+map:
+  - include/Pataro/Map.hpp
+  - include/Pataro/Map/*
+  - src/Pataro/Map.cpp
+  - src/Pataro/Map/*
+
+engine:
+  - include/Pataro/Engine.hpp
+  - include/Pataro/Gui.hpp
+  - src/Pataro/Engine.cpp
+  - src/Pataro/Gui.cpp
