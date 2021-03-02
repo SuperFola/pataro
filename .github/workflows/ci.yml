@@ -66,7 +66,7 @@ jobs:
           mv libtcod-1.16.0-alpha.15-x86-msvc tcod
         fi
         if [[ ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
-          sudo apt-get -yq libsdl2-dev scons
+          sudo apt-get -yq install libsdl2-dev scons
           wget https://github.com/libtcod/libtcod/archive/1.16.0-alpha.15.zip
           unzip 1.16.0-alpha.15.zip
           mv libtcod-1.16.0-alpha.15 tcod
