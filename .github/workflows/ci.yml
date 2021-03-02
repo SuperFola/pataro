@@ -51,21 +51,22 @@ jobs:
       run: |
         if [[ ${{ matrix.config.cc }} == 'gcc-8' && ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
           sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get -yq install g++-8 gcc-8 scons
+          sudo apt-get -yq install g++-8 gcc-8
         elif [[ ${{ matrix.config.cc }} == 'clang' && ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key 2>/dev/null | sudo apt-key add -
           sudo add-apt-repository 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main' -y
           sudo apt-get update -q
-          sudo apt-get install -y clang-9 lld-9 libc++-9-dev libc++abi-9-dev clang-tools-9 scons
+          sudo apt-get install -y clang-9 lld-9 libc++-9-dev libc++abi-9-dev clang-tools-9
         elif [[ ${{ matrix.config.os_short }} == 'macOS' ]]; then
           brew install gcc && brew link gcc && CXX=/usr/local/bin/g++-9
-          brew install openssl
+          brew install sdl2
         elif [[ ${{ matrix.config.os_short }} == 'Windows' ]]; then
           wget https://github.com/libtcod/libtcod/releases/download/1.16.0-alpha.15/libtcod-1.16.0-alpha.15-x86-msvc.zip
           unzip libtcod-1.16.0-alpha.15-x86-msvc.zip
           mv libtcod-1.16.0-alpha.15-x86-msvc tcod
         fi
         if [[ ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
+          sudo apt-get -yq libsdl2-dev scons
           wget https://github.com/libtcod/libtcod/archive/1.16.0-alpha.15.zip
           unzip 1.16.0-alpha.15.zip
           mv libtcod-1.16.0-alpha.15 tcod
