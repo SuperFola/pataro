@@ -12,5 +12,5 @@ Attacker::Attacker(float power) :
 
 Attacker* Attacker::clone_impl() const
 {
-    return new Attack(*this);
+    return new Attacker(*this);
 }

@@ -30,7 +30,7 @@ namespace pat::component
         inline std::unique_ptr<AI> clone() const { return std::unique_ptr<AI>(clone_impl()); }
 
     protected:
-        virtual AI* clone_impl() const;
+        virtual AI* clone_impl() const = 0;
     };
 }
 

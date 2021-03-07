@@ -6,6 +6,7 @@
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Container.hpp>
+#include <Pataro/Components/Use.hpp>
 
 #include <libtcod.hpp>
 
@@ -25,7 +26,7 @@ namespace pat
     class Entity
     {
     public:
-        static unsigned Id = 0;
+        static unsigned Id;
 
         /**
          * @brief Construct a new Entity object
@@ -107,10 +108,14 @@ namespace pat
         #define GET_COMPONENT(Type, name) inline component::Type* name() { return m_##name.get(); }
         #define SET_COMPONENT(name)       template <typename T, typename... Args> void set_##name(Args&&... args) { m_##name = std::make_unique<T>(std::forward<Args>(args)...); }
         #define GET_SET_CMPNT(Type, name) GET_COMPONENT(Type, name) SET_COMPONENT(name)
+
             GET_SET_CMPNT(Attacker, attacker)
             GET_SET_CMPNT(Destructible, destructible)
             GET_SET_CMPNT(AI, ai)
             GET_SET_CMPNT(Container, container)
+            GET_SET_CMPNT(Use, use)
+
+        #undef GET_SET_CMPNT
         #undef SET_COMPONENT
         #undef GET_COMPONENT
 
@@ -129,6 +134,7 @@ namespace pat
         std::unique_ptr<component::Destructible> m_destructible = nullptr;  ///< For destructible Entities
         std::unique_ptr<component::AI>           m_ai           = nullptr;  ///< For self updating Entities
         std::unique_ptr<component::Container>    m_container    = nullptr;  ///< Something that can contain Entities
+        std::unique_ptr<component::Use>          m_use          = nullptr;  ///< Something that can be used (create an action)
     };
 }
 

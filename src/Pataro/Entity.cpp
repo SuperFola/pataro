@@ -4,6 +4,8 @@
 
 using namespace pat;
 
+unsigned Entity::Id = 0;
+
 Entity::Entity(int x, int y, int ch, const std::string& name, const TCODColor& color) :
     m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
 {}
@@ -18,7 +20,7 @@ Entity::Entity(const Entity& other) :
     m_attacker(other.m_attacker ? other.m_attacker->clone() : nullptr),
     m_destructible(other.m_destructible ? other.m_destructible->clone() : nullptr),
     m_ai(other.m_ai ? other.m_ai->clone() : nullptr),
-    m_pickable(other.m_pickable ? other.m_pickable->clone() : nullptr),
+    m_use(other.m_use ? other.m_use->clone() : nullptr),
     m_container(other.m_container ? other.m_container->clone() : nullptr)
 {}
 
@@ -34,7 +36,7 @@ Entity& Entity::operator=(const Entity& other)
     m_attacker = other.m_attacker ? other.m_attacker->clone() : nullptr;
     m_destructible = other.m_destructible ? other.m_destructible->clone() : nullptr;
     m_ai = other.m_ai ? other.m_ai->clone() : nullptr;
-    m_pickable = other.m_pickable ? other.m_pickable->clone() : nullptr;
+    m_use = other.m_use ? other.m_use->clone() : nullptr;
     m_container = other.m_container ? other.m_container->clone() : nullptr;
 
     return *this;
