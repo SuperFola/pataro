@@ -27,6 +27,17 @@ namespace pat::component::details
         std::unique_ptr<pat::Action> update(Entity* owner, Engine* engine) override;
 
     protected:
+        /**
+         * @brief Handle keyboard actions
+         * 
+         * @param owner 
+         * @param engine 
+         * @param ascii 
+         * @return true if an action was performed
+         * @return false 
+         */
+        bool handle_action_key(Entity* owner, Engine* engine, int ascii);
+
         virtual PlayerAI* clone_impl() const override;
     };
 }
