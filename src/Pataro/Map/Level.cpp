@@ -164,6 +164,7 @@ void Level::remove(pat::Entity* entity)
     auto it = std::remove_if(m_entities.begin(), m_entities.end(), [&entity](const auto& entity_) -> bool {
         return entity_.get() == entity;
     });
+    m_entities.erase(it);
 }
 
 void Level::generate()

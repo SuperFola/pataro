@@ -23,8 +23,8 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
             if (m_source->container()->add(e.get()))
             {
                 found = true;
-                engine->get_map()->current_level().remove(e.get());
                 engine->get_gui()->message(TCODColor::lightGrey, "You pick up the ", e->get_name());
+                engine->get_map()->current_level().remove(e.get());
                 return pat::ActionResult::Success;
             }
             else if (!found)
