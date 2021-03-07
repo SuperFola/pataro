@@ -39,6 +39,13 @@ namespace pat
         {
             return A(std::forward<Args>(args)...).perform(engine);
         }
+
+        inline ActionResult alternate(Engine* engine, std::unique_ptr<Action>&& action)
+        {
+            if (action == nullptr)
+                return ActionResult::Fail;
+            return action->perform(engine);
+        }
     };
 }
 
