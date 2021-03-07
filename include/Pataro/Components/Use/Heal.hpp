@@ -17,10 +17,15 @@ namespace pat::component::details
     class HealUse : public Use
     {
     public:
+        /**
+         * @brief Construct a new Heal Use object
+         * 
+         * @param quantity health points to heal
+         */
         HealUse(float quantity);
 
     protected:
-        std::unique_ptr<Action> use(Entity* source, Engine* engine) override;
+        std::unique_ptr<Action> use(Entity* source, Entity* owner, Engine* engine) override;
 
         HealUse* clone_impl() const override;
 

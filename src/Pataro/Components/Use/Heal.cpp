@@ -10,9 +10,9 @@ HealUse::HealUse(float quantity) :
     m_quantity(quantity)
 {}
 
-std::unique_ptr<pat::Action> HealUse::use(pat::Entity* source, [[maybe_unused]] pat::Engine* engine)
+std::unique_ptr<pat::Action> HealUse::use(pat::Entity* source, pat::Entity* owner, [[maybe_unused]] pat::Engine* engine)
 {
-    return std::make_unique<pat::action::HealAction>(source, m_quantity);
+    return std::make_unique<pat::action::HealAction>(source, owner, m_quantity);
 }
 
 HealUse* HealUse::clone_impl() const

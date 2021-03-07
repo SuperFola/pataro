@@ -5,12 +5,12 @@
 
 using namespace pat::component;
 
-std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Engine* engine)
+std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
 {
     // can not use, the component is destroyed
     if (m_destroyed)
         return nullptr;
-    return use(source, engine);
+    return use(source, owner, engine);
 }
 
 bool Use::is_destroyed() const

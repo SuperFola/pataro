@@ -12,5 +12,8 @@ UseAction::UseAction(pat::Entity* owner, pat::Entity* object) :
 pat::ActionResult UseAction::perform(pat::Engine* engine)
 {
     // perform the action of the object itself
-    return alternate(engine, m_object->use()->perform(m_object, engine));
+    std::unique_ptr<Action> action = m_object->use()->perform(m_object, m_owner, engine);
+    if (action != nullptr)
+        return action->perform(engine);
+    return pat::ActionResult::Fail;
 }

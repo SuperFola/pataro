@@ -22,10 +22,11 @@ namespace pat::component
          * @brief Use the component if we can. First, checks if it was destroyed or not
          * 
          * @param source 
+         * @param owner the owner of the source object we are using
          * @param engine 
          * @return std::unique_ptr<Action> 
          */
-        std::unique_ptr<Action> perform(Entity* source, Engine* engine);
+        std::unique_ptr<Action> perform(Entity* source, Entity* owner, Engine* engine);
 
         /**
          * @brief Checks if the component is still usable
@@ -49,10 +50,11 @@ namespace pat::component
          * @details Must be implemented by the end user
          * 
          * @param source 
+         * @param owner the owner of the source object we are using
          * @param engine 
          * @return std::unique_ptr<Action> 
          */
-        virtual std::unique_ptr<Action> use(Entity* source, Engine* engine) = 0;
+        virtual std::unique_ptr<Action> use(Entity* source, Entity* owner, Engine* engine) = 0;
 
         virtual Use* clone_impl() const = 0;
 

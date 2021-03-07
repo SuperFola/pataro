@@ -18,9 +18,10 @@ namespace pat::action
          * @brief Construct a new Heal Action object
          * 
          * @param source 
+         * @param owner the entity to heal
          * @param quantity hp to heal
          */
-        HealAction(Entity* source, float quantity);
+        HealAction(Entity* source, Entity* owner, float quantity);
 
         /**
          * @brief Perform the healing
@@ -32,6 +33,7 @@ namespace pat::action
 
     private:
         Entity* m_source;
+        Entity* m_owner;
         float m_quantity;
     };
 }
