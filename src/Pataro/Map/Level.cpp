@@ -133,14 +133,14 @@ void Level::render(pat::Engine* engine)
 void Level::update(pat::Engine* engine)
 {
     // called once per new turn
-    for (const auto& entity : m_entities)
+    for (std::size_t i = 0; i < m_entities.size(); ++i)
     {
-        if (entity.get() != engine->get_player())
+        if (m_entities[i].get() != engine->get_player())
         {
-            entity->gain_energy();
-            if (entity->has_enough_energy())
+            m_entities[i]->gain_energy();
+            if (m_entities[i]->has_enough_energy())
             {
-                std::unique_ptr<pat::Action> action = entity->update(engine);
+                std::unique_ptr<pat::Action> action = m_entities[i]->update(engine);
                 if (action != nullptr)
                     action->perform(engine);
             }
