@@ -6,13 +6,13 @@
 
 using namespace pat::component::details;
 
-HealUse::HealUse(pat::Entity* source, float quantity) :
-    Use(source), m_quantity(quantity)
+HealUse::HealUse(float quantity) :
+    m_quantity(quantity)
 {}
 
-std::unique_ptr<pat::Action> HealUse::use([[maybe_unused]] pat::Engine* engine)
+std::unique_ptr<pat::Action> HealUse::use(pat::Entity* source, [[maybe_unused]] pat::Engine* engine)
 {
-    return std::make_unique<pat::action::HealAction>(m_source, m_quantity);
+    return std::make_unique<pat::action::HealAction>(source, m_quantity);
 }
 
 HealUse* HealUse::clone_impl() const

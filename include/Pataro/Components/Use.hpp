@@ -16,22 +16,16 @@ namespace pat::component
     class Use
     {
     public:
-        /**
-         * @brief Construct a new Use object
-         * 
-         * @param source the entity owning the component
-         */
-        Use(Entity* source);
-
         virtual ~Use() = default;
 
         /**
          * @brief Use the component if we can. First, checks if it was destroyed or not
          * 
+         * @param source 
          * @param engine 
          * @return std::unique_ptr<Action> 
          */
-        std::unique_ptr<Action> perform(Engine* engine);
+        std::unique_ptr<Action> perform(Entity* source, Engine* engine);
 
         /**
          * @brief Checks if the component is still usable
@@ -54,14 +48,13 @@ namespace pat::component
          * @brief The action it should perform
          * @details Must be implemented by the end user
          * 
+         * @param source 
          * @param engine 
          * @return std::unique_ptr<Action> 
          */
-        virtual std::unique_ptr<Action> use(Engine* engine) = 0;
+        virtual std::unique_ptr<Action> use(Entity* source, Engine* engine) = 0;
 
         virtual Use* clone_impl() const = 0;
-
-        Entity* m_source;
 
     private:
         bool m_destroyed = false;  ///< When equal to true, can not use it again
