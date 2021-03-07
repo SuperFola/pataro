@@ -2,6 +2,7 @@
 #define PATARO_ACTION_HPP
 
 #include <type_traits>
+#include <memory>
 
 namespace pat
 {
