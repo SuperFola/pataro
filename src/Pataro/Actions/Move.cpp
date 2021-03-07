@@ -42,7 +42,7 @@ pat::ActionResult MoveAction::perform(pat::Engine* engine)
         if (pat::Entity* e = engine->get_map()->get_entity(x + m_dx, y + m_dy); e != nullptr)
         {
             pat::component::Destructible* d = e->destructible();
-            if (d != nullptr && d->is_dead())
+            if ((d != nullptr && d->is_dead()) || e->use() != nullptr)
                 engine->get_gui()->message(TCODColor::lightGrey, "There is a ", e->get_name(), " here");
         }
     }
