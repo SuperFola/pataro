@@ -27,6 +27,21 @@ void Container::remove(pat::Entity* entity)
     });
 }
 
+const pat::Entity& Container::operator[](std::size_t index) const
+{
+    return m_inventory[index];
+}
+
+std::size_t Container::size() const
+{
+    return m_inventory.size();
+}
+
+std::size_t Container::capacity() const
+{
+    return m_max_size;
+}
+
 Container* Container::clone_impl() const
 {
     return new Container(*this);

@@ -21,9 +21,43 @@ namespace pat::component
          */
         Container(std::size_t size);
 
-        bool add(Entity* actor);
+        /**
+         * @brief Tries to add an entity (by copying it) to the container
+         * 
+         * @param entity 
+         * @return true if we could add it (enough space)
+         * @return false otherwise
+         */
+        bool add(Entity* entity);
 
-        void remove(Entity* actor);
+        /**
+         * @brief Remove an entity from the container (same id)
+         * 
+         * @param entity 
+         */
+        void remove(Entity* entity);
+
+        /**
+         * @brief Returns the entity at the given position
+         * 
+         * @param index 
+         * @return const Entity& 
+         */
+        const Entity& operator[](std::size_t index) const;
+
+        /**
+         * @brief Returns the current number of objects in the container
+         * 
+         * @return std::size_t 
+         */
+        std::size_t size() const;
+
+        /**
+         * @brief Returns the maximum capacity of the container
+         * 
+         * @return std::size_t 
+         */
+        std::size_t capacity() const;
 
         inline std::unique_ptr<Container> clone() const { return std::unique_ptr<Container>(clone_impl()); }
 
