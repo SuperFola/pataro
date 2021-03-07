@@ -39,6 +39,21 @@ namespace pat
         Entity(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
         /**
+         * @brief Construct a new Entity object
+         * 
+         * @param other 
+         */
+        Entity(const Entity& other);
+
+        /**
+         * @brief Copy an entity
+         * 
+         * @param other 
+         * @return Entity& 
+         */
+        Entity& operator=(const Entity& other);
+
+        /**
          * @brief Morph the Entity into... something else
          * 
          * @param ch 

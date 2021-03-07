@@ -8,6 +8,38 @@ Entity::Entity(int x, int y, int ch, const std::string& name, const TCODColor& c
     m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
 {}
 
+Entity::Entity(const Entity& other) :
+    m_id(other.m_id),
+    m_x(other.m_x), m_y(other.m_y),
+    m_ch(other.m_ch),
+    m_name(other.m_name),
+    m_color(other.m_color),
+    m_blocks(other.m_blocks),
+    m_attacker(other.m_attacker ? other.m_attacker->clone() : nullptr),
+    m_destructible(other.m_destructible ? other.m_destructible->clone() : nullptr),
+    m_ai(other.m_ai ? other.m_ai->clone() : nullptr),
+    m_pickable(other.m_pickable ? other.m_pickable->clone() : nullptr),
+    m_container(other.m_container ? other.m_container->clone() : nullptr)
+{}
+
+Entity& Entity::operator=(const Entity& other)
+{
+    m_id = other.m_id;
+    m_x = other.m_x;
+    m_y = other.m_y;
+    m_ch = other.m_ch;
+    m_name = other.m_name;
+    m_color = other.m_color;
+    m_blocks = other.m_blocks;
+    m_attacker = other.m_attacker ? other.m_attacker->clone() : nullptr;
+    m_destructible = other.m_destructible ? other.m_destructible->clone() : nullptr;
+    m_ai = other.m_ai ? other.m_ai->clone() : nullptr;
+    m_pickable = other.m_pickable ? other.m_pickable->clone() : nullptr;
+    m_container = other.m_container ? other.m_container->clone() : nullptr;
+
+    return *this;
+}
+
 void Entity::morph_into(int ch, const std::string& name, const TCODColor& color)
 {
     m_ch = ch;
