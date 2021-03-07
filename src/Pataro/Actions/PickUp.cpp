@@ -10,15 +10,14 @@ PickUpAction::PickUpAction(pat::Entity* source, int x, int y) :
     m_source(source), m_x(x), m_y(y)
 {}
 
+// FIXME it will only work for the player (in the GUI, using pronoun 'you')
 pat::ActionResult PickUpAction::perform(pat::Engine* engine)
 {
     bool found = false;
 
     for (const auto& e : engine->get_map()->current_level().get_entities())
     {
-        if (component::Use* u = e->use(); u != nullptr
-            && e->get_x() == m_source->get_x()
-            && e->get_y() == m_source->get_y())
+        if (component::Use* u = e->use(); u != nullptr && e->get_x() == m_x && e->get_y() == m_y)
         {
             // try to pick up the object
             if (m_source->container()->add(e.get()))
