@@ -25,6 +25,7 @@ void Container::remove(pat::Entity* entity)
     auto it = std::remove_if(m_inventory.begin(), m_inventory.end(), [entity](const Entity& e) -> bool {
         return entity->id() == e.id();
     });
+    m_inventory.erase(it);
 }
 
 const pat::Entity& Container::operator[](std::size_t index) const

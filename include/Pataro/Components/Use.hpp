@@ -29,18 +29,10 @@ namespace pat::component
         std::unique_ptr<Action> perform(Entity* source, Entity* owner, Engine* engine);
 
         /**
-         * @brief Checks if the component is still usable
-         * 
-         * @return true 
-         * @return false 
-         */
-        bool is_destroyed() const;
-
-        /**
-         * @brief Mark the component to know that we can't use it again
+         * @brief Remove from container
          * 
          */
-        void mark_destroyed();
+        void remove_from_container(Entity* owner, Entity* source);
 
         inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
 

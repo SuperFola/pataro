@@ -13,12 +13,7 @@ std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Entity* owne
     return use(source, owner, engine);
 }
 
-bool Use::is_destroyed() const
+void Use::remove_from_container(pat::Entity* owner, pat::Entity* source)
 {
-    return m_destroyed;
-}
-
-void Use::mark_destroyed()
-{
-    m_destroyed = true;
+    owner->container()->remove(source);
 }

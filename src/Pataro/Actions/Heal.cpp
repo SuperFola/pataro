@@ -18,7 +18,7 @@ pat::ActionResult HealAction::perform(pat::Engine* engine)
         engine->get_gui()->message(TCODColor::lightGreen, m_owner->get_name(), " healed ", healed, "HP");
 
         if (healed > 0.f)
-            m_source->use()->mark_destroyed();
+            m_source->use()->remove_from_container(m_owner, m_source);
 
         return pat::ActionResult::Success;
     }
