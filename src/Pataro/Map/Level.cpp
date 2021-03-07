@@ -228,21 +228,22 @@ void Level::create_room(int x1, int y1, int x2, int y2)
     int nb_monsters = rng->getInt(0, details::max_room_monsters);
     int nb_items    = rng->getInt(0, details::max_room_items);
 
-    while (nb_monsters > 0)
+    while (nb_monsters + nb_items > 0)
     {
         int x = rng->getInt(x1, x2);
         int y = rng->getInt(y1, y2);
-        if (can_walk(x, y))
-            m_entities.emplace_back(m_factory.get_random_monster(x, y));
-        --nb_monsters;
-    }
 
-    while (nb_items > 0)
-    {
-        int x = rng->getInt(x1, x2);
-        int y = rng->getInt(y1, y2);
         if (can_walk(x, y))
-            m_entities.emplace_back(m_factory.get_random_item(x, y));
-        --nb_items;
+        {
+            if (nb_monsters > 0)
+                m_entities.emplace_back(m_factory.get_random_monster(x, y));
+            else if (nb_items > 0)
+                m_entities.emplace_back(m_factory.get_random_item(x, y));
+        }
+
+        if (nb_monsters > 0)
+            --nb_monsters;
+        else if (nb_items > 0)
+            --nb_items;
     }
 }
