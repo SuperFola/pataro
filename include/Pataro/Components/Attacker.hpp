@@ -23,6 +23,11 @@ namespace pat::component
 
         inline float power() const { return m_power; }
 
+        inline std::unique_ptr<Attacker> clone() const { return std::unique_ptr<Attacker>(clone_impl()); }
+
+    protected:
+        virtual Attacker* clone_impl() const;
+
     private:
         float m_power;
     };

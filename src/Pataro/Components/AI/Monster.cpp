@@ -37,6 +37,11 @@ std::unique_ptr<pat::Action> MonsterAI::update(pat::Entity* owner, pat::Engine* 
     return nullptr;
 }
 
+MonsterAI* MonsterAI::clone_impl() const
+{
+    return new MonsterAI(*this);
+}
+
 std::unique_ptr<pat::Action> MonsterAI::move_or_attack(pat::Entity* owner, int xf, int yf, pat::Engine* engine)
 {
     int x = owner->get_x(),

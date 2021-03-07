@@ -25,6 +25,9 @@ namespace pat::component::details
          * @return std::unique_ptr<Action> 
          */
         std::unique_ptr<pat::Action> update(Entity* owner, Engine* engine) override;
+
+    protected:
+        virtual PlayerAI* clone_impl() const override;
     };
 }
 

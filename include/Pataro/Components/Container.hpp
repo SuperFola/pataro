@@ -25,6 +25,11 @@ namespace pat::component
 
         void remove(Entity* actor);
 
+        inline std::unique_ptr<Container> clone() const { return std::unique_ptr<Container>(clone_impl()); }
+
+    protected:
+        virtual Container* clone_impl() const;
+
     private:
         std::size_t m_max_size;
         std::vector<Entity> m_inventory;

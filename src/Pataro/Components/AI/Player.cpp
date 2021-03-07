@@ -36,3 +36,8 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
 
     return nullptr;
 }
+
+PlayerAI* PlayerAI::clone_impl() const
+{
+    return new PlayerAI(*this);
+}

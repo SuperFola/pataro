@@ -9,3 +9,8 @@ using namespace pat::component;
 Attacker::Attacker(float power) :
     m_power(power)
 {}
+
+Attacker* Attacker::clone_impl() const
+{
+    return new Attack(*this);
+}

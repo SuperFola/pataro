@@ -25,6 +25,8 @@ namespace pat
     class Entity
     {
     public:
+        static unsigned Id = 0;
+
         /**
          * @brief Construct a new Entity object
          * 
@@ -75,6 +77,7 @@ namespace pat
          */
         bool has_enough_energy() const;
 
+        inline unsigned id() const { return m_id; }
         inline int  get_x() const { return m_x; }
         inline int  get_y() const { return m_y; }
 
@@ -97,6 +100,7 @@ namespace pat
         #undef GET_COMPONENT
 
     private:
+        unsigned m_id;
         int m_x, m_y;       ///< Position of the Entity on the map
         int m_ch;           ///< ascii character representing the Entity
         std::string m_name;

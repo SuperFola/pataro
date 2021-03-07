@@ -61,6 +61,11 @@ namespace pat::component
         inline float hp()      { return m_hp; }
         inline float defense() { return m_defense; }
 
+        inline std::unique_ptr<Destructible> clone() const { return std::unique_ptr<Destructible>(clone_impl()); }
+
+    protected:
+        virtual Destructible* clone_impl() const;
+
     private:
         float m_max_hp, m_hp;
         float m_defense;

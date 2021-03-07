@@ -5,7 +5,7 @@
 using namespace pat;
 
 Entity::Entity(int x, int y, int ch, const std::string& name, const TCODColor& color) :
-    m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
+    m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
 {}
 
 void Entity::morph_into(int ch, const std::string& name, const TCODColor& color)

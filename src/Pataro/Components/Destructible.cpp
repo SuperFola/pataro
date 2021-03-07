@@ -42,3 +42,8 @@ float Destructible::heal(float amount)
     }
     return amount;
 }
+
+Destructible* Destructible::clone_impl() const
+{
+    return new Destructible(*this);
+}
