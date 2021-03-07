@@ -87,7 +87,7 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
 
     for (std::size_t i = 0, end = c.size(); i < end; ++i)
     {
-        con.print(2, y, "(%c) %s", 'a' + y - 1, c[i].get_name().c_str());
+        con.printf(2, y, "(%c) %s", 'a' + y - 1, c[i].get_name().c_str());
         y++;
     }
 
