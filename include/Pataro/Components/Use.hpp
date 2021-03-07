@@ -26,20 +26,45 @@ namespace pat::component
         virtual ~Use() = default;
 
         /**
-         * @brief The action it should perform
+         * @brief Use the component if we can. First, checks if it was destroyed or not
          * 
          * @param engine 
          * @return std::unique_ptr<Action> 
          */
-        virtual std::unique_ptr<Action> operator()(Engine* engine);
+        std::unique_ptr<Action> perform(Engine* engine);
+
+        /**
+         * @brief Checks if the component is still usable
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool is_destroyed() const;
+
+        /**
+         * @brief Mark the component to know that we can't use it again
+         * 
+         */
+        void mark_destroyed();
 
         inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
 
     protected:
-        virtual Use* clone_impl() const;
+        /**
+         * @brief The action it should perform
+         * @details Must be implemented by the end user
+         * 
+         * @param engine 
+         * @return std::unique_ptr<Action> 
+         */
+        virtual std::unique_ptr<Action> use(Engine* engine) = 0;
 
-    protected:
+        virtual Use* clone_impl() const = 0;
+
         Entity* m_source;
+
+    private:
+        bool m_destroyed = false;  ///< When equal to true, can not use it again
     };
 }
 

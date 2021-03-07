@@ -17,6 +17,9 @@ pat::ActionResult HealAction::perform(pat::Engine* engine)
         float healed = d->heal(m_quantity);
         engine->get_gui()->message(TCODColor::lightGreen, m_source->get_name(), " healed ", healed, "HP");
 
+        if (healed > 0.f)
+            m_source->use()->mark_destroyed();
+
         return pat::ActionResult::Success;
     }
     return pat::ActionResult::Fail;

@@ -19,9 +19,9 @@ namespace pat::component::details
     public:
         HealUse(Entity* source, float quantity);
 
-        std::unique_ptr<Action> operator()(Engine* engine) override;
-
     protected:
+        std::unique_ptr<Action> use(Engine* engine) override;
+
         HealUse* clone_impl() const override;
 
     private:
