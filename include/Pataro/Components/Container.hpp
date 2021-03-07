@@ -46,6 +46,14 @@ namespace pat::component
         const Entity& operator[](std::size_t index) const;
 
         /**
+         * @brief Returns a pointer to the object at the given index
+         * 
+         * @param index 
+         * @return Entity* 
+         */
+        Entity* ptr_at(std::size_t index);
+
+        /**
          * @brief Returns the current number of objects in the container
          * 
          * @return std::size_t 

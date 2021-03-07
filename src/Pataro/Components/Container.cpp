@@ -32,6 +32,11 @@ const pat::Entity& Container::operator[](std::size_t index) const
     return m_inventory[index];
 }
 
+pat::Entity* Container::ptr_at(std::size_t index)
+{
+    return &m_inventory[index];
+}
+
 std::size_t Container::size() const
 {
     return m_inventory.size();
