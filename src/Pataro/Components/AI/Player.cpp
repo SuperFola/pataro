@@ -3,9 +3,11 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
-#include <Pataro/Components/Use.hpp>
+#include <Pataro/Components/Container.hpp>
 #include <Pataro/Actions/Move.hpp>
 #include <Pataro/Actions/Attack.hpp>
+#include <Pataro/Actions/PickUp.hpp>
+#include <Pataro/Actions/Use.hpp>
 
 using namespace pat::component::details;
 
@@ -17,90 +19,98 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
 
     int dx = 0,
         dy = 0;
-    bool action = false;
+    std::unique_ptr<pat::Action> action;
 
     switch (engine->lastkey().vk)
     {
-        case TCODK_UP:
-            --dy;
-            action = true;
-            break;
-
-        case TCODK_DOWN:
-            ++dy;
-            action = true;
-            break;
-
-        case TCODK_LEFT:
-            --dx;
-            action = true;
-            break;
-
-        case TCODK_RIGHT:
-            ++dx;
-            action = true;
-            break;
-
+        case TCODK_UP:    --dy; break;
+        case TCODK_DOWN:  ++dy; break;
+        case TCODK_LEFT:  --dx; break;
+        case TCODK_RIGHT: ++dx; break;
 
         case TCODK_CHAR:
-            handle_action_key(owner, engine, engine->lastkey().c);
-            action = true;
+            action = handle_action_key(owner, engine, engine->lastkey().c);
             break;
 
         default:
             break;
     }
 
-    if (action)
+    if (dy != 0 || dx != 0)
     {
         engine->change_state(pat::GameState::NewTurn);
-
-        if (dy != 0 || dx != 0)
-            return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+        return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+    }
+    else if (action)
+    {
+        engine->change_state(pat::GameState::NewTurn);
+        return action;
     }
 
     return nullptr;
 }
 
-bool PlayerAI::handle_action_key(pat::Entity* owner, pat::Engine* engine, int ascii)
+std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat::Engine* engine, int ascii)
 {
     switch (ascii)
     {
         // pick an item
         case 'g':
+            return std::make_unique<pat::action::PickUpAction>(owner, owner->get_x(), owner->get_y());
+
+        // display inventory
+        case 'i':
         {
-            bool found = false;
-            for (const auto& e : engine->get_map()->current_level().get_entities())
-            {
-                if (Use* u = e->use(); u != nullptr
-                    && e->get_x() == owner->get_x()
-                    && e->get_y() == owner->get_y())
-                {
-                    // try to pick up the object
-                    if (owner->container()->add(e.get()))
-                    {
-                        found = true;
-                        engine->get_gui()->message(TCODColor::lightGrey, "You pick up the ", e->get_name());
-                    }
-                    else if (!found)
-                    {
-                        // we found an object but couldn't pick it up
-                        found = true;
-                        engine->get_gui()->message(TCODColor::red, "Your inventory is full.");
-                    }
-                }
-
-                if (found)
-                    break;
-            }
-
-            if (!found)
-                engine->get_gui()->message(TCODColor::lightGrey, "There's nothing here that you can pick up");
-            return true;
+            Entity* e = choose_from_inventory(owner, engine);
+            if (e != nullptr)
+                return std::make_unique<pat::action::UseAction>(owner, e);
+            break;
         }
     }
 
-    return false;
+    return nullptr;
+}
+
+pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* engine)
+{
+    // TODO put this in Pataro/Gui/Inventory
+    static const int INVENTORY_WIDTH = 50,
+                     INVENTORY_HEIGHT = 28;
+    static TCODConsole con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
+    con.setDefaultForeground(TCODColor(200, 180, 50));
+    con.printFrame(0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT, true, TCOD_BKGND_DEFAULT, "inventory");
+
+    // display the items with their keyboard shortcut
+    con.setDefaultForeground(TCODColor::white);
+    int y = 1;
+    Container& c = *owner->container();
+
+    for (std::size_t i = 0, end = c.size(); i < end; ++i)
+    {
+        con.print(2, y, "(%c) %s", 'a' + y - 1, c[i].get_name());
+        y++;
+    }
+
+    TCODConsole::blit(
+        &con, 0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT,
+        TCODConsole::root,
+        engine->width() / 2 - INVENTORY_WIDTH / 2,
+        engine->height() / 2 - INVENTORY_HEIGHT / 2
+    );
+    TCODConsole::flush();
+
+    // wait for a key press
+    TCOD_key_t key;
+    TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr, true);
+
+    if (key.vk == TCODK_CHAR)
+    {
+        int idx = key.c - 'a';
+        if (0 <= idx && idx < c.size())
+            return c.ptr_at(idx);
+    }
+
+    return nullptr;
 }
 
 PlayerAI* PlayerAI::clone_impl() const

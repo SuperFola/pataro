@@ -33,10 +33,18 @@ namespace pat::component::details
          * @param owner 
          * @param engine 
          * @param ascii 
-         * @return true if an action was performed
-         * @return false 
+         * @return std::unique_ptr<pat::Action> 
          */
-        bool handle_action_key(Entity* owner, Engine* engine, int ascii);
+        std::unique_ptr<pat::Action> handle_action_key(Entity* owner, Engine* engine, int ascii);
+
+        /**
+         * @brief Prompts the player to select an object in its inventory
+         * 
+         * @param owner 
+         * @param engine 
+         * @return Entity* nullptr if nothing selected
+         */
+        Entity* choose_from_inventory(Entity* owner, Engine* engine);
 
         virtual PlayerAI* clone_impl() const override;
     };
