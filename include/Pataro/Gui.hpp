@@ -43,12 +43,11 @@ namespace pat
         {
             std::ostringstream oss;
             ((oss << std::forward<Args>(args)), ...);
+            std::string out = oss.str();
 
             // always ensure we still have place
             if (m_log.size() >= m_height - 1)
                 m_log.erase(m_log.begin());
-
-            std::string out = oss.str();
 
             if (out.find('\n') == std::string::npos)
                 m_log.emplace_back(out, color);
@@ -66,6 +65,9 @@ namespace pat
                     m_log.emplace_back(out.substr(0, pos - 1), color);
                     out = out.substr(pos + 1);
                 }
+
+                while (m_log.size() >= m_height - 1)
+                    m_log.erase(m_log.begin());
             }
         }
 
