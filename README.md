@@ -33,8 +33,8 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 - [ ] transitionning from libtcod event system to SDL event system
 - [x] the world map moves with the player
 - [x] GUI about the player, events...
-- [ ] inventory GUI
-- [ ] items handling, generation and spawn
+- [x] inventory GUI
+- [x] items handling, generation and spawn
 - [ ] spells and ranged combat
 - [ ] travelling between levels / floors
 - [ ] saving player progress on a given map + level
