@@ -49,15 +49,24 @@ namespace pat
                 m_log.erase(m_log.begin());
 
             std::string out = oss.str();
-            do
-            {
-                std::size_t pos = out.find('\n');
-                m_log.emplace_back(out.substr(0, pos), color);
 
-                if (pos != std::string::npos)
-                    out = out.substr(pos);
-            } while (out.find('\n') != std::string::npos);
-            // TODO check that the string isn't longer than the GUI display width
+            if (out.find('\n') == std::string::npos)
+                m_log.emplace_back(out, color);
+            else
+            {
+                while (true)
+                {
+                    std::size_t pos = out.find('\n');
+                    if (pos == std::string::npos)
+                    {
+                        m_log.emplace_back(out, color);
+                        break;
+                    }
+
+                    m_log.emplace_back(out.substr(0, pos - 1), color);
+                    out = out.substr(pos + 1);
+                }
+            }
         }
 
         inline unsigned get_width()  { return m_width; }
