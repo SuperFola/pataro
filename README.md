@@ -19,8 +19,10 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 
 ## Controls
 
-- Move/attack with the arrows
-- Take a screenshot with F3
+- Move/attack with the arrows (`up`, `down`, `left`, `right`)
+- Take a screenshot with `F3`
+- Collect objects with `g`
+- Open the inventory with `i`
 
 ## Roadmap
 
