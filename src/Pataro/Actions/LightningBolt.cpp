@@ -23,4 +23,6 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     closest->destructible()->take_damage(closest, m_damage, engine);
     // destroy the object, we used it
     m_source->use()->remove_from_container(m_owner, m_source);
+
+    return pat::ActionResult::Success;
 }
