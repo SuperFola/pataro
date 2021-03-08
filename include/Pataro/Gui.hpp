@@ -45,10 +45,6 @@ namespace pat
             ((oss << std::forward<Args>(args)), ...);
             std::string out = oss.str();
 
-            // always ensure we still have place
-            if (m_log.size() >= m_height - 1)
-                m_log.erase(m_log.begin());
-
             if (out.find('\n') == std::string::npos)
                 m_log.emplace_back(out, color);
             else
@@ -65,10 +61,11 @@ namespace pat
                     m_log.emplace_back(out.substr(0, pos - 1), color);
                     out = out.substr(pos + 1);
                 }
-
-                while (m_log.size() >= m_height - 1)
-                    m_log.erase(m_log.begin());
             }
+
+            // always ensure we still have place
+            while (m_log.size() >= m_height - 1)
+                m_log.erase(m_log.begin());
         }
 
         inline unsigned get_width()  { return m_width; }
