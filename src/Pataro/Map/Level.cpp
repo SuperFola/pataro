@@ -5,6 +5,7 @@
 #include <Pataro/Map.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
+#include <Pataro/Utils.hpp>
 
 #include <algorithm>
 
@@ -65,6 +66,32 @@ pat::Entity* Level::get_entity(int x, int y) const
         }
     }
     return possibility;
+}
+
+pat::Entity* Level::get_closest_monster(pat::Entity* from, float range) const
+{
+    Entity* closest = nullptr;
+    float best_distance = 1e6f;
+
+    for (const auto& entity : m_entities)
+    {
+        if (component::Destructible* d = entity->destructible(); entity.get() != from
+            && d != nullptr && !d->is_dead())
+        {
+            float dist = static_cast<float>(pat::details::get_manhattan_distance(
+                from->get_x(), from->get_y(),
+                entity->get_x(), entity->get_y()
+            ));
+
+            if (dist < best_distance && (dist <= range || range == 0.f))
+            {
+                best_distance = dist;
+                closest = entity.get();
+            }
+        }
+    }
+
+    return closest;
 }
 
 bool Level::is_in_fov(int x, int y)

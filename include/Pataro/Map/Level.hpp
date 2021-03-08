@@ -72,6 +72,15 @@ namespace pat::map
         Entity* get_entity(int x, int y) const;
 
         /**
+         * @brief Returns the closest monster to a given entity in a given range
+         * 
+         * @param from 
+         * @param range 
+         * @return Entity* 
+         */
+        Entity* get_closest_monster(Entity* from, float range) const;
+
+        /**
          * @brief Check if a tile is in the field of view
          * 
          * @param x 

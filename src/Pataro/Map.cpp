@@ -33,6 +33,11 @@ pat::Entity* Map::get_entity(int x, int y) const
     return m_levels[m_current].get_entity(x, y);
 }
 
+pat::Entity* Map::get_closest_monster(pat::Entity* from, float range) const
+{
+    return m_levels[m_current].get_closest_monster(from, range);
+}
+
 void Map::compute_fov(int x, int y, int fov_radius)
 {
     m_levels[m_current].compute_fov(x, y, fov_radius);
