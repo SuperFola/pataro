@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <string.h>
+#include <cmath>
 
 namespace pat::details
 {
@@ -19,5 +20,10 @@ namespace pat::details
         strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &time_struct);
 
         return std::string(buffer, strlen(buffer));
+    }
+
+    unsigned get_manhattan_distance(int x1, int y1, int x2, int y2)
+    {
+        return std::abs(x2 - x1) + std::abs(y2 - y1);
     }
 }
