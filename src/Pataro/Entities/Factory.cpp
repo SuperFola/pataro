@@ -4,6 +4,7 @@
 #include <Pataro/Components/Destructible/Monster.hpp>
 #include <Pataro/Components/AI/Monster.hpp>
 #include <Pataro/Components/Use/Heal.hpp>
+#include <Pataro/Components/Use/LightningBolt.hpp>
 
 #include <cmath>
 
@@ -16,11 +17,11 @@ Factory::Factory() :
 std::shared_ptr<pat::Entity> Factory::get_random_monster(int x, int y, float difficulty)
 {
     std::shared_ptr<Entity> entity;
-
     float biaised_difficulty = std::sqrt(difficulty);
+    int rdm = m_rng->getInt(0, 100);
 
     // create an orc
-    if (m_rng->getInt(0, 100) < 80)
+    if (rdm < 80)
     {
         entity = std::make_shared<Entity>(x, y, 'o', "orc", TCODColor::desaturatedGreen);
         entity->set_attacker<component::Attacker>(
@@ -54,10 +55,20 @@ std::shared_ptr<pat::Entity> Factory::get_random_monster(int x, int y, float dif
 std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
 {
     std::shared_ptr<Entity> entity;
+    int rdm = m_rng->getInt(0, 100);
 
-    entity = std::make_shared<Entity>(x, y, '!', "Health potion", TCODColor::violet);
-    entity->set_blocking(false);
-    entity->set_use<component::details::HealUse>(4.f);
+    if (rdm < 70)
+    {
+        entity = std::make_shared<Entity>(x, y, '!', "Health potion", TCODColor::violet);
+        entity->set_blocking(false);
+        entity->set_use<component::details::HealUse>(4.f);
+    }
+    else //if (rdm < 80)
+    {
+        entity = std::make_shared<Entity>(x, y, '7', "Scroll of lightning bolt", TCODColor::darkOrange);
+        entity->set_blocking(false);
+        entity->set_use<component::details::LightningBoltUse>(5.f, 20.f);
+    }
 
     return entity;
 }
