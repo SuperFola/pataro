@@ -48,8 +48,16 @@ namespace pat
             if (m_log.size() >= m_height - 1)
                 m_log.erase(m_log.begin());
 
+            std::string out = oss.str();
+            do
+            {
+                std::size_t pos = out.find('\n');
+                m_log.emplace_back(out.substr(0, pos), color);
+
+                if (pos != std::string::npos)
+                    out = out.substr(pos);
+            } while (out.find('\n') != std::string::npos);
             // TODO check that the string isn't longer than the GUI display width
-            m_log.emplace_back(oss.str(), color);
         }
 
         inline unsigned get_width()  { return m_width; }
