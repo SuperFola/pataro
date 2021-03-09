@@ -34,13 +34,13 @@ void Animation::update(float dt)
 {
     // we have executed everything
     if (m_current >= m_sequence.size())
-    {
-        m_source->morph_into(m_prev_ch, m_prev_color);
         return;
-    }
 
     if (m_sequence[m_current](dt, m_source))
         m_current++;
+
+    if (is_finished())
+        m_source->morph_into(m_prev_ch, m_prev_color);
 }
 
 bool Animation::is_finished() const
