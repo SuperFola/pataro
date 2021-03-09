@@ -6,6 +6,7 @@
 namespace pat
 {
     class Entity;
+    class Engine;
 }
 
 namespace pat::animation
@@ -29,10 +30,11 @@ namespace pat::animation
          * 
          * @param dt 
          * @param source 
+         * @param engine 
          * @return true if the animation is finally done
          * @return false if it should remain the current frame
          */
-        bool operator()(float dt, Entity* source);
+        bool operator()(float dt, Entity* source, Engine* engine);
 
     private:
         float m_duration;

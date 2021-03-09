@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Animation.hpp>
 
 using namespace pat::action;
 
@@ -23,6 +24,17 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     closest->destructible()->take_damage(closest, m_damage, engine);
     // destroy the object, we used it
     m_source->use()->remove_from_container(m_owner, m_source);
+    // add an animation
+    engine->attach(
+        pat::Animation(closest)
+            .after(0.2f, [](pat::Entity* source){
+                source->morph_into('7', source->get_name(), TCODColor::lightBlue);
+            })
+            .after(0.2f, [](pat::Entity* source){
+                source->morph_into('7', source->get_name(), TCODColor::darkBlue);
+            })
+            .repeat(1)
+    );
 
     return pat::ActionResult::Success;
 }

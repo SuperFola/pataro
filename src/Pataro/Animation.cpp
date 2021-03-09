@@ -1,6 +1,7 @@
 #include <Pataro/Animation.hpp>
 
 #include <Pataro/Entity.hpp>
+#include <Pataro/Engine.hpp>
 
 using namespace pat;
 
@@ -30,12 +31,17 @@ Animation& Animation::loop_for(float duration, animation::Frame::Op_t&& operatio
     return *this;
 }
 
-void Animation::update(float dt)
+void Animation::update(float dt, Engine* engine)
 {
     // we have executed everything
     if (m_current >= m_sequence.size())
         return;
 
-    if (m_sequence[m_current](dt, m_source))
+    if (m_sequence[m_current](dt, m_source, engine))
         m_current++;
+}
+
+bool Animation::is_finished() const
+{
+    return m_current >= m_sequence.size();
 }

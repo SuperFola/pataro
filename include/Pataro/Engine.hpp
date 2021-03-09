@@ -8,6 +8,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
+#include <Pataro/Animation.hpp>
 
 namespace pat
 {
@@ -53,6 +54,13 @@ namespace pat
          */
         bool is_running() const;
 
+        /**
+         * @brief Attach an animation to the engine
+         * 
+         * @param animation 
+         */
+        void attach(const Animation& animation);
+
         inline unsigned width()  { return m_width; }
         inline unsigned height() { return m_height; }
 
@@ -73,6 +81,7 @@ namespace pat
         std::shared_ptr<Entity> m_player;  ///< Pointer shared between the levels and the engine
         std::unique_ptr<Map> m_map;
         std::unique_ptr<Gui> m_gui;
+        std::vector<Animation> m_animations;
     };
 }
 

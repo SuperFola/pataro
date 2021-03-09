@@ -71,9 +71,14 @@ void Engine::update()
 
 void Engine::render()
 {
+    float dt = TCODSystem::getLastFrameLength();
     TCODConsole::root->clear();
 
     m_map->render(this);
+
+    for (Animation& anim : m_animations)
+        anim.update(dt, this);
+
     m_gui->render(this, TCODConsole::root, 0, m_height - m_gui->get_height());
 
     TCODConsole::flush();
@@ -82,4 +87,9 @@ void Engine::render()
 bool Engine::is_running() const
 {
     return !TCODConsole::isWindowClosed();
+}
+
+void Engine::attach(const Animation& animation)
+{
+    m_animations.push_back(animation);
 }

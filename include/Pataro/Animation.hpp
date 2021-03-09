@@ -8,6 +8,7 @@
 namespace pat
 {
     class Entity;
+    class Engine;
 
     class Animation
     {
@@ -49,8 +50,17 @@ namespace pat
          * @brief Run the animation
          * 
          * @param dt 
+         * @param engine 
          */
-        void update(float dt);
+        void update(float dt, Engine* engine);
+
+        /**
+         * @brief Check if the animation is finished or not
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool is_finished() const;
 
     private:
         std::size_t m_current = 0;
