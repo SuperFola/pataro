@@ -16,8 +16,8 @@
 
 using namespace pat;
 
-Engine::Engine(unsigned width, unsigned height, const std::string& title) :
-    m_width(width), m_height(height)
+Engine::Engine(unsigned width, unsigned height, const std::string& title, bool show_debug) :
+    m_width(width), m_height(height), m_show_debug(show_debug)
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
@@ -75,6 +75,12 @@ void Engine::render()
 
     m_map->render(this);
     m_gui->render(this, TCODConsole::root, 0, m_height - m_gui->get_height());
+
+    if (m_show_debug)
+    {
+        TCODConsole::root->setDefaultForeground(TCODColor::white);
+        TCODConsole::root->printf(0, 0, "%.2f", 1.f / TCODSystem::getLastFrameLength());
+    }
 
     TCODConsole::flush();
 }

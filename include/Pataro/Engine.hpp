@@ -29,8 +29,9 @@ namespace pat
          * @param width width of the window
          * @param height height of the window
          * @param title title of the window
+         * @param show_debug default: false. Show debug gui
          */
-        Engine(unsigned width, unsigned height, const std::string& title);
+        Engine(unsigned width, unsigned height, const std::string& title, bool show_debug = false);
 
         /**
          * @brief move the player around
@@ -65,6 +66,7 @@ namespace pat
 
     private:
         unsigned m_width, m_height;
+        bool m_show_debug;
         TCOD_key_t m_lastkey;
         TCOD_mouse_t m_mouse;
 
