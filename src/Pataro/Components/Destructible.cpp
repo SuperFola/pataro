@@ -28,7 +28,8 @@ float Destructible::take_damage(pat::Entity* owner, float damage, pat::Engine* e
 
 void Destructible::die(pat::Entity* owner, [[maybe_unused]] pat::Engine* engine)
 {
-    owner->morph_into('%', m_corpse_name, TCODColor::darkRed);
+    owner->morph_into('%', TCODColor::darkRed);
+    owner->set_name(m_corpse_name);
     owner->set_blocking(false);
 }
 

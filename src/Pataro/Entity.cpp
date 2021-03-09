@@ -42,15 +42,22 @@ Entity& Entity::operator=(const Entity& other)
     return *this;
 }
 
-void Entity::morph_into(int ch, const std::string& name, const TCODColor& color)
+void Entity::morph_into(int ch, const TCODColor& color)
 {
     m_ch = ch;
-    m_name = name;
     m_color = color;
 }
 
 void Entity::render(int dx, int dy) const
 {
+    if (m_animation)
+    {
+        float dt = TCODSystem::getLastFrameLength();
+        m_animation->update(dt);
+        if (m_animation->is_finished())
+            m_animation.reset(nullptr);
+    }
+
     TCODConsole::root->setChar(m_x - dx, m_y - dy, m_ch);
     TCODConsole::root->setCharForeground(m_x - dx, m_y - dy, m_color);
 }
@@ -70,6 +77,11 @@ void Entity::gain_energy()
 bool Entity::has_enough_energy() const
 {
     return m_energy >= 1.f;
+}
+
+void Entity::set_animation(const Animation& anim)
+{
+    m_animation = std::make_unique<Animation>(anim);
 }
 
 void Entity::put_at(int x, int y)

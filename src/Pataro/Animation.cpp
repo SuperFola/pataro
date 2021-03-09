@@ -1,12 +1,11 @@
 #include <Pataro/Animation.hpp>
 
 #include <Pataro/Entity.hpp>
-#include <Pataro/Engine.hpp>
 
 using namespace pat;
 
 Animation::Animation(Entity* source) :
-    m_source(source)
+    m_source(source), m_prev_ch(source->m_ch), m_prev_color(source->m_color)
 {}
 
 Animation& Animation::after(float duration, animation::Frame::Op_t&& operation)
@@ -31,13 +30,16 @@ Animation& Animation::loop_for(float duration, animation::Frame::Op_t&& operatio
     return *this;
 }
 
-void Animation::update(float dt, Engine* engine)
+void Animation::update(float dt)
 {
     // we have executed everything
     if (m_current >= m_sequence.size())
+    {
+        m_source->morph_into(m_prev_ch, m_prev_color);
         return;
+    }
 
-    if (m_sequence[m_current](dt, m_source, engine))
+    if (m_sequence[m_current](dt, m_source))
         m_current++;
 }
 

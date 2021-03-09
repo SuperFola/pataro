@@ -25,13 +25,13 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     // destroy the object, we used it
     m_source->use()->remove_from_container(m_owner, m_source);
     // add an animation
-    engine->attach(
+    closest->set_animation(
         pat::Animation(closest)
             .after(0.2f, [](pat::Entity* source){
-                source->morph_into('7', source->get_name(), TCODColor::lightBlue);
+                source->morph_into('7', TCODColor::lightBlue);
             })
             .after(0.2f, [](pat::Entity* source){
-                source->morph_into('7', source->get_name(), TCODColor::darkBlue);
+                source->morph_into('7', TCODColor::darkBlue);
             })
             .repeat(1)
     );

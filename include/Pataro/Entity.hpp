@@ -2,6 +2,7 @@
 #define PATARO_ENTITY_HPP
 
 #include <Pataro/Action.hpp>
+#include <Pataro/Animation.hpp>
 #include <Pataro/Components/AI.hpp>
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible.hpp>
@@ -58,10 +59,9 @@ namespace pat
          * @brief Morph the Entity into... something else
          * 
          * @param ch 
-         * @param name 
          * @param color 
          */
-        void morph_into(int ch, const std::string& name, const TCODColor& color);
+        void morph_into(int ch, const TCODColor& color);
 
         /**
          * @brief display the Entity on screen
@@ -93,6 +93,13 @@ namespace pat
          */
         bool has_enough_energy() const;
 
+        /**
+         * @brief Set the animation object
+         * 
+         * @param anim 
+         */
+        void set_animation(const Animation& anim);
+
         inline unsigned id() const { return m_id; }
         inline int  get_x() const { return m_x; }
         inline int  get_y() const { return m_y; }
@@ -101,6 +108,7 @@ namespace pat
         void move(int dx, int dy);
 
         inline const std::string& get_name() const { return m_name; }
+        inline void set_name(const std::string& name) { m_name = name; }
 
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
@@ -119,16 +127,21 @@ namespace pat
         #undef SET_COMPONENT
         #undef GET_COMPONENT
 
+        friend class Animation;
+
     private:
         unsigned m_id;
         int m_x, m_y;       ///< Position of the Entity on the map
         int m_ch;           ///< ascii character representing the Entity
         std::string m_name;
         TCODColor m_color;     ///< color of the ascii character
+
         float m_energy = 0.f;  ///< default energy level (needed for actions)
         // TODO make the speed variable when creating an entity (ie the user should be able to choose the speed)
         float m_speed = 1.f;   ///< default speed (needed to get energy, higher is better)
         bool m_blocks = true;  ///< Can we walk on this Entity?
+
+        mutable std::unique_ptr<Animation> m_animation = nullptr;
 
         std::unique_ptr<component::Attacker>     m_attacker     = nullptr;  ///< For Entities that deal damages
         std::unique_ptr<component::Destructible> m_destructible = nullptr;  ///< For destructible Entities
