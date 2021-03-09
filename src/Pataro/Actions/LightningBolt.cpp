@@ -34,6 +34,7 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
                 source->morph_into('7', TCODColor::darkBlue);
             })
             .repeat(1)
+            .revert()
     );
 
     return pat::ActionResult::Success;

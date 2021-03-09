@@ -2,6 +2,9 @@
 
 #include <Pataro/Entity.hpp>
 
+// TODO
+#include <iostream>
+
 using namespace pat;
 
 Animation::Animation(Entity* source) :
@@ -30,6 +33,17 @@ Animation& Animation::loop_for(float duration, animation::Frame::Op_t&& operatio
     return *this;
 }
 
+Animation& Animation::revert()
+{
+    int ch = m_prev_ch;
+    TCODColor color = m_prev_color;
+
+    m_sequence.emplace_back(0.f, [ch, color](Entity* source){
+        source->morph_into(ch, color);
+    });
+    return *this;
+}
+
 void Animation::update(float dt)
 {
     // we have executed everything
@@ -38,9 +52,6 @@ void Animation::update(float dt)
 
     if (m_sequence[m_current](dt, m_source))
         m_current++;
-
-    if (is_finished())
-        m_source->morph_into(m_prev_ch, m_prev_color);
 }
 
 bool Animation::is_finished() const

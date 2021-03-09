@@ -48,6 +48,13 @@ namespace pat
         Animation& loop_for(float duration, animation::Frame::Op_t&& operation);
 
         /**
+         * @brief Revert modifications to the entities to the state it had when the animation was created
+         * 
+         * @return Animation& 
+         */
+        Animation& revert();
+
+        /**
          * @brief Run the animation
          * 
          * @param dt 
