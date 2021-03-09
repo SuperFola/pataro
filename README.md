@@ -37,7 +37,7 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 - [x] GUI about the player, events...
 - [x] inventory GUI
 - [x] items handling, generation and spawn
-- [ ] spells and ranged combat
+- [x] spells and ranged combat
 - [ ] travelling between levels / floors
 - [ ] saving player progress on a given map + level
 - [ ] loading preconfigured maps/levels (eg the overworld with shops...)
