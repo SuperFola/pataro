@@ -5,6 +5,11 @@
 
 #include <libtcod.hpp>
 
+namespace pat
+{
+    class Entity;
+}
+
 namespace pat::animation
 {
     class Factory
@@ -15,6 +20,8 @@ namespace pat::animation
          * 
          */
         Factory();
+
+        static Animation lightningBolt(Entity* target);
 
     private:
         TCODRandom* m_rng;

@@ -2,7 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
-#include <Pataro/Animation.hpp>
+#include <Pataro/Animations/Factory.hpp>
 
 using namespace pat::action;
 
@@ -26,15 +26,7 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     m_source->use()->remove_from_container(m_owner, m_source);
     // add an animation
     closest->set_animation(
-        pat::Animation(closest)
-            .after(0.2f, [](pat::Entity* source){
-                source->morph_into('7', TCODColor::lightBlue);
-            })
-            .after(0.2f, [](pat::Entity* source){
-                source->morph_into('7', TCODColor::darkBlue);
-            })
-            .repeat(1)
-            .revert()
+        animation::Factory::lightningBolt(closest)
     );
 
     return pat::ActionResult::Success;
