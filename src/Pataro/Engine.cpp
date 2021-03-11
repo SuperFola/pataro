@@ -93,9 +93,14 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
     int xp = m_player->get_x(),
         yp = m_player->get_y();
 
+    int dx = xp - m_width  / 2,
+        dy = yp - m_height / 2;
+
     while (is_running())
     {
         render();
+
+        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
 
         for (int cx = 0, w = m_map->current_level().width(); cx < w; ++cx)
         {
@@ -105,27 +110,27 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
 
                 if (m_map->is_in_fov(cx, cy) && (max_range == 0.f || dist <= max_range))
                 {
-                    TCODColor col = TCODConsole::root->getCharBackground(cx, cy);
+                    TCODColor col = TCODConsole::root->getCharBackground(cx - dx, cy - dy);
                     col = col * 1.2f;
-                    TCODConsole::root->setCharBackground(cx, cy, col);
+                    TCODConsole::root->setCharBackground(cx - dx, cy - dy, col);
                 }
             }
         }
 
-        float dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx, m_mouse.cy, xp, yp));
-        if (m_map->is_in_fov(m_mouse.cx, m_mouse.cy) && (max_range == 0.f || dist <= max_range))
+        float dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx + dx, m_mouse.cy + dy, xp, yp));
+        if (m_map->is_in_fov(m_mouse.cx + dx, m_mouse.cy + dy) && (max_range == 0.f || dist <= max_range))
         {
             TCODConsole::root->setCharBackground(m_mouse.cx, m_mouse.cy, TCODColor::white);
 
             if (m_mouse.lbutton_pressed)
             {
-                *x = m_mouse.cx;
-                *y = m_mouse.cy;
+                *x = m_mouse.cx + dx;
+                *y = m_mouse.cy + dy;
                 return true;
             }
         }
 
-        if (m_mouse.rbutton_pressed || m_lastkey.vk != TCODK_NONE)
+        if (m_mouse.rbutton_pressed)
             return false;
 
         TCODConsole::flush();
