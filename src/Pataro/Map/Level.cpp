@@ -50,9 +50,9 @@ pat::Entity* Level::get_entity(int x, int y) const
 
                 // if there is another possibility which is alive, discard current one
 
-                if (dp != nullptr && dp->is_dead() && !d->is_dead())  // the new one is alive, the old one is dead, keep the alive one
+                if (d != nullptr && dp != nullptr && dp->is_dead() && !d->is_dead())  // the new one is alive, the old one is dead, keep the alive one
                     possibility = entity.get();
-                else if (dp != nullptr && dp->is_dead() && d->is_dead())  // both dead, keep new one because why not
+                else if (d != nullptr && dp != nullptr && dp->is_dead() && d->is_dead())  // both dead, keep new one because why not
                     possibility = entity.get();
                 else if (dp == nullptr && d != nullptr)  // if the possibility doesn't have a destructible, select the other if it has one
                     possibility = entity.get();
