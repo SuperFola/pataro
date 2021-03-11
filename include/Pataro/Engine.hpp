@@ -54,6 +54,17 @@ namespace pat
          */
         bool is_running() const;
 
+        /**
+         * @brief Pick a tile in a given range
+         * 
+         * @param x output, pointer to integer
+         * @param y output, pointer to integer
+         * @param max_range default to 0.f
+         * @return true 
+         * @return false the action was canceled
+         */
+        bool pick_a_tile(int* x, int* y, float max_range = 0.f);
+
         inline unsigned width()  { return m_width; }
         inline unsigned height() { return m_height; }
 

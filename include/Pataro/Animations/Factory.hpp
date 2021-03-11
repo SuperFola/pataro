@@ -21,7 +21,21 @@ namespace pat::animation
          */
         Factory();
 
+        /**
+         * @brief Create a lightning bolt animation
+         * 
+         * @param target 
+         * @return Animation 
+         */
         static Animation lightningBolt(Entity* target);
+
+        /**
+         * @brief Create a burning animation
+         * 
+         * @param target 
+         * @return Animation 
+         */
+        static Animation burning(Entity* target);
 
     private:
         TCODRandom* m_rng;

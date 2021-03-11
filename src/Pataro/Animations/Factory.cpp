@@ -20,3 +20,16 @@ pat::Animation Factory::lightningBolt(pat::Entity* target)
         .repeat(1)
         .revert();
 }
+
+pat::Animation Factory::burning(pat::Entity* target)
+{
+    return pat::Animation(target)
+        .after(0.2f, [](pat::Entity* source){
+            source->morph_into('w', TCODColor::orange);
+        })
+        .after(0.2f, [](pat::Entity* source){
+            source->morph_into('W', TCODColor::darkOrange);
+        })
+        .repeat(1)
+        .revert();
+}

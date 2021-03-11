@@ -139,6 +139,9 @@ namespace pat::map
 
         inline const std::vector<std::shared_ptr<Entity>>& get_entities() { return m_entities; }
 
+        inline int width() const { return m_width; }
+        inline int height() const { return m_height; }
+
         friend class details::BSPListener;
         friend class pat::Map;
 
