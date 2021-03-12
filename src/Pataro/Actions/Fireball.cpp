@@ -14,11 +14,11 @@ FireballAction::FireballAction(pat::Entity* source, pat::Entity* owner, int tx, 
 
 pat::ActionResult FireballAction::perform(pat::Engine* engine)
 {
-    engine->get_gui()->message(TCODColor::orange, "The fireball explodes, burning everything withing ", m_range, " tiles!");
+    engine->get_gui()->message(TCODColor::orange, "The fireball explodes, burning everything within ", m_range, " tiles!");
     for (const auto& entity: engine->get_map()->current_level().get_entities())
     {
         float dist = static_cast<float>(details::get_manhattan_distance(entity->get_x(), entity->get_y(), m_tx, m_ty));
-        if (pat::component::Destructible* d = entity->destructible(); d != nullptr && !d->is_dead() && dist <= m_range)
+        if (pat::component::Destructible* d = entity->destructible(); d != nullptr && !d->is_dead() && dist < m_range)
         {
             engine->get_gui()->message(TCODColor::orange, "The ", entity->get_name(), " gets burned for ", m_damage, " hit points.");
             d->take_damage(entity.get(), m_damage, engine);

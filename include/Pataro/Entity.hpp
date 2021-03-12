@@ -101,6 +101,7 @@ namespace pat
         void set_animation(const Animation& anim);
 
         inline unsigned id() const { return m_id; }
+        inline int  get_ch() const { return m_ch; }
         inline int  get_x() const { return m_x; }
         inline int  get_y() const { return m_y; }
 
@@ -113,10 +114,11 @@ namespace pat
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
 
-        #define GET_CMPNT(Type, name)  inline component::Type* name() { return m_##name.get(); }
+        #define GET_CMPNT1(Type, name) inline component::Type* name() { return m_##name.get(); }
+        #define GET_CMPNT2(Type, name) inline std::unique_ptr<component::Type>&& uptr_##name() { return std::move(m_##name); }
         #define SET_CMPNT1(name)       template <typename T, typename... Args> void set_##name(Args&&... args) { m_##name = std::make_unique<T>(std::forward<Args>(args)...); }
         #define SET_CMPNT2(Type, name) inline void set_##name(std::unique_ptr<component::Type>&& arg) { m_##name = std::move(arg); }
-        #define GET_SET_CMPNT(Type, name) GET_CMPNT(Type, name) SET_CMPNT1(name) SET_CMPNT2(Type, name)
+        #define GET_SET_CMPNT(Type, name) GET_CMPNT1(Type, name) GET_CMPNT2(Type, name) SET_CMPNT1(name) SET_CMPNT2(Type, name)
 
             GET_SET_CMPNT(Attacker, attacker)
             GET_SET_CMPNT(Destructible, destructible)

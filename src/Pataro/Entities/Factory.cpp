@@ -6,6 +6,7 @@
 #include <Pataro/Components/Use/Heal.hpp>
 #include <Pataro/Components/Use/LightningBolt.hpp>
 #include <Pataro/Components/Use/Fireball.hpp>
+#include <Pataro/Components/Use/Confuser.hpp>
 
 #include <cmath>
 
@@ -70,11 +71,17 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
         entity->set_blocking(false);
         entity->set_use<component::details::LightningBoltUse>(5.f, 20.f);
     }
-    else
+    else if (rdm < 90)
     {
         entity = std::make_shared<Entity>(x, y, '#', "Scroll of fireball", TCODColor::lightYellow);
         entity->set_blocking(false);
         entity->set_use<component::details::FireballUse>(2.f, 12.f);
+    }
+    else
+    {
+        entity = std::make_shared<Entity>(x, y, '#', "Scroll of confusion", TCODColor::lightGreen);
+        entity->set_blocking(false);
+        entity->set_use<component::details::ConfuserUse>(3, 5.f);
     }
 
     return entity;
