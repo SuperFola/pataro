@@ -1,8 +1,8 @@
 #include <Pataro/Engine.hpp>
 
-#include <Pataro/Map/Room.hpp>
-#include <Pataro/Utils.hpp>
 #include <Pataro/Constants.hpp>
+#include <Pataro/Utils.hpp>
+#include <Pataro/Map/Room.hpp>
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Components/AI/Player.hpp>
 #include <Pataro/Components/Attacker.hpp>
@@ -11,8 +11,8 @@
 
 #include <libtcod.hpp>
 
-#include <string>
 #include <utility>
+#include <fstream>
 
 using namespace pat;
 
@@ -86,6 +86,29 @@ void Engine::render()
 bool Engine::is_running() const
 {
     return !TCODConsole::isWindowClosed();
+}
+
+void Engine::log(const std::string& name)
+{
+#ifdef PATARO_GATHER_ANON_STATS
+    if (m_log.find(name) == m_log.end())
+        m_log[name] = 1;
+    else
+        m_log[name]++;
+#endif
+}
+
+void Engine::export_log()
+{
+#ifdef PATARO_GATHER_ANON_STATS
+    std::ofstream f("game-log.csv");
+    f << "field,occurences\n";
+
+    for (const auto& pair : m_log)
+        f << pair.first << "," << pair.second << "\n";
+
+    f.close();
+#endif
 }
 
 bool Engine::pick_a_tile(int* x, int* y, float max_range)

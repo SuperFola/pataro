@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Map.hpp>
@@ -55,6 +56,19 @@ namespace pat
         bool is_running() const;
 
         /**
+         * @brief Log an event with a given name. Only names/occurences are kept
+         * 
+         * @param name 
+         */
+        void log(const std::string& name);
+
+        /**
+         * @brief Export game log to file
+         * 
+         */
+        void export_log();
+
+        /**
          * @brief Pick a tile in a given range
          * 
          * @param x output, pointer to integer
@@ -86,6 +100,8 @@ namespace pat
         std::shared_ptr<Entity> m_player;  ///< Pointer shared between the levels and the engine
         std::unique_ptr<Map> m_map;
         std::unique_ptr<Gui> m_gui;
+
+        std::unordered_map<std::string, unsigned> m_log;
     };
 }
 
