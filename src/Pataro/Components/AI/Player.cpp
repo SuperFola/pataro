@@ -39,11 +39,13 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
     if (dy != 0 || dx != 0)
     {
         engine->change_state(pat::GameState::NewTurn);
+        engine->log("turn");
         return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
     }
     else if (action)
     {
         engine->change_state(pat::GameState::NewTurn);
+        engine->log("turn");
         return action;
     }
 
