@@ -38,6 +38,7 @@ pat::ActionResult MoveAction::perform(pat::Engine* engine)
     if (m_source == engine->get_player())
     {
         engine->get_map()->compute_fov(x + m_dx, y + m_dy, pat::details::player_fov);
+        engine->log("move");
 
         if (pat::Entity* e = engine->get_map()->get_entity(x + m_dx, y + m_dy); e != nullptr)
         {

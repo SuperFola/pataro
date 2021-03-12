@@ -16,6 +16,8 @@ pat::ActionResult HealAction::perform(pat::Engine* engine)
     {
         float healed = d->heal(m_quantity);
         engine->get_gui()->message(TCODColor::lightGreen, m_owner->get_name(), " healed ", healed, "HP");
+        if (m_owner == engine->get_player())
+            engine->log("heal");
 
         if (healed > 0.f)
             m_source->use()->remove_from_container(m_owner, m_source);

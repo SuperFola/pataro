@@ -14,6 +14,10 @@ pat::ActionResult UseAction::perform(pat::Engine* engine)
     // perform the action of the object itself
     std::unique_ptr<Action> action = m_object->use()->perform(m_object, m_owner, engine);
     if (action != nullptr)
+    {
+        if (m_owner == engine->get_player())
+            engine->log("use " + m_object->get_name());
         return action->perform(engine);
+    }
     return pat::ActionResult::Fail;
 }

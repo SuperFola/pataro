@@ -12,14 +12,21 @@ LightningBoltAction::LightningBoltAction(pat::Entity* source, pat::Entity* owner
 
 pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
 {
+    if (m_owner == engine->get_player())
+        engine->log("lightning bolt");
+
     pat::Entity* closest = engine->get_map()->get_closest_monster(m_owner, m_range);
     if (closest == nullptr)
     {
         engine->get_gui()->message(TCODColor::lightGrey, "No enemy is close enough to strike.");
+        if (m_owner == engine->get_player())
+            engine->log("lightning bolt fail");
         return pat::ActionResult::Fail;
     }
 
-    engine->get_gui()->message(TCODColor::lightBlue, "A lightning bolt strikes the ", closest->get_name().c_str(), " with a loud thunder!\nThe damage is ", m_damage, " hit points.");
+    engine->get_gui()->message(TCODColor::lightBlue, "A lightning bolt strikes the ", closest->get_name(), " with a loud thunder!\nThe damage is ", m_damage, " hit points.");
+    if (m_owner == engine->get_player())
+        engine->log((closest->destructible()->hp() - m_damage <= 0.f ? "lightning bolt kill " : "lightning bolt hit ") + closest->get_name());
 
     closest->destructible()->take_damage(closest, m_damage, engine);
     // destroy the object, we used it

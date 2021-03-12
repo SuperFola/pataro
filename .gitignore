@@ -7,5 +7,8 @@ tcod/
 *.dll
 *.exe
 
+# game reports with game stats
+game-log.csv
+
 # user settings, just ignore them
 .vscode/settings.json

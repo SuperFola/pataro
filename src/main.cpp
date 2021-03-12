@@ -12,5 +12,7 @@ int main()
         TCODConsole::flush();
     }
 
+    engine.export_log();
+
     return 0;
 }

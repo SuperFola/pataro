@@ -14,6 +14,8 @@ PickUpAction::PickUpAction(pat::Entity* source, int x, int y) :
 pat::ActionResult PickUpAction::perform(pat::Engine* engine)
 {
     bool found = false;
+    if (m_source == engine->get_player())
+        engine->log("pick up");
 
     for (const auto& e : engine->get_map()->current_level().get_entities())
     {
@@ -24,6 +26,9 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
             {
                 found = true;
                 engine->get_gui()->message(TCODColor::lightGrey, "You pick up the ", e->get_name());
+                if (m_source == engine->get_player())
+                    engine->log("pick up " + e->get_name());
+
                 engine->get_map()->current_level().remove(e.get());
                 return pat::ActionResult::Success;
             }
@@ -32,11 +37,15 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
                 // we found an object but couldn't pick it up
                 found = true;
                 engine->get_gui()->message(TCODColor::red, "Your inventory is full.");
+                if (m_source == engine->get_player())
+                    engine->log("pick up with full inventory");
                 return pat::ActionResult::Fail;
             }
         }
     }
 
+    if (m_source == engine->get_player())
+        engine->log("pick up impossible");
     engine->get_gui()->message(TCODColor::lightGrey, "There's nothing here that you can pick up");
     return pat::ActionResult::Fail;
 }
