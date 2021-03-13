@@ -47,17 +47,35 @@ void Engine::update()
 {
     if (m_state == GameState::StartUp)
         m_map->compute_fov(m_player->get_x(), m_player->get_y(), details::player_fov);
-    m_state = GameState::Idle;
+    else if (m_state != GameState::Defeat)
+        m_state = GameState::Idle;
 
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
-    std::unique_ptr<Action> action = m_player->update(this);
-    if (action)
-        action->perform(this);
+
+    // player actions only activated if we haven't lost
+    if (m_state != GameState::Defeat)
+    {
+        std::unique_ptr<Action> action = m_player->update(this);
+        if (action)
+            action->perform(this);
+    }
 
     switch (m_lastkey.vk)
     {
         case TCODK_F3:
             TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
+            break;
+
+        case TCODK_UP:
+        case TCODK_LEFT:
+            if (m_state == GameState::Defeat)
+                m_scroll_pos = m_scroll_pos <= 0 ? 0 : m_scroll_pos - 1;
+            break;
+
+        case TCODK_DOWN:
+        case TCODK_RIGHT:
+            if (m_state == GameState::Defeat)
+                m_scroll_pos = m_scroll_pos + 1 >= static_cast<int>(m_log.size()) ? m_log.size() - 1 : m_scroll_pos + 1;
             break;
 
         default:
@@ -81,6 +99,34 @@ void Engine::render()
         TCODConsole::root->setDefaultForeground(TCODColor::white);
         TCODConsole::root->printf(0, 0, "%.2f", 1.f / TCODSystem::getLastFrameLength());
     }
+
+    // defeat ui
+    if (m_state == GameState::Defeat)
+    {
+        static const int UI_WIDTH = 50, UI_HEIGHT = 28;
+        static TCODConsole con(UI_WIDTH, UI_HEIGHT);
+
+        con.setDefaultForeground(TCODColor(50, 180, 200));
+        con.printFrame(0, 0, UI_WIDTH, UI_HEIGHT, true, TCOD_BKGND_DEFAULT, "Game statistics");
+
+        // display the items with their keyboard shortcut
+        con.setDefaultForeground(TCODColor::white);
+        int y = 1;
+
+        for (const auto& pair : m_log)
+        {
+            if (y - m_scroll_pos > 0)
+                con.printf(2, y - m_scroll_pos, "%s: %u", pair.first.c_str(), pair.second);
+            y++;
+        }
+
+        TCODConsole::blit(
+            &con, 0, 0, UI_WIDTH, UI_HEIGHT,
+            TCODConsole::root,
+            m_width  / 2 - UI_WIDTH  / 2,
+            m_height / 2 - UI_HEIGHT / 2
+        );
+    }
 }
 
 bool Engine::is_running() const
@@ -90,12 +136,10 @@ bool Engine::is_running() const
 
 void Engine::log(const std::string& name)
 {
-#ifdef PATARO_GATHER_ANON_STATS
     if (m_log.find(name) == m_log.end())
         m_log[name] = 1;
     else
         m_log[name]++;
-#endif
 }
 
 void Engine::export_log()

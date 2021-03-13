@@ -15,7 +15,10 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
 {
     // do nothing if we're dead
     if (Destructible* d = owner->destructible(); d != nullptr && d->is_dead())
+    {
+        engine->change_state(pat::GameState::Defeat);
         return nullptr;
+    }
 
     int dx = 0,
         dy = 0;

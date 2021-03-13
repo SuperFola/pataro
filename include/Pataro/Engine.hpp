@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include <unordered_map>
+#include <map>
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Map.hpp>
@@ -101,7 +101,8 @@ namespace pat
         std::unique_ptr<Map> m_map;
         std::unique_ptr<Gui> m_gui;
 
-        std::unordered_map<std::string, unsigned> m_log;
+        std::map<std::string, unsigned> m_log;
+        int m_scroll_pos = 0;
     };
 }
 
