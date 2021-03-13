@@ -35,6 +35,12 @@ namespace pat
         Engine(unsigned width, unsigned height, const std::string& title, bool show_debug = false);
 
         /**
+         * @brief Initialize the engine
+         * 
+         */
+        void reset();
+
+        /**
          * @brief move the player around
          * 
          */

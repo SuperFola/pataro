@@ -22,6 +22,13 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title, bool s
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
 
+    reset();
+}
+
+void Engine::reset()
+{
+    m_state = GameState::StartUp;
+
     // create the player
     m_player = std::make_shared<Entity>(0, 0, '@', "Player", TCODColor::white);
     m_player->set_ai<component::details::PlayerAI>();
@@ -75,7 +82,12 @@ void Engine::update()
         case TCODK_DOWN:
         case TCODK_RIGHT:
             if (m_state == GameState::Defeat)
-                m_scroll_pos = m_scroll_pos + 1 >= static_cast<int>(m_log.size()) ? m_log.size() - 1 : m_scroll_pos + 1;
+                m_scroll_pos = m_scroll_pos + 1 >= static_cast<int>(m_log.size()) ? static_cast<int>(m_log.size()) - 1 : m_scroll_pos + 1;
+            break;
+
+        case TCODK_ESCAPE:
+            if (m_state == GameState::Defeat)
+                reset();
             break;
 
         default:
@@ -126,6 +138,9 @@ void Engine::render()
             m_width  / 2 - UI_WIDTH  / 2,
             m_height / 2 - UI_HEIGHT / 2
         );
+
+        TCODConsole::root->setDefaultForeground(TCODColor::white);
+        TCODConsole::root->printf(m_width - 23, 0, "Press ESCAPE to restart");
     }
 }
 
