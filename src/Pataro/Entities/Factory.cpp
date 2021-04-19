@@ -3,10 +3,13 @@
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible/Monster.hpp>
 #include <Pataro/Components/AI/Monster.hpp>
-#include <Pataro/Components/Use/Heal.hpp>
+
+#include <Pataro/Components/Use/OneTime.hpp>
 #include <Pataro/Components/Use/LightningBolt.hpp>
 #include <Pataro/Components/Use/Fireball.hpp>
 #include <Pataro/Components/Use/Confuser.hpp>
+
+#include <Pataro/Actions/Heal.hpp>
 
 #include <cmath>
 
@@ -63,7 +66,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
     {
         entity = std::make_shared<Entity>(x, y, '!', "Health potion", TCODColor::violet);
         entity->set_blocking(false);
-        entity->set_use<component::details::HealUse>(4.f);
+        entity->set_use<component::details::OneTimeUse<action::HealAction, float>>(4.f);
     }
     else if (rdm < 80)
     {
