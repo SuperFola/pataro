@@ -8,6 +8,10 @@ on:
 
 env:
   BUILD_TYPE: Release
+  # Indicates the CMake build directory where project files and binaries are being produced.
+  CMAKE_BUILD_DIR: ${{ github.workspace }}/build/
+  # Indicates the location of the vcpkg as a Git submodule of the project repository.
+  VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
 jobs:
   build:
@@ -23,6 +27,11 @@ jobs:
             os: windows-latest, os_short: "Windows",
             build_type: "Release", cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+          }
+        - {
+            name: "Ubuntu GCC",
+            os: ubuntu-latest, os_short: "Ubuntu",
+            build_type: "Release", cc: "gcc", cxx: "g++"
           }
         - {
             name: "Ubuntu Latest GCC",
@@ -45,6 +54,22 @@ jobs:
       with:
         submodules: true
 
+    - name: Restore vcpkg and its artifacts
+      uses: actions/cache@v2
+      with:
+        # The first path is where vcpkg generates artifacts while consuming the vcpkg.json manifest file.
+        # The second path is the location of vcpkg (it contains the vcpkg executable and data files).
+        # The other paths starting with '!' are exclusions: they contain termporary files generated during the build of the installed packages.
+        path: |
+          ${{ env.CMAKE_BUILD_DIR }}/vcpkg_installed/
+          ${{ env.VCPKG_ROOT }}
+          !${{ env.VCPKG_ROOT }}/buildtrees
+          !${{ env.VCPKG_ROOT }}/packages
+          !${{ env.VCPKG_ROOT }}/downloads
+        # The key is composed in a way that it gets properly invalidated: this must happen whenever vcpkg's Git commit id changes, or the list of packages changes. In this case a cache miss must happen and a new entry with a new key with be pushed to GitHub the cache service.
+        # Note: given a key, the cache content is immutable. If a cache entry has been created improperly, in order the recreate the right content the key must be changed as well, and it must be brand new (i.e. not existing already).
+        key: ${{ matrix.config.os }}-${{ matrix.config.name }}-${{ hashFiles('vcpkg.json', '.git/modules/vcpkg/HEAD') }}
+
     - name: Update compilers
       if: ${{ matrix.config.cc }} == 'gcc' && ${{ matrix.config.os_short }} == 'Ubuntu'
       shell: bash
@@ -59,27 +84,13 @@ jobs:
           sudo apt-get install -y clang-9 lld-9 libc++-9-dev libc++abi-9-dev clang-tools-9
         elif [[ ${{ matrix.config.os_short }} == 'macOS' ]]; then
           brew install gcc && brew link gcc && CXX=/usr/local/bin/g++-9
-          brew install sdl2
-        elif [[ ${{ matrix.config.os_short }} == 'Windows' ]]; then
-          wget https://github.com/libtcod/libtcod/releases/download/1.16.0-alpha.15/libtcod-1.16.0-alpha.15-x86-msvc.zip
-          unzip libtcod-1.16.0-alpha.15-x86-msvc.zip
-          mv libtcod-1.16.0-alpha.15-x86-msvc tcod
-        fi
-        if [[ ${{ matrix.config.os_short }} == 'Ubuntu' ]]; then
-          sudo apt-get -yq install libsdl2-dev scons
-          wget https://github.com/libtcod/libtcod/archive/1.16.0-alpha.15.zip
-          unzip 1.16.0-alpha.15.zip
-          mv libtcod-1.16.0-alpha.15 tcod
-          (cd tcod/buildsys/scons; scons build)
-          ln -s tcod/include/ tcod/src/
-          cp tcod/buildsys/scons/libtcod-1.16.0-alpha.15-x86_64-DEBUG/libtcod.so tcod/
         fi
 
     - name: Configure CMake
       shell: bash
-      run: cmake -Bbuild -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }}
+      run: cmake -B "${{ env.CMAKE_BUILD_DIR }}" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }}
 
     - name: Build
       shell: bash
       run: |
-        cmake --build build --config $BUILD_TYPE
+        cmake --build "${{ env.CMAKE_BUILD_DIR }}" --config $BUILD_TYPE
