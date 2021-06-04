@@ -25,9 +25,9 @@ namespace pat::component
         using Callback_t = std::function<std::unique_ptr<Action>(Entity* source, Entity* owner)>;
 
         /**
-         * @brief Construct a new One Time Use object, to launch an action taking a single argument
+         * @brief Construct a new One Time Use object, to launch an action taking a variadic number of arguments.
          * 
-         * @param data 
+         * @param args 
          */
         OneTimeUse(Args&&... args)
         {
