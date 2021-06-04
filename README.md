@@ -1,5 +1,7 @@
 # Pataro
 
+![CMake badge](https://img.shields.io/github/workflow/status/ArkScript-lang/Ark/CMake?logo=cmake&style=for-the-badge)
+
 A C++ 17 Rogue Like library built on top of [lib TCOD](https://github.com/libtcod/libtcod).
 
 Pataro means *Walker Male* in Quenya.
