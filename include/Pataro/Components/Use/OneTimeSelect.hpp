@@ -103,7 +103,7 @@ namespace pat::component
         {
             engine->get_gui()->message(TCODColor::cyan, "Left-click ", m_text, ",\nor right-click to cancel.");
             if (!m_picker.pick(engine))
-                return false;
+                return nullptr;
             return m_function(source, owner, m_picker);
         }
 
