@@ -5,12 +5,12 @@
 #include <Pataro/Components/AI/Monster.hpp>
 
 #include <Pataro/Components/Use/OneTime.hpp>
-#include <Pataro/Components/Use/LightningBolt.hpp>
-#include <Pataro/Components/Use/Fireball.hpp>
-#include <Pataro/Components/Use/Confuser.hpp>
+#include <Pataro/Components/Use/OneTimeSelect.hpp>
 
 #include <Pataro/Actions/Heal.hpp>
 #include <Pataro/Actions/LightningBolt.hpp>
+#include <Pataro/Actions/Fireball.hpp>
+#include <Pataro/Actions/Confuse.hpp>
 
 #include <cmath>
 
@@ -79,13 +79,21 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
     {
         entity = std::make_shared<Entity>(x, y, '#', "Scroll of fireball", TCODColor::lightYellow);
         entity->set_blocking(false);
-        entity->set_use<component::FireballUse>(2.f, 12.f);
+        entity->set_use<component::OneTimeSelectUse<FireballAction, float>>(
+            "a target tile for the fireball",
+            component::PickTile(component::PickMethod::Simple, /* range */ 2.f),
+            /* damage */ 12.f
+        );
     }
     else
     {
         entity = std::make_shared<Entity>(x, y, '#', "Scroll of confusion", TCODColor::lightGreen);
         entity->set_blocking(false);
-        entity->set_use<component::ConfuserUse>(3, 5.f);
+        entity->set_use<component::OneTimeSelectUse<ConfuseAction, int>>(
+            "an ennemy to confuse",
+            component::PickTile(component::PickMethod::LivingEntity, /* range */ 5.0f),
+            /* turns count */ 3
+        );
     }
 
     return entity;

@@ -7,6 +7,11 @@ namespace pat
 {
     class Entity;
     class Engine;
+
+    namespace component
+    {
+        class PickTile;
+    }
 }
 
 namespace pat
@@ -19,12 +24,10 @@ namespace pat
          * 
          * @param source 
          * @param owner 
-         * @param tx target x
-         * @param ty target y
-         * @param range 
+         * @param picker 
          * @param damage 
          */
-        FireballAction(Entity* source, Entity* owner, int tx, int ty, float range, float damage);
+        FireballAction(Entity* source, Entity* owner, const component::PickTile* picker, float damage);
 
         /**
          * @brief Launch the fireball

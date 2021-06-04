@@ -3,12 +3,13 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
 #include <Pataro/Components/AI/ConfusedMonster.hpp>
+#include <Pataro/Components/Use/OneTimeSelect.hpp>
 #include <Pataro/Utils.hpp>
 
 using namespace pat;
 
-ConfuseAction::ConfuseAction(pat::Entity* source, pat::Entity* owner, pat::Entity* target, int nb_turns) :
-    m_source(source), m_owner(owner), m_target(target), m_nb_turns(nb_turns)
+ConfuseAction::ConfuseAction(pat::Entity* source, pat::Entity* owner, const pat::component::PickTile* picker, int nb_turns) :
+    m_source(source), m_owner(owner), m_target(picker->get_entity()), m_nb_turns(nb_turns)
 {}
 
 pat::ActionResult ConfuseAction::perform(pat::Engine* engine)

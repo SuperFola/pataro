@@ -4,12 +4,13 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Animations/Factory.hpp>
 #include <Pataro/Components/Destructible.hpp>
+#include <Pataro/Components/Use/OneTimeSelect.hpp>
 #include <Pataro/Utils.hpp>
 
 using namespace pat;
 
-FireballAction::FireballAction(pat::Entity* source, pat::Entity* owner, int tx, int ty, float range, float damage) :
-    m_source(source), m_owner(owner), m_tx(tx), m_ty(ty), m_range(range), m_damage(damage)
+FireballAction::FireballAction(pat::Entity* source, pat::Entity* owner, const pat::component::PickTile* picker, float damage) :
+    m_source(source), m_owner(owner), m_tx(picker->get_x()), m_ty(picker->get_y()), m_range(picker->get_range()), m_damage(damage)
 {}
 
 pat::ActionResult FireballAction::perform(pat::Engine* engine)

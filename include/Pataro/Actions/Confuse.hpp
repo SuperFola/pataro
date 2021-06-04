@@ -7,6 +7,11 @@ namespace pat
 {
     class Entity;
     class Engine;
+
+    namespace component
+    {
+        class PickTile;
+    }
 }
 
 namespace pat
@@ -19,10 +24,10 @@ namespace pat
          * 
          * @param source 
          * @param owner 
-         * @param target 
+         * @param picker 
          * @param nb_turns 
          */
-        ConfuseAction(Entity* source, Entity* owner, Entity* target, int nb_turns);
+        ConfuseAction(Entity* source, Entity* owner, const component::PickTile* picker, int nb_turns);
 
         /**
          * @brief Confuse
