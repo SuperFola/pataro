@@ -82,3 +82,20 @@ jobs:
       shell: bash
       run: |
         cmake --build "${{ env.CMAKE_BUILD_DIR }}" --config $BUILD_TYPE
+
+    - name: Organize files for upload
+      shell: bash
+      run: |
+        mkdir artifact
+        if [[ ${{ matrix.config.os_short }} == 'Ubuntu' || ${{ matrix.config.os_short }} == 'macOS' ]]; then
+          cp ${{ env.CMAKE_BUILD_DIR }}/pataro artifact
+        elif [[ ${{ matrix.config.os_short }} == 'Windows' ]]; then
+            cp ${{ env.CMAKE_BUILD_DIR }}/$BUILD_TYPE/pataro.exe artifact
+        fi
+        cp terminal.png artifact
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.config.os_short }}-version
+        path: artifact
