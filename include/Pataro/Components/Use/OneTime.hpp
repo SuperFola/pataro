@@ -18,37 +18,43 @@ namespace pat
 
 namespace pat::component::details
 {
-    template <typename A, typename T>
+    template <typename A, typename... Args>
     class OneTimeUse : public Use
     {
     public:
+        using Callback_t = std::function<std::unique_ptr<Action>(Entity* source, Entity* owner)>;
+
         /**
          * @brief Construct a new One Time Use object, to launch an action taking a single argument
          * 
          * @param data 
          */
-        OneTimeUse(T data) :
-            m_data(data)
+        OneTimeUse(Args&&... args)
         {
-            m_action = [this](Entity* source, Entity* owner) -> std::unique_ptr<Action> {
-                return std::make_unique<A>(source, owner, m_data);
+            m_function = [args = std::make_tuple(std::forward<Args>(args) ...)](Entity* source, Entity* owner) -> std::unique_ptr<Action> {
+                return std::apply([source, owner](auto&&... args) {
+                    return std::make_unique<A>(source, owner, args...);
+                }, std::move(args));
             };
         }
 
     protected:
         std::unique_ptr<Action> use(Entity* source, Entity* owner, [[maybe_unused]] Engine* engine) override
         {
-            return m_action(source, owner);
+            return m_function(source, owner);
         }
 
-        OneTimeUse* clone_impl() const override
+        OneTimeUse<A, Args...>* clone_impl() const override
         {
-            return new OneTimeUse<A, T>(m_data);
+            return new OneTimeUse<A, Args...>(m_function);
         }
 
     private:
-        std::function<std::unique_ptr<Action>(Entity* source, Entity* owner)> m_action;
-        T m_data;
+        OneTimeUse(const Callback_t& callback) :
+            m_function(callback)
+        {}
+
+        Callback_t m_function;
     };
 }
 
