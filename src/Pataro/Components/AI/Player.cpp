@@ -43,7 +43,7 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
     {
         engine->change_state(pat::GameState::NewTurn);
         engine->log("turn");
-        return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+        return std::make_unique<pat::MoveAction>(owner, dx, dy);
     }
     else if (action)
     {
@@ -61,14 +61,14 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
     {
         // pick an item
         case 'g':
-            return std::make_unique<pat::action::PickUpAction>(owner, owner->get_x(), owner->get_y());
+            return std::make_unique<pat::PickUpAction>(owner, owner->get_x(), owner->get_y());
 
         // display inventory
         case 'i':
         {
             Entity* e = choose_from_inventory(owner, engine);
             if (e != nullptr)
-                return std::make_unique<pat::action::UseAction>(owner, e);
+                return std::make_unique<pat::UseAction>(owner, e);
             break;
         }
     }

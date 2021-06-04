@@ -17,7 +17,7 @@ std::unique_ptr<pat::Action> FireballUse::use(pat::Entity* source, pat::Entity* 
     if (!engine->pick_a_tile(&x, &y, m_range))
         return nullptr;
 
-    return std::make_unique<pat::action::FireballAction>(
+    return std::make_unique<pat::FireballAction>(
         source,
         owner,
         x, y,

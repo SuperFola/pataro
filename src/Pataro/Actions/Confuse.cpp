@@ -5,7 +5,7 @@
 #include <Pataro/Components/AI/ConfusedMonster.hpp>
 #include <Pataro/Utils.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 ConfuseAction::ConfuseAction(pat::Entity* source, pat::Entity* owner, pat::Entity* target, int nb_turns) :
     m_source(source), m_owner(owner), m_target(target), m_nb_turns(nb_turns)

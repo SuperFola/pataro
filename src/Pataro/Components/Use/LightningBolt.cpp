@@ -12,7 +12,7 @@ LightningBoltUse::LightningBoltUse(float range, float damage) :
 
 std::unique_ptr<pat::Action> LightningBoltUse::use(pat::Entity* source, pat::Entity* owner, [[maybe_unused]] pat::Engine* engine)
 {
-    return std::make_unique<pat::action::LightningBoltAction>(source, owner, m_range, m_damage);
+    return std::make_unique<pat::LightningBoltAction>(source, owner, m_range, m_damage);
 }
 
 LightningBoltUse* LightningBoltUse::clone_impl() const

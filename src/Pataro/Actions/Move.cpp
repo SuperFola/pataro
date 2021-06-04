@@ -8,7 +8,7 @@
 
 #include <libtcod.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 MoveAction::MoveAction(pat::Entity* source, int dx, int dy) :
     m_source(source), m_dx(dx), m_dy(dy)

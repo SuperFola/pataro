@@ -21,7 +21,7 @@ std::unique_ptr<pat::Action> ConfuserUse::use(pat::Entity* source, pat::Entity* 
     if (entity->destructible() == nullptr || entity->destructible()->is_dead())
         return nullptr;
 
-    return std::make_unique<pat::action::ConfuseAction>(
+    return std::make_unique<pat::ConfuseAction>(
         source,
         owner,
         entity,

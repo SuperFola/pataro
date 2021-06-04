@@ -9,7 +9,7 @@ namespace pat
     class Entity;
 }
 
-namespace pat::action
+namespace pat
 {
     class PickUpAction : public Action
     {

@@ -6,7 +6,7 @@
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Utils.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 FireballAction::FireballAction(pat::Entity* source, pat::Entity* owner, int tx, int ty, float range, float damage) :
     m_source(source), m_owner(owner), m_tx(tx), m_ty(ty), m_range(range), m_damage(damage)

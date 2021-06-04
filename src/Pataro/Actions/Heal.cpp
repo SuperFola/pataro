@@ -4,7 +4,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Components/Destructible.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 HealAction::HealAction(pat::Entity* source, pat::Entity* owner, float quantity) :
     m_source(source), m_owner(owner), m_quantity(quantity)

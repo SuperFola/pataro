@@ -3,7 +3,7 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 UseAction::UseAction(pat::Entity* owner, pat::Entity* object) :
     m_owner(owner), m_object(object)

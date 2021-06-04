@@ -5,7 +5,7 @@
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 AttackAction::AttackAction(pat::Entity* source, pat::Entity* target) :
     m_source(source), m_target(target)

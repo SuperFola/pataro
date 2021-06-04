@@ -4,7 +4,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Animations/Factory.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 LightningBoltAction::LightningBoltAction(pat::Entity* source, pat::Entity* owner, float range, float damage) :
     m_source(source), m_owner(owner), m_range(range), m_damage(damage)

@@ -25,7 +25,7 @@ std::unique_ptr<pat::Action> ConfusedMonsterAI::update(pat::Entity* owner, pat::
         dy = rng->getInt(-1, 1);
 
     if ((dx != 0 || dy != 0) && engine->get_map()->can_walk(x + dx, y + dy))
-        return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+        return std::make_unique<pat::MoveAction>(owner, dx, dy);
 
     --m_nb_turns;
     if (m_nb_turns <= 0)

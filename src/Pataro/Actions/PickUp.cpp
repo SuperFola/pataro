@@ -4,7 +4,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Components/Use.hpp>
 
-using namespace pat::action;
+using namespace pat;
 
 PickUpAction::PickUpAction(pat::Entity* source, int x, int y) :
     m_source(source), m_x(x), m_y(y)

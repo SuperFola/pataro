@@ -67,13 +67,13 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
     {
         entity = std::make_shared<Entity>(x, y, '!', "Health potion", TCODColor::violet);
         entity->set_blocking(false);
-        entity->set_use<component::details::OneTimeUse<action::HealAction, float>>(4.f);
+        entity->set_use<component::details::OneTimeUse<HealAction, float>>(4.f);
     }
     else if (rdm < 80)
     {
         entity = std::make_shared<Entity>(x, y, '#', "Scroll of lightning bolt", TCODColor::darkOrange);
         entity->set_blocking(false);
-        entity->set_use<component::details::OneTimeUse<action::LightningBoltAction, float, float>>(5.f, 20.f);
+        entity->set_use<component::details::OneTimeUse<LightningBoltAction, float, float>>(5.f, 20.f);
     }
     else if (rdm < 90)
     {

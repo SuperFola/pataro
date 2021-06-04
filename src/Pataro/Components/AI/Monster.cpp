@@ -62,11 +62,11 @@ std::unique_ptr<pat::Action> MonsterAI::move_or_attack(pat::Entity* owner, int x
         dy = static_cast<int>(std::round(dy / distance));
 
         if (map->can_walk(x + dx, y + dy))
-            return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+            return std::make_unique<pat::MoveAction>(owner, dx, dy);
         else if (map->can_walk(x + step_dx, y))  // wall sliding 1
-            return std::make_unique<pat::action::MoveAction>(owner, step_dx, 0);
+            return std::make_unique<pat::MoveAction>(owner, step_dx, 0);
         else if (map->can_walk(x, y + step_dy))  // wall sliding 2
-            return std::make_unique<pat::action::MoveAction>(owner, 0, step_dy);
+            return std::make_unique<pat::MoveAction>(owner, 0, step_dy);
     }
-    return std::make_unique<pat::action::MoveAction>(owner, dx, dy);
+    return std::make_unique<pat::MoveAction>(owner, dx, dy);
 }

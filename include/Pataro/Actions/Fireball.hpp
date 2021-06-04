@@ -9,7 +9,7 @@ namespace pat
     class Engine;
 }
 
-namespace pat::action
+namespace pat
 {
     class FireballAction : public Action
     {
