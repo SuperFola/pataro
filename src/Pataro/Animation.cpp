@@ -2,9 +2,6 @@
 
 #include <Pataro/Entity.hpp>
 
-// TODO
-#include <iostream>
-
 using namespace pat;
 
 Animation::Animation(Entity* source) :
