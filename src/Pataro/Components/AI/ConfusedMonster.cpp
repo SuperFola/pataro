@@ -5,7 +5,7 @@
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Actions/Move.hpp>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 ConfusedMonsterAI::ConfusedMonsterAI(int nb_turns, std::unique_ptr<AI>&& old_ai) :
     m_nb_turns(nb_turns), m_old(std::move(old_ai))

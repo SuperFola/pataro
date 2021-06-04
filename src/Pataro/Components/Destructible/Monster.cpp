@@ -3,7 +3,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 MonsterDestructible::MonsterDestructible(float max_hp, float defense, const std::string& corpse_name) :
     Destructible(max_hp, defense, corpse_name)

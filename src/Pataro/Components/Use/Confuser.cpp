@@ -4,7 +4,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Actions/Confuse.hpp>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 ConfuserUse::ConfuserUse(int nb_turns, float range) :
     m_nb_turns(nb_turns), m_range(range)

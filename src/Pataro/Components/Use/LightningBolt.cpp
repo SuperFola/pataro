@@ -4,7 +4,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Actions/LightningBolt.hpp>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 LightningBoltUse::LightningBoltUse(float range, float damage) :
     m_range(range), m_damage(damage)

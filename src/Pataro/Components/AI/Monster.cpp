@@ -11,7 +11,7 @@
 
 #include <cmath>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 std::unique_ptr<pat::Action> MonsterAI::update(pat::Entity* owner, pat::Engine* engine)
 {
@@ -22,7 +22,7 @@ std::unique_ptr<pat::Action> MonsterAI::update(pat::Entity* owner, pat::Engine* 
     // the monster is in the field of view of the player
     // thus it should go toward it
     if (engine->get_map()->is_in_fov(owner->get_x(), owner->get_y()))
-        m_move_count = tracking_turns;
+        m_move_count = details::tracking_turns;
     else
         --m_move_count;
 

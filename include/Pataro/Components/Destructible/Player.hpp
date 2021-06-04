@@ -11,7 +11,7 @@ namespace pat
     class Engine;
 }
 
-namespace pat::component::details
+namespace pat::component
 {
     class PlayerDestructible : public Destructible
     {

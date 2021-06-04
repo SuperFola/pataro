@@ -31,9 +31,9 @@ void Engine::reset()
 
     // create the player
     m_player = std::make_shared<Entity>(0, 0, '@', "Player", TCODColor::white);
-    m_player->set_ai<component::details::PlayerAI>();
+    m_player->set_ai<component::PlayerAI>();
     m_player->set_attacker<component::Attacker>(5.f);
-    m_player->set_destructible<component::details::PlayerDestructible>(30.f, 2.f, "your cadaver");
+    m_player->set_destructible<component::PlayerDestructible>(30.f, 2.f, "your cadaver");
     m_player->set_container<component::Container>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)

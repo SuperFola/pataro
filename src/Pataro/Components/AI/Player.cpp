@@ -9,7 +9,7 @@
 #include <Pataro/Actions/PickUp.hpp>
 #include <Pataro/Actions/Use.hpp>
 
-using namespace pat::component::details;
+using namespace pat::component;
 
 std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* engine)
 {

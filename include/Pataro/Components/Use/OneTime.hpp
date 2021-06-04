@@ -16,7 +16,7 @@ namespace pat
 }
 
 
-namespace pat::component::details
+namespace pat::component
 {
     template <typename A, typename... Args>
     class OneTimeUse : public Use

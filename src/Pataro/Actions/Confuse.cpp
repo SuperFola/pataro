@@ -18,7 +18,7 @@ pat::ActionResult ConfuseAction::perform(pat::Engine* engine)
         engine->log("confuse " + m_target->get_name());
 
     // change the monster AI to a confused one
-    m_target->set_ai<component::details::ConfusedMonsterAI>(m_nb_turns, std::move(m_target->uptr_ai()));
+    m_target->set_ai<component::ConfusedMonsterAI>(m_nb_turns, std::move(m_target->uptr_ai()));
     // destroy the object, we used it
     m_source->use()->remove_from_container(m_owner, m_source);
 
