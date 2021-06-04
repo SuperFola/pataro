@@ -13,6 +13,21 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 * download [tcod 1.16.6](https://github.com/libtcod/libtcod/releases/tag/1.16.6) and put it under tcod/
 * CMake >= 3.8
 
+### Building
+
+First, clone the repository and refresh the submodules to get vcpkg, then bootstrap vcpkg and install it.
+
+Then you can compile using CMake, don't forget to point to vcpkg toolchain cmake file.
+
+```shell
+git clone https://github.com/SuperFola/Pataro.git
+cd Pataro
+git submodule update --init --recursive
+(cd vcpkg && ./bootstrap-vcpkg && ./vcpkg integrate install)
+cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build build --config Debug
+```
+
 ## Controls
 
 - Move/attack with the arrows (`up`, `down`, `left`, `right`)
