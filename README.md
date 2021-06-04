@@ -55,3 +55,10 @@ cmake --build build --config Debug
 - [ ] add a game menu
 - [ ] dungeons and character progression
 - [ ] (generic?) scripting engine to configure Pataro's engine
+
+<details>
+    <summary>Screenshot</summary>
+    <img src="images/4-june-01.png" name="world map">
+    <img src="images/4-june-02.png" name="objects on the ground">
+    <img src="images/4-june-03.png" name="inventory">
+</details>
