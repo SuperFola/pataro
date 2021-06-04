@@ -45,7 +45,9 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
     }
 
     if (m_source == engine->get_player())
+    {
         engine->log("pick up impossible");
-    engine->get_gui()->message(TCODColor::lightGrey, "There's nothing here that you can pick up");
+        engine->get_gui()->message(TCODColor::lightGrey, "There's nothing here that you can pick up");
+    }
     return pat::ActionResult::Fail;
 }
