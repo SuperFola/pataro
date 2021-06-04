@@ -10,6 +10,7 @@
 #include <Pataro/Components/Use/Confuser.hpp>
 
 #include <Pataro/Actions/Heal.hpp>
+#include <Pataro/Actions/LightningBolt.hpp>
 
 #include <cmath>
 
@@ -72,7 +73,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
     {
         entity = std::make_shared<Entity>(x, y, '#', "Scroll of lightning bolt", TCODColor::darkOrange);
         entity->set_blocking(false);
-        entity->set_use<component::details::LightningBoltUse>(5.f, 20.f);
+        entity->set_use<component::details::OneTimeUse<action::LightningBoltAction, float, float>>(5.f, 20.f);
     }
     else if (rdm < 90)
     {
