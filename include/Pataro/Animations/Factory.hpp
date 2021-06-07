@@ -27,7 +27,7 @@ namespace pat::animation
          * @param target 
          * @return Animation 
          */
-        static Animation lightningBolt(Entity* target);
+        static Animation lightning_bolt(Entity* target);
 
         /**
          * @brief Create a burning animation

@@ -8,7 +8,7 @@ Factory::Factory() :
     m_rng(TCODRandom::getInstance())
 {}
 
-pat::Animation Factory::lightningBolt(pat::Entity* target)
+pat::Animation Factory::lightning_bolt(pat::Entity* target)
 {
     return pat::Animation(target)
         .after(0.2f, [](pat::Entity* source){

@@ -33,7 +33,7 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     m_source->use()->remove_from_container(m_owner, m_source);
     // add an animation
     closest->set_animation(
-        animation::Factory::lightningBolt(closest)
+        animation::Factory::lightning_bolt(closest)
     );
 
     return pat::ActionResult::Success;

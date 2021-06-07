@@ -69,7 +69,7 @@ namespace pat
          * @param dx x offset on screen
          * @param dy y offset on screen
         */
-        void render(int dx=0, int dy=0) const;
+        void render(int dx = 0, int dy = 0) const;
 
         /**
          * @brief Update the Entity

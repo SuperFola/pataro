@@ -10,7 +10,6 @@
 #include <functional>
 #include <memory>
 
-
 namespace pat::component
 {
     /**
@@ -66,7 +65,7 @@ namespace pat::component
          * @return true if a living entity was picked
          * @return false 
          */
-        bool liveEntity(Engine* engine);
+        bool live_entity(Engine* engine);
 
     private:
         PickMethod m_method;

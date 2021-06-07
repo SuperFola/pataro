@@ -14,7 +14,7 @@ bool PickTile::pick(pat::Engine* engine)
             return simple(engine);
 
         case PickMethod::LivingEntity:
-            return liveEntity(engine);
+            return live_entity(engine);
     }
 
     return false;
@@ -25,7 +25,7 @@ bool PickTile::simple(pat::Engine* engine)
     return engine->pick_a_tile(&m_x, &m_y, m_range);
 }
 
-bool PickTile::liveEntity(pat::Engine* engine)
+bool PickTile::live_entity(pat::Engine* engine)
 {
     if (!simple(engine))
         return false;

@@ -20,7 +20,7 @@ namespace pat::map::details
          */
         BSPListener(Level* level);
 
-        bool visitNode(TCODBsp* node, void *userData);
+        bool visitNode(TCODBsp* node, void* userData) override;
 
     private:
         Level* m_level;

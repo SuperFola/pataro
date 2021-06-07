@@ -8,13 +8,11 @@
 #include <utility>
 #include <functional>
 
-
 namespace pat
 {
     class Entity;
     class Engine;
 }
-
 
 namespace pat::component
 {

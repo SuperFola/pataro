@@ -26,7 +26,7 @@ namespace pat::entity
          * @param difficulty scaling difficulty factor. Less than 1 means easy, greater than 1 means harder
          * @return std::shared_ptr<Entity> 
          */
-        std::shared_ptr<Entity> get_random_monster(int x, int y, float difficulty=1.f);
+        std::shared_ptr<Entity> get_random_monster(int x, int y, float difficulty = 1.f);
 
         /**
          * @brief Generate a random monster

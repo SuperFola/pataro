@@ -6,5 +6,4 @@ namespace pat::component::details
     constexpr int tracking_turns = 3;
 }
 
-
 #endif

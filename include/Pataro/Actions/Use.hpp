@@ -2,7 +2,6 @@
 #define PATARO_ACTIONS_USEACTION_HPP
 
 #include <Pataro/Action.hpp>
-
 namespace pat
 {
     class Engine;
