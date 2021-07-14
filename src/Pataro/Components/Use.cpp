@@ -21,9 +21,9 @@ void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
 
     if (Container* c = owner->container(); c != nullptr)
     {
-        c->remove(source);
         source->put_at(owner->get_x(), owner->get_y());
         engine->get_map()->current_level().add(source);
+        c->remove(source);
     }
 }
 

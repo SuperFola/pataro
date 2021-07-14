@@ -188,7 +188,8 @@ void Level::enter(const std::shared_ptr<pat::Entity>& player)
 
 void Level::add(pat::Entity* entity)
 {
-    m_entities.emplace_back(
+    m_entities.insert(
+        m_entities.begin(),
         std::make_shared<Entity>(*entity)
     );
 }
