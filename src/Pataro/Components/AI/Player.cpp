@@ -4,10 +4,12 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Container.hpp>
+
 #include <Pataro/Actions/Move.hpp>
 #include <Pataro/Actions/Attack.hpp>
 #include <Pataro/Actions/PickUp.hpp>
 #include <Pataro/Actions/Use.hpp>
+#include <Pataro/Actions/Drop.hpp>
 
 using namespace pat::component;
 
@@ -69,6 +71,15 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
             Entity* e = choose_from_inventory(owner, engine);
             if (e != nullptr)
                 return std::make_unique<pat::UseAction>(owner, e);
+            break;
+        }
+
+        // drop an object
+        case 'd':
+        {
+            Entity* e = choose_from_inventory(owner, engine);
+            if (e != nullptr)
+                return std::make_unique<pat::DropAction>(owner, e);
             break;
         }
     }
