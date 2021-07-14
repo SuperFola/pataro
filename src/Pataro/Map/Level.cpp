@@ -186,6 +186,13 @@ void Level::enter(const std::shared_ptr<pat::Entity>& player)
     );
 }
 
+void Level::add(pat::Entity* entity)
+{
+    m_entities.emplace_back(
+        std::make_shared<Entity>(*entity)
+    );
+}
+
 void Level::remove(pat::Entity* entity)
 {
     auto it = std::remove_if(m_entities.begin(), m_entities.end(), [&entity](const auto& entity_) -> bool {

@@ -131,11 +131,18 @@ namespace pat::map
         void enter(const std::shared_ptr<Entity>& player);
 
         /**
+         * @brief Add an entity to the level
+         * 
+         * @param entity 
+         */
+        void add(Entity* entity);
+
+        /**
          * @brief Remove an Entity from the level
          * 
-         * @param Entity 
+         * @param entity 
          */
-        void remove(Entity* Entity);
+        void remove(Entity* entity);
 
         inline const std::vector<std::shared_ptr<Entity>>& get_entities() { return m_entities; }
 
