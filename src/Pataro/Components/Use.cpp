@@ -13,6 +13,20 @@ std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Entity* owne
     return use(source, owner, engine);
 }
 
+void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
+{
+    // we can not drop a used object
+    if (m_destroyed)
+        return;
+
+    if (Container* c = owner->container(); c != nullptr)
+    {
+        c->remove(source);
+        source->put_at(owner->get_x(), owner->get_y());
+        engine->get_map()->current_level().add(source);
+    }
+}
+
 void Use::remove_from_container(pat::Entity* owner, pat::Entity* source)
 {
     owner->container()->remove(source);

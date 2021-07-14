@@ -29,6 +29,15 @@ namespace pat::component
         std::unique_ptr<Action> perform(Entity* source, Entity* owner, Engine* engine);
 
         /**
+         * @brief Drop the object to the ground
+         * 
+         * @param source 
+         * @param owner the owner of the source object we are dropping
+         * @param engine 
+         */
+        void drop(Entity* source, Entity* owner, Engine* engine);
+
+        /**
          * @brief Remove from container
          * 
          */
