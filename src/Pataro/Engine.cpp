@@ -37,7 +37,7 @@ void Engine::reset()
     m_player->set_container<component::Container>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
-    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
+    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1, true);
     m_map->current_level().enter(m_player);
 
     // setup gui

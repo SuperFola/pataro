@@ -4,6 +4,7 @@
 #include <Pataro/Map/Level.hpp>
 
 #include <vector>
+#include <memory>
 
 namespace pat
 {
@@ -19,8 +20,9 @@ namespace pat
          * @param width 
          * @param height 
          * @param depth number of levels to generate
+         * @param with_entities if the levels should be generated with entities
          */
-        Map(unsigned width, unsigned height, std::size_t depth);
+        Map(unsigned width, unsigned height, std::size_t depth, bool with_entities);
 
         /**
          * @brief Check if a tile at (x, y) is a wall
@@ -104,6 +106,7 @@ namespace pat
         std::vector<map::Level> m_levels;
         // TODO add method to change current level
         std::size_t m_current;
+        std::unique_ptr<TCODRandom> m_rng;
     };
 }
 

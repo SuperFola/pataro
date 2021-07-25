@@ -17,8 +17,9 @@ namespace pat::map::details
          * @brief Construct a new BSPListener object
          * 
          * @param level 
+         * @param with_entities parameter to forward to lever->create_room()
          */
-        BSPListener(Level* level);
+        BSPListener(Level* level, bool with_entities);
 
         bool visitNode(TCODBsp* node, void* userData) override;
 
@@ -27,6 +28,7 @@ namespace pat::map::details
         int m_room_nb;
         int m_lastx;
         int m_lasty;
+        bool m_with_entities;
     };
 }
 

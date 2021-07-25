@@ -4,8 +4,7 @@
 
 using namespace pat::animation;
 
-Factory::Factory() :
-    m_rng(TCODRandom::getInstance())
+Factory::Factory()
 {}
 
 pat::Animation Factory::lightning_bolt(pat::Entity* target)

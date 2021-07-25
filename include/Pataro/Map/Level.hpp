@@ -39,8 +39,9 @@ namespace pat::map
          * 
          * @param width 
          * @param height 
+         * @param rng a managed pointer to a random number generator
          */
-        Level(int width, int height);
+        Level(int width, int height, TCODRandom* rng = nullptr);
 
         /**
          * @brief Check if a tile at (x, y) is a wall
@@ -156,8 +157,9 @@ namespace pat::map
         /**
          * @brief Generate the world
          * 
+         * @param with_entities 
          */
-        void generate();
+        void generate(bool with_entities);
 
         /**
          * @brief Dig a rectangular zone between (x1, y1) and (x2, y2)
@@ -176,8 +178,9 @@ namespace pat::map
          * @param y1 
          * @param x2 
          * @param y2 
+         * @param with_entities if the function should create entities as well
          */
-        void create_room(int x1, int y1, int x2, int y2);
+        void create_room(int x1, int y1, int x2, int y2, bool with_entities);
 
         std::vector<details::Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;
@@ -186,6 +189,7 @@ namespace pat::map
         int m_width;
         int m_height;
         entity::Factory m_factory;  ///< Entity factory
+        TCODRandom* m_rng;
     };
 }
 

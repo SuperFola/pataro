@@ -36,9 +36,6 @@ namespace pat::animation
          * @return Animation 
          */
         static Animation burning(Entity* target);
-
-    private:
-        TCODRandom* m_rng;
     };
 }
 

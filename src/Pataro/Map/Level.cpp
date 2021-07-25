@@ -11,9 +11,11 @@
 
 using namespace pat::map;
 
-Level::Level(int width, int height) :
+Level::Level(int width, int height, TCODRandom* rng) :
     m_tiles(width * height, details::Tile()),
-    m_width(width), m_height(height)
+    m_width(width),
+    m_height(height),
+    m_rng(rng)
 {}
 
 bool Level::is_wall(int x, int y) const
@@ -202,15 +204,15 @@ void Level::remove(pat::Entity* entity)
     m_entities.erase(it);
 }
 
-void Level::generate()
+void Level::generate(bool with_entities)
 {
     m_map = std::make_unique<TCODMap>(m_width, m_height);
 
     // generate the level
     TCODBsp bsp(0, 0, m_width, m_height);
     bsp.splitRecursive(
-        // no randomizer
-        nullptr,
+        // our own randomizer
+        m_rng,
         // number
         8,
         // max width
@@ -222,7 +224,7 @@ void Level::generate()
         // max height ratio
         1.5f
     );
-    details::BSPListener listener(this);
+    details::BSPListener listener(this, with_entities);
     bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
 }
 
@@ -249,7 +251,7 @@ void Level::dig(int x1, int y1, int x2, int y2)
     }
 }
 
-void Level::create_room(int x1, int y1, int x2, int y2)
+void Level::create_room(int x1, int y1, int x2, int y2, bool with_entities)
 {
     dig(x1, y1, x2, y2);
 
@@ -260,26 +262,28 @@ void Level::create_room(int x1, int y1, int x2, int y2)
         (y1 > y2) ? y1 - y2 : y2 - y1
     );
 
-    TCODRandom* rng = TCODRandom::getInstance();
-    int nb_monsters = rng->getInt(0, details::max_room_monsters);
-    int nb_items    = rng->getInt(0, details::max_room_items);
-
-    while (nb_monsters + nb_items > 0)
+    if (with_entities)
     {
-        int x = rng->getInt(x1, x2);
-        int y = rng->getInt(y1, y2);
+        int nb_monsters = m_rng->getInt(0, details::max_room_monsters);
+        int nb_items    = m_rng->getInt(0, details::max_room_items);
 
-        if (can_walk(x, y))
+        while (nb_monsters + nb_items > 0)
         {
-            if (nb_monsters > 0)
-                m_entities.emplace_back(m_factory.get_random_monster(x, y));
-            else if (nb_items > 0)
-                m_entities.emplace_back(m_factory.get_random_item(x, y));
-        }
+            int x = m_rng->getInt(x1, x2);
+            int y = m_rng->getInt(y1, y2);
 
-        if (nb_monsters > 0)
-            --nb_monsters;
-        else if (nb_items > 0)
-            --nb_items;
+            if (can_walk(x, y))
+            {
+                if (nb_monsters > 0)
+                    m_entities.emplace_back(m_factory.get_random_monster(x, y));
+                else if (nb_items > 0)
+                    m_entities.emplace_back(m_factory.get_random_item(x, y));
+            }
+
+            if (nb_monsters > 0)
+                --nb_monsters;
+            else if (nb_items > 0)
+                --nb_items;
+        }
     }
 }

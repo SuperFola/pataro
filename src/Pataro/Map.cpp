@@ -6,15 +6,19 @@
 
 using namespace pat;
 
-Map::Map(unsigned width, unsigned height, std::size_t depth) :
+Map::Map(unsigned width, unsigned height, std::size_t depth, bool with_entities) :
     m_current(0)
 {
+    long seed = TCODRandom::getInstance()->getInt(0, 0x7FFFFFFF);
+    m_rng = std::make_unique<TCODRandom>(seed, TCOD_RNG_CMWC);
+
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
-        m_levels.emplace_back(width, height);
+        m_levels.emplace_back(width, height, m_rng.get());
 
     // generate the first level
-    m_levels[m_current].generate();
+    // TODO generate the others if needed
+    m_levels[m_current].generate(with_entities);
 }
 
 bool Map::is_wall(int x, int y) const

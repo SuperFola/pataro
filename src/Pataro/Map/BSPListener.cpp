@@ -6,8 +6,8 @@
 using namespace pat::map::details;
 using namespace pat::map;
 
-BSPListener::BSPListener(Level* level) :
-    m_level(level), m_room_nb(0)
+BSPListener::BSPListener(Level* level, bool with_entities) :
+    m_level(level), m_room_nb(0), m_with_entities(with_entities)
 {}
 
 bool BSPListener::visitNode(TCODBsp* node, [[maybe_unused]] void* userData)
@@ -21,7 +21,7 @@ bool BSPListener::visitNode(TCODBsp* node, [[maybe_unused]] void* userData)
         int x = rng->getInt(node->x + 1, node->x + node->w - w - 1);
         int y = rng->getInt(node->y + 1, node->y + node->h - h - 1);
 
-        m_level->create_room(x, y, x + w - 1, y + h - 1);
+        m_level->create_room(x, y, x + w - 1, y + h - 1, m_with_entities);
 
         // dig corridors
         if (m_room_nb != 0)
