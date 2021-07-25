@@ -2,21 +2,22 @@
 
 using namespace pat;
 
-int Persistent::load_int(const std::vector<char>& data, std::size_t& pos)
+bool Persistent::load_int(const std::vector<char>& data, std::size_t& pos, int& out)
 {
-    int val = 0;
-
     if (pos + 4 < data.size())
     {
+        out = 0;
         for (std::size_t i = 0; i < 4; ++i)
-            val = (val << 8) + data[pos + i];
+            out = (out << 8) + data[pos + i];
         pos += 4;
+
+        return true;
     }
 
-    return val;
+    return false;
 }
 
-void Persistent::put_int(std::vector<char>& data, int i)
+bool Persistent::put_int(std::vector<char>& data, int i)
 {
     for (int j = 0; j < 4; ++j)
     {
@@ -24,27 +25,36 @@ void Persistent::put_int(std::vector<char>& data, int i)
             (i & (0xff << (8 * j))) >> (8 * j)
         ));
     }
+
+    return true;
 }
 
-std::string Persistent::load_string(const std::vector<char>& data, std::size_t& pos)
+bool Persistent::load_string(const std::vector<char>& data, std::size_t& pos, std::string& out)
 {
-    std::size_t length = static_cast<std::size_t>(load_int(data, pos));
-    std::string val;
+    int length = 0;
+    if (!load_int(data, pos, length))
+        return false;
 
     if (pos + length < data.size())
     {
+        out = "";
         for (std::size_t i = 0; i < length; ++i)
-            val.push_back(data[pos + i]);
+            out.push_back(data[pos + i]);
         pos += length;
+
+        return true;
     }
 
-    return val;
+    return false;
 }
 
-void Persistent::put_string(std::vector<char>& data, const std::string& str)
+bool Persistent::put_string(std::vector<char>& data, const std::string& str)
 {
-    put_int(data, static_cast<int>(str.size()));
+    if (!put_int(data, static_cast<int>(str.size())))
+        return false;
 
     for (std::size_t i = 0; i < str.size(); ++i)
         data.push_back(str[i]);
+
+    return true;
 }

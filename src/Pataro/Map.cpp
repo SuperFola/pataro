@@ -21,6 +21,18 @@ Map::Map(unsigned width, unsigned height, std::size_t depth, bool with_entities)
     m_levels[m_current].generate(with_entities);
 }
 
+bool Map::load(const std::vector<char>& data, std::size_t& pos)
+{
+    // TEMP
+    return true;
+}
+
+bool Map::save(std::vector<char>& data)
+{
+    // TEMP
+    return true;
+}
+
 bool Map::is_wall(int x, int y) const
 {
     return m_levels[m_current].is_wall(x, y);

@@ -35,12 +35,6 @@ namespace pat
         Engine(unsigned width, unsigned height, const std::string& title, bool show_debug = false);
 
         /**
-         * @brief Initialize the engine
-         * 
-         */
-        void reset();
-
-        /**
          * @brief move the player around
          * 
          */
@@ -96,6 +90,18 @@ namespace pat
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
 
     private:
+        /**
+         * @brief Load or initialize the game state
+         * 
+         */
+        void load();
+
+        /**
+         * @brief Initialize the engine
+         * 
+         */
+        void reset();
+
         unsigned m_width, m_height;
         bool m_show_debug;
         TCOD_key_t m_lastkey;

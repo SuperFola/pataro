@@ -2,6 +2,7 @@
 #define PATARO_MAP_HPP
 
 #include <Pataro/Map/Level.hpp>
+#include <Pataro/Persistent.hpp>
 
 #include <vector>
 #include <memory>
@@ -11,7 +12,7 @@ namespace pat
     class Entity;
     class Engine;
 
-    class Map
+    class Map : public Persistent
     {
     public:
         /**
@@ -23,6 +24,10 @@ namespace pat
          * @param with_entities if the levels should be generated with entities
          */
         Map(unsigned width, unsigned height, std::size_t depth, bool with_entities);
+
+        bool load(const std::vector<char>& data, std::size_t& pos);
+
+        bool save(std::vector<char>& data);
 
         /**
          * @brief Check if a tile at (x, y) is a wall

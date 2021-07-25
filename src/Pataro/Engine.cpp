@@ -13,6 +13,9 @@
 
 #include <utility>
 #include <fstream>
+#include <filesystem>
+// TODO remove
+#include <iostream>
 
 using namespace pat;
 
@@ -21,6 +24,40 @@ Engine::Engine(unsigned width, unsigned height, const std::string& title, bool s
 {
     TCODConsole::initRoot(width, height, title.c_str(), false);
     TCODSystem::setFps(30);
+
+    load();
+}
+
+void Engine::load()
+{
+    std::string file = "pataro.sav";
+
+    if (std::filesystem::exists(std::filesystem::path(file)))
+    {
+        std::ifstream ifs(file, std::ios::binary | std::ios::ate);
+        if (ifs.good())
+        {
+            std::size_t total_size = ifs.tellg();
+            // reserve appropriate number of bytes
+            std::vector<char> data;
+
+            ifs.seekg(0, std::ios::beg);
+            ifs.read(&data[0], total_size);
+            ifs.close();
+
+            std::size_t pos = 0;
+
+            m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1, false);
+            if (m_map->load(data, pos))
+            {
+                // TODO do better
+                std::cout << "Corrupted save, couldn't load map" << std::endl;
+                return;
+            }
+
+            return;
+        }
+    }
 
     reset();
 }
