@@ -35,6 +35,10 @@ cmake --build build --config Debug
 - Collect objects with `g`
 - Open the inventory with `i`
 
+## Code structure
+
+![](images/diagram.svg)
+
 ## Roadmap
 
 - [x] generation of the world map (rooms + corridors)
