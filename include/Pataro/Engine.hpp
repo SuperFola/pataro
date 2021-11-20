@@ -10,6 +10,14 @@
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
 
+#include "cereal/types/memory.hpp"
+#include "cereal/types/string.hpp"
+#include "cereal/types/vector.hpp"
+#include "cereal/types/map.hpp"
+
+#include "cereal/archives/xml.hpp"
+
+
 namespace pat
 {
     enum class GameState
@@ -94,7 +102,31 @@ namespace pat
         inline Gui*    get_gui()    { return m_gui.get(); }
         inline const TCOD_key_t&   lastkey() { return m_lastkey; }
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
+        
+        /*
+        template<class Archive>
+        void save(Archive& archive) const {
+            archive(cereal::make_nvp("Player", m_player), cereal::make_nvp("Map", m_map));
+        }
 
+<<<<<<< Updated upstream
+=======
+        template<class Archive>
+        void load(Archive& archive) {
+            archive(m_player, m_map);
+        }*/
+
+        template<class Archive>
+        void save(Archive& archive) const {
+            archive(cereal::make_nvp("Map", m_map));
+        }
+
+        template<class Archive>
+        void load(Archive& archive) {
+            archive(m_map);
+        }
+        
+>>>>>>> Stashed changes
     private:
         unsigned m_width, m_height;
         bool m_show_debug;

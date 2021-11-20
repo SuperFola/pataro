@@ -8,6 +8,16 @@ namespace pat::map::details
         bool explored = false;  ///< Has the player seen this tile?
 
         Tile();
+
+        template<class Archive>
+        void save(Archive& archive) const {
+            archive(cereal::make_nvp("isExplored", explored));
+        }
+
+        template<class Archive>
+        void load(Archive& archive) {
+            archive(explored);
+        }
     };
 }
 

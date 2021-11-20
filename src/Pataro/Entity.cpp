@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 
+
 using namespace pat;
 
 unsigned Entity::Id = 0;
@@ -9,6 +10,7 @@ unsigned Entity::Id = 0;
 Entity::Entity(int x, int y, int ch, const std::string& name, const TCODColor& color) :
     m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
 {}
+
 
 Entity::Entity(const Entity& other) :
     m_id(other.m_id),
