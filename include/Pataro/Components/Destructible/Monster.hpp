@@ -3,6 +3,10 @@
 
 #include <Pataro/Components/Destructible.hpp>
 
+#include <cereal/archives/xml.hpp>
+#include "cereal/types/polymorphic.hpp"
+
+
 #include <string>
 
 namespace pat
@@ -27,9 +31,22 @@ namespace pat::component
 
         void die(Entity* owner, Engine* engine) override;
 
+        template <class Archive>
+        void serialize(Archive& ar)
+        {
+         ar(cereal::base_class<Destructible>(this));
+        };
+
+
     protected:
         virtual MonsterDestructible* clone_impl() const override;
-    };
+    }; 
+
 }
+
+    CEREAL_REGISTER_TYPE(pat::component::MonsterDestructible)
+    CEREAL_REGISTER_POLYMORPHIC_RELATION(pat::component::Destructible, pat::component::MonsterDestructible);
+   
+
 
 #endif

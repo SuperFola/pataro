@@ -15,6 +15,12 @@
 #include <utility>
 #include <memory>
 
+#include "cereal/types/memory.hpp"
+#include "cereal/types/string.hpp"
+#include "cereal/types/utility.hpp"
+#include <cereal/access.hpp>
+
+
 namespace pat
 {
     class Engine;
@@ -40,11 +46,18 @@ namespace pat
         */
         Entity(int x, int y, int ch, const std::string& name, const TCODColor& color);
 
+        Entity() {
+        m_id, m_x, m_y = 0;
+        m_ch = '\0';
+        m_name = "";
+        }
+
         /**
          * @brief Construct a new Entity object
          * 
          * @param other 
          */
+
         Entity(const Entity& other);
 
         /**
@@ -113,7 +126,47 @@ namespace pat
 
         inline bool is_blocking() const { return m_blocks; }
         inline void set_blocking(bool value) { m_blocks = value; }
+        /*
+        template<class Archive>
+        void save(Archive& archive) const {
+            archive(cereal::make_nvp("Attacker", m_attacker), cereal::make_nvp("Destructible", m_destructible),
+                cereal::make_nvp("AI", m_ai), cereal::make_nvp("Container", m_container), cereal::make_nvp("Use", m_use),
+                cereal::make_nvp("ID", m_id), cereal::make_nvp("Position X", m_x), cereal::make_nvp("Position Y", m_y),
+                cereal::make_nvp("Entity Character", m_ch), cereal::make_nvp("Name", m_name), cereal::make_nvp("Color", m_color),
+                cereal::make_nvp("Energy", m_energy), cereal::make_nvp("Speed", m_speed), cereal::make_nvp("Walkable", m_blocks),
+                cereal::make_nvp("Animation", m_animation));
+        }
 
+<<<<<<< Updated upstream
+=======
+        template<class Archive>
+        void load(Archive& archive) {
+            archive(m_attacker, m_destructible, m_ai, m_container, m_use, m_id, m_x, m_y, m_ch,
+                m_name, m_color, m_energy, m_speed, m_blocks, m_animation);
+        }*/
+
+        template<class Archive>
+        void save(Archive& archive) const {
+        archive(cereal::make_nvp("ID", m_id), cereal::make_nvp("PositionX", m_x), cereal::make_nvp("PositionY", m_y),
+                cereal::make_nvp("EntityCharacter", m_ch), cereal::make_nvp("Name", m_name), cereal::make_nvp("Energy", m_energy), 
+            cereal::make_nvp("Speed", m_speed), cereal::make_nvp("Walkable", m_blocks), cereal::make_nvp("EntityColor", m_color), 
+            cereal::make_nvp("Attacker", m_attacker), cereal::make_nvp("Destructible", m_destructible), cereal::make_nvp("Container", m_container),
+            cereal::make_nvp("Use", m_use));
+        }
+
+        template<class Archive>
+        void load(Archive& archive) {
+        archive(m_id, m_x, m_y, m_ch, m_name, m_energy, m_speed, m_blocks, m_color, m_attacker, m_destructible, m_container, m_use);
+        }
+
+        template<class Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Entity>& construct) {
+        archive(construct->m_id, construct->m_x, construct->m_y, construct->m_ch, construct->m_name, construct->m_energy, 
+            construct->m_speed, construct->m_blocks, construct->m_color, construct->m_attacker, construct->m_destructible, 
+            construct->m_container, construct->m_use);
+        }
+
+>>>>>>> Stashed changes
         #define GET_CMPNT1(Type, name) inline component::Type* name() { return m_##name.get(); }
         #define GET_CMPNT2(Type, name) inline std::unique_ptr<component::Type>&& uptr_##name() { return std::move(m_##name); }
         #define SET_CMPNT1(name)       template <typename T, typename... Args> void set_##name(Args&&... args) { m_##name = std::make_unique<T>(std::forward<Args>(args)...); }
@@ -151,6 +204,7 @@ namespace pat
         std::unique_ptr<component::AI>           m_ai           = nullptr;  ///< For self updating Entities
         std::unique_ptr<component::Container>    m_container    = nullptr;  ///< Something that can contain Entities
         std::unique_ptr<component::Use>          m_use          = nullptr;  ///< Something that can be used (create an action)
+
     };
 }
 

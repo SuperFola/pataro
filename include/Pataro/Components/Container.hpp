@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <memory>
+#include "cereal/types/memory.hpp"
+#include <cereal/access.hpp>
 
 namespace pat
 {
@@ -68,6 +70,25 @@ namespace pat::component
         std::size_t capacity() const;
 
         inline std::unique_ptr<Container> clone() const { return std::unique_ptr<Container>(clone_impl()); }
+<<<<<<< Updated upstream
+=======
+        
+        template<class Archive>
+        void save(Archive& archive) const {
+            archive(cereal::make_nvp("MaxSize", m_max_size), cereal::make_nvp("Inventory", m_inventory));
+        }
+
+        template<class Archive>
+        void load(Archive& archive) {
+            archive(m_max_size, m_inventory);
+        }
+>>>>>>> Stashed changes
+
+        template<class Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Container>& construct) {
+        archive(construct->m_max_size, construct->m_inventory);         
+        }
+
 
     protected:
         virtual Container* clone_impl() const;
