@@ -126,6 +126,7 @@ namespace pat
         template <typename Archive>
         void save(Archive& archive) const
         {
+            // FIXME error here when we try to save the entity to disk
             archive(
                 cereal::make_nvp("ID", m_id),
                 cereal::make_nvp("PositionX", m_x),

@@ -3,7 +3,9 @@
 
 #include <Pataro/Action.hpp>
 
+#include <cereal/types/memory.hpp>
 #include <cereal/access.hpp>
+#include <cereal/archives/xml.hpp>
 
 #include <memory>
 
