@@ -2,7 +2,6 @@
 
 #include <Pataro/Engine.hpp>
 
-
 using namespace pat;
 
 unsigned Entity::Id = 0;

@@ -5,6 +5,6 @@
     "dependencies": [
         "libtcod",
         "sdl2",
-	"cereal"
+        "cereal"
     ]
 }

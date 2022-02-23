@@ -7,11 +7,10 @@
 #include <Pataro/Entities/Factory.hpp>
 
 #include <libtcod.hpp>
+#include <cereal/access.hpp>
 
 #include <vector>
 #include <memory>
-
-#include <cereal/access.hpp>
 
 namespace pat
 {
@@ -153,32 +152,25 @@ namespace pat::map
 
         friend class details::BSPListener;
         friend class pat::Map;
-        /*
-        template<class Archive>
-        void save(Archive& archive) const {
-            archive(cereal::make_nvp("Tiles", m_tiles), cereal::make_nvp("Map", m_map), cereal::make_nvp("Rooms", m_rooms),
-                cereal::make_nvp("Entities", m_entities), cereal::make_nvp("Width", m_width), cereal::make_nvp("Height", m_height),
-                cereal::make_nvp("Factory", m_factory));
-        }
 
-        template<class Archive>
-        void load(Archive& archive) {
-            archive(m_tiles, m_map, m_rooms, m_entities, m_width, m_height, m_factory);
-        }
-        */
-        
-        template<class Archive>
-        void save(Archive& archive) const {
-            archive(cereal::make_nvp("Width", m_width), cereal::make_nvp("Height", m_height), 
-                cereal::make_nvp("Tiles", m_tiles), cereal::make_nvp("Rooms", m_rooms), 
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(
+                cereal::make_nvp("Width", m_width),
+                cereal::make_nvp("Height", m_height),
+                cereal::make_nvp("Tiles", m_tiles),
+                cereal::make_nvp("Rooms", m_rooms),
                 cereal::make_nvp("Entities", m_entities));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(m_width, m_height, m_tiles, m_rooms, m_entities);
         }
-        private:
+
+    private:
         /**
          * @brief Generate the world
          * 

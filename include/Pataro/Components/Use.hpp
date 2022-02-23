@@ -3,9 +3,9 @@
 
 #include <Pataro/Action.hpp>
 
-#include <memory>
 #include <cereal/access.hpp>
 
+#include <memory>
 
 namespace pat
 {
@@ -47,24 +47,24 @@ namespace pat::component
 
         inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
 
-<<<<<<< Updated upstream
-=======
-        template<class Archive>
-        void save(Archive& archive) const {
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
             archive(cereal::make_nvp("IsDestroyed", m_destroyed));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(m_destroyed);
         }
 
-        template<class Archive>
-        static void load_and_construct(Archive& archive, cereal::construct<Use>& construct) {
-        archive(construct->m_destroyed);         
+        template <typename Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Use>& construct)
+        {
+            archive(construct->m_destroyed);
         }
 
->>>>>>> Stashed changes
     protected:
         /**
          * @brief The action it should perform

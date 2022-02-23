@@ -1,11 +1,12 @@
 #ifndef PATARO_COMPONENTS_DESTRUCTIBLE_HPP
 #define PATARO_COMPONENTS_DESTRUCTIBLE_HPP
 
-#include <string>
-#include <memory>
-#include "cereal/types/memory.hpp"
+#include <cereal/types/memory.hpp>
 #include <cereal/access.hpp>
 #include <cereal/archives/xml.hpp>
+
+#include <string>
+#include <memory>
 
 namespace pat
 {
@@ -25,7 +26,7 @@ namespace pat::component
          * @param defense 
          * @param corpse_name the name of the Entity once dead
          */
-        Destructible(float max_hp, float defense, const std::string& corpse_name);        
+        Destructible(float max_hp, float defense, const std::string& corpse_name);
 
         /**
          * @brief Destroy the Destructible object
@@ -66,25 +67,28 @@ namespace pat::component
 
         inline std::unique_ptr<Destructible> clone() const { return std::unique_ptr<Destructible>(clone_impl()); }
 
-<<<<<<< Updated upstream
-=======
-        template<class Archive>
-        void save(Archive& archive) const {
-            archive(cereal::make_nvp("Max HP", m_max_hp), cereal::make_nvp("HP", m_hp),
-                cereal::make_nvp("Defense", m_defense), cereal::make_nvp("CorpseName", m_corpse_name));
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(
+                cereal::make_nvp("Max HP", m_max_hp),
+                cereal::make_nvp("HP", m_hp),
+                cereal::make_nvp("Defense", m_defense),
+                cereal::make_nvp("CorpseName", m_corpse_name));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(m_max_hp, m_hp, m_defense, m_corpse_name);
         }
 
-        template<class Archive>
-        static void load_and_construct(Archive& archive, cereal::construct<Destructible>& construct) {
-        archive(construct->m_max_hp, construct->m_hp, construct->m_defense, construct->m_corpse_name);         
+        template <typename Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Destructible>& construct)
+        {
+            archive(construct->m_max_hp, construct->m_hp, construct->m_defense, construct->m_corpse_name);
         }
 
->>>>>>> Stashed changes
     protected:
         virtual Destructible* clone_impl() const;
 
@@ -93,8 +97,6 @@ namespace pat::component
         float m_defense;
         std::string m_corpse_name;  ///< The Entity's name once dead
     };
-
-    
 }
 
 
