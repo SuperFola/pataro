@@ -4,8 +4,7 @@
 #include <Pataro/Components/Destructible.hpp>
 
 #include <cereal/archives/xml.hpp>
-#include "cereal/types/polymorphic.hpp"
-
+#include <cereal/types/polymorphic.hpp>
 
 #include <string>
 
@@ -40,13 +39,10 @@ namespace pat::component
 
     protected:
         virtual MonsterDestructible* clone_impl() const override;
-    }; 
-
+    };
 }
 
-    CEREAL_REGISTER_TYPE(pat::component::MonsterDestructible)
-    CEREAL_REGISTER_POLYMORPHIC_RELATION(pat::component::Destructible, pat::component::MonsterDestructible);
-   
-
+CEREAL_REGISTER_TYPE(pat::component::MonsterDestructible)
+CEREAL_REGISTER_POLYMORPHIC_RELATION(pat::component::Destructible, pat::component::MonsterDestructible);
 
 #endif

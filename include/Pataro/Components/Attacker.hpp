@@ -1,9 +1,10 @@
 #ifndef PATARO_COMPONENTS_ATTACKER_HPP
 #define PATARO_COMPONENTS_ATTACKER_HPP
 
-#include <memory>
-#include "cereal/types/memory.hpp"
+#include <cereal/types/memory.hpp>
 #include <cereal/access.hpp>
+
+#include <memory>
 
 namespace pat
 {
@@ -27,24 +28,24 @@ namespace pat::component
 
         inline std::unique_ptr<Attacker> clone() const { return std::unique_ptr<Attacker>(clone_impl()); }
 
-<<<<<<< Updated upstream
-=======
-        template<class Archive>
-        void save(Archive& archive) const {
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
             archive(cereal::make_nvp("Power", m_power));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(m_power);
         }
-                
-        template<class Archive>
-        static void load_and_construct(Archive& archive, cereal::construct<Attacker>& construct) {
-        archive(construct->m_power);
+
+        template <typename Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Attacker>& construct)
+        {
+            archive(construct->m_power);
         }
 
->>>>>>> Stashed changes
     protected:
         virtual Attacker* clone_impl() const;
 

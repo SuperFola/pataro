@@ -18,14 +18,19 @@ namespace pat::map::details
 
         const int x, y, width, height;
 
-        template<class Archive>
-        void save(Archive& archive) const {
-            archive(cereal::make_nvp("X", x), cereal::make_nvp("Y", y),
-                cereal::make_nvp("width", width), cereal::make_nvp("height", height));
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(
+                cereal::make_nvp("X", x),
+                cereal::make_nvp("Y", y),
+                cereal::make_nvp("width", width),
+                cereal::make_nvp("height", height));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(x, y, width, height);
         }
     };

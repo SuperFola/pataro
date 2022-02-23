@@ -3,8 +3,6 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 
-
-
 using namespace pat::component;
 
 std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)

@@ -3,10 +3,10 @@
 
 #include <Pataro/Map/Level.hpp>
 
-#include <vector>
-
 #include <cereal/types/vector.hpp>
 #include <cereal/access.hpp>
+
+#include <vector>
 
 namespace pat
 {
@@ -102,23 +102,19 @@ namespace pat
          * @return const map::Level& 
          */
         inline map::Level& current_level() { return m_levels[m_current]; }
-        
 
-<<<<<<< Updated upstream
-=======
-        template<class Archive>
+        template <typename Archive>
         void save(Archive& archive) const
         {
             archive(cereal::make_nvp("CurrentLevel", m_current), cereal::make_nvp("Levels", m_levels));
         }
 
-        template<class Archive>
-        void load(Archive& archive) {
+        template <typename Archive>
+        void load(Archive& archive)
+        {
             archive(m_current);
         }
 
->>>>>>> Stashed changes
-    private:
         friend cereal::access;
         std::vector<map::Level> m_levels;
         // TODO add method to change current level
