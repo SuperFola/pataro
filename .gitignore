@@ -9,6 +9,8 @@ tcod/
 
 # game reports with game stats
 game-log.csv
+# game saves
+gameData.xml
 
 # user settings, just ignore them
 .vscode/settings.json
