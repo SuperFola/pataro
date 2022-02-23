@@ -135,7 +135,9 @@ namespace pat
                 cereal::make_nvp("Energy", m_energy),
                 cereal::make_nvp("Speed", m_speed),
                 cereal::make_nvp("Walkable", m_blocks),
-                cereal::make_nvp("EntityColor", m_color),
+                cereal::make_nvp("EntityColorR", m_color.r),
+                cereal::make_nvp("EntityColorG", m_color.g),
+                cereal::make_nvp("EntityColorB", m_color.b),
                 cereal::make_nvp("Attacker", m_attacker),
                 cereal::make_nvp("Destructible", m_destructible),
                 cereal::make_nvp("Container", m_container),
@@ -145,15 +147,15 @@ namespace pat
         template <typename Archive>
         void load(Archive& archive)
         {
-            archive(m_id, m_x, m_y, m_ch, m_name, m_energy, m_speed, m_blocks, m_color, m_attacker, m_destructible, m_container, m_use);
+            archive(m_id, m_x, m_y, m_ch, m_name, m_energy, m_speed, m_blocks, m_color.r, m_color.g, m_color.b, m_attacker, m_destructible, m_container, m_use);
         }
 
         template <typename Archive>
         static void load_and_construct(Archive& archive, cereal::construct<Entity>& construct)
         {
             archive(construct->m_id, construct->m_x, construct->m_y, construct->m_ch, construct->m_name, construct->m_energy,
-                    construct->m_speed, construct->m_blocks, construct->m_color, construct->m_attacker, construct->m_destructible,
-                    construct->m_container, construct->m_use);
+                    construct->m_speed, construct->m_blocks, construct->m_color.r, construct->m_color.g, construct->m_color.b,
+                    construct->m_attacker, construct->m_destructible, construct->m_container, construct->m_use);
         }
 
         #define GET_CMPNT1(Type, name) inline component::Type* name() { return m_##name.get(); }
