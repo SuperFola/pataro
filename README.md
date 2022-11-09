@@ -10,7 +10,6 @@ Read **[ARCHITECTURE.md](ARCHITECTURE.md)** before diving in.
 
 ## Deps
 
-* download [tcod 1.16.6](https://github.com/libtcod/libtcod/releases/tag/1.16.6) and put it under tcod/
 * CMake >= 3.8
 
 ### Building
@@ -23,10 +22,14 @@ Then you can compile using CMake, don't forget to point to vcpkg toolchain cmake
 git clone https://github.com/SuperFola/Pataro.git
 cd Pataro
 git submodule update --init --recursive
-(cd vcpkg && ./bootstrap-vcpkg && ./vcpkg integrate install)
+(cd ./vcpkg && ./bootstrap-vcpkg && ./vcpkg integrate install)
 cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
 cmake --build build --config Debug
 ```
+
+**Note**: on MacOS, you will want to alter LDFLAGS and CPPFLAGS before generating the build. It is also recommended to install `utf8proc` through brew.
+* `export LDFLAGS="-L/opt/homebrew/Cellar/utf8proc/2.8.0/lib"`
+* `export CPPFLAGS="-I/opt/homebrew/Cellar/utf8proc/2.8.0/include"`
 
 ## Controls
 

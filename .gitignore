@@ -6,6 +6,7 @@ tcod/
 *.so
 *.dll
 *.exe
+.DS_Store
 
 # game reports with game stats
 game-log.csv
