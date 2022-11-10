@@ -13,6 +13,8 @@
 #include <Pataro/Actions/Use.hpp>
 #include <Pataro/Actions/Drop.hpp>
 
+#include <SDL2/SDL_keycode.h>
+
 using namespace pat::component;
 
 std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* engine)
@@ -28,18 +30,15 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
         dy = 0;
     std::unique_ptr<pat::Action> action;
 
-    switch (engine->lastkey().vk)
+    switch (engine->lastkey())
     {
-        case TCODK_UP:    --dy; break;
-        case TCODK_DOWN:  ++dy; break;
-        case TCODK_LEFT:  --dx; break;
-        case TCODK_RIGHT: ++dx; break;
-
-        case TCODK_CHAR:
-            action = handle_action_key(owner, engine, engine->lastkey().c);
-            break;
+        case SDLK_UP:    --dy; break;
+        case SDLK_DOWN:  ++dy; break;
+        case SDLK_LEFT:  --dx; break;
+        case SDLK_RIGHT: ++dx; break;
 
         default:
+            action = handle_action_key(owner, engine, engine->lastkey());
             break;
     }
 
@@ -59,16 +58,16 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
     return nullptr;
 }
 
-std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat::Engine* engine, int ascii)
+std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat::Engine* engine, int keycode)
 {
-    switch (ascii)
+    switch (keycode)
     {
         // pick an item
-        case 'g':
+        case SDLK_g:
             return std::make_unique<pat::PickUpAction>(owner, owner->get_x(), owner->get_y());
 
         // display inventory
-        case 'i':
+        case SDLK_i:
         {
             Entity* e = choose_from_inventory(owner, engine);
             if (e != nullptr)
@@ -77,13 +76,16 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
         }
 
         // drop an object
-        case 'd':
+        case SDLK_d:
         {
             Entity* e = choose_from_inventory(owner, engine);
             if (e != nullptr)
                 return std::make_unique<pat::DropAction>(owner, e);
             break;
         }
+
+        default:
+            break;
     }
 
     return nullptr;
@@ -119,12 +121,17 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
     engine->flush();
 
     // wait for a key press
-    TCOD_key_t key;
-    TCODSystem::waitForEvent(TCOD_EVENT_KEY_PRESS, &key, nullptr, true);
-
-    if (key.vk == TCODK_CHAR)
+    while (true)
     {
-        int idx = key.c - 'a';
+        engine->handle_events();
+
+        if (engine->lastkey() != SDLK_UNKNOWN)
+            break;
+    }
+
+    if (engine->lastkey() >= 'a' && engine->lastkey() <= 'z')
+    {
+        int idx = engine->lastkey() - 'a';
         if (0 <= idx && static_cast<std::size_t>(idx) < c.size())
             return c.ptr_at(idx);
     }

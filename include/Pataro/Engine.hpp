@@ -1,5 +1,5 @@
-#ifndef PATARO_ENGINE_HPP
-#define PATARO_ENGINE_HPP
+#ifndef INCLUDE_PATARO_ENGINE_HPP
+#define INCLUDE_PATARO_ENGINE_HPP
 
 #include <vector>
 #include <string>
@@ -12,6 +12,7 @@
 
 #include <libtcod.hpp>
 #include <libtcod/timer.hpp>
+#include <SDL2/SDL_keycode.h>
 
 namespace pat
 {
@@ -56,13 +57,15 @@ namespace pat
          */
         void render();
 
+        void handle_events();
+
         /**
          * @brief Check if the engine is still running, i.e. if the window is opened
          * 
          * @return true 
          * @return false 
          */
-        bool is_running() const;
+        inline bool is_running() const { return m_running; }
 
         /**
          * @brief Log an event with a given name. Only names/occurences are kept
@@ -95,7 +98,7 @@ namespace pat
         inline Entity* get_player() { return m_player.get(); }
         inline Map*    get_map()    { return m_map.get(); }
         inline Gui*    get_gui()    { return m_gui.get(); }
-        inline const TCOD_key_t&   lastkey() { return m_lastkey; }
+        inline const SDL_Keycode& lastkey() { return m_lastkey; }
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
 
         inline tcod::Console& console() { return m_console; }
@@ -103,8 +106,9 @@ namespace pat
 
     private:
         unsigned m_width, m_height;
+        bool m_running;
         bool m_show_debug;
-        TCOD_key_t m_lastkey;
+        SDL_Keycode m_lastkey;
         TCOD_mouse_t m_mouse;
 
         tcod::Console m_console;

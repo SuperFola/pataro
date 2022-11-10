@@ -32,10 +32,10 @@ namespace pat::component
          * 
          * @param owner 
          * @param engine 
-         * @param ascii 
+         * @param keycode sdl2 keycode
          * @return std::unique_ptr<pat::Action> 
          */
-        std::unique_ptr<pat::Action> handle_action_key(Entity* owner, Engine* engine, int ascii);
+        std::unique_ptr<pat::Action> handle_action_key(Entity* owner, Engine* engine, int keycode);
 
         /**
          * @brief Prompts the player to select an object in its inventory
