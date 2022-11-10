@@ -83,8 +83,9 @@ namespace pat
          * @brief Render the map on the screen
          * 
          * @param engine 
+         * @param dt delta time
          */
-        void render(Engine* engine);
+        void render(Engine* engine, float dt);
 
         /**
          * @brief Update the current level

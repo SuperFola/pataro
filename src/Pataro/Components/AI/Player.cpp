@@ -3,6 +3,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Colors.hpp>
+#include <Pataro/Constants.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Container.hpp>
 
@@ -93,28 +94,29 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
     // TODO put this in Pataro/Gui/Inventory
     static const int INVENTORY_WIDTH = 50,
                      INVENTORY_HEIGHT = 28;
-    static TCODConsole con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
-    con.setDefaultForeground(tcod::ColorRGB(200, 180, 50));
-    con.printFrame(0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT, true, TCOD_BKGND_DEFAULT, "inventory");
+    static tcod::Console con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
+
+    tcod::draw_frame(con, {0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT}, details::frame, tcod::ColorRGB(200, 180, 50), std::nullopt, TCOD_BKGND_DEFAULT);
 
     // display the items with their keyboard shortcut
-    con.setDefaultForeground(colors::white);
     int y = 1;
     Container& c = *owner->container();
 
     for (std::size_t i = 0, end = c.size(); i < end; ++i)
     {
-        con.printf(2, y, "(%c) %s", 'a' + y - 1, c[i].get_name().c_str());
+        tcod::print(con, {2, y}, tcod::stringf("(%c) %s", 'a' + y - 1, c[i].get_name().c_str()), colors::white, std::nullopt);
         y++;
     }
 
-    TCODConsole::blit(
-        &con, 0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT,
-        TCODConsole::root,
-        engine->width() / 2 - INVENTORY_WIDTH / 2,
-        engine->height() / 2 - INVENTORY_HEIGHT / 2
+    tcod::blit(
+        *engine->console().get(),
+        *con.get(),
+        {
+            static_cast<int>(engine->width()) / 2 - INVENTORY_WIDTH / 2,
+            static_cast<int>(engine->height()) / 2 - INVENTORY_HEIGHT / 2
+        }
     );
-    TCODConsole::flush();
+    engine->flush();
 
     // wait for a key press
     TCOD_key_t key;
@@ -123,7 +125,7 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
     if (key.vk == TCODK_CHAR)
     {
         int idx = key.c - 'a';
-        if (0 <= idx && idx < c.size())
+        if (0 <= idx && static_cast<std::size_t>(idx) < c.size())
             return c.ptr_at(idx);
     }
 

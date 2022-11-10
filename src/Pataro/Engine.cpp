@@ -10,6 +10,7 @@
 #include <Pataro/Components/Destructible/Player.hpp>
 #include <Pataro/Components/Container.hpp>
 
+#include <SDL.h>
 #include <libtcod.hpp>
 
 #include <utility>
@@ -18,10 +19,16 @@
 using namespace pat;
 
 Engine::Engine(unsigned width, unsigned height, const std::string& title, bool show_debug) :
-    m_width(width), m_height(height), m_show_debug(show_debug)
+    m_width(width), m_height(height), m_show_debug(show_debug), m_console(width, height)
 {
-    TCODConsole::initRoot(width, height, title.c_str(), false);
-    TCODSystem::setFps(30);
+    TCOD_ContextParams params {};
+    params.tcod_version = TCOD_COMPILEDVERSION;
+    params.window_title = title.c_str();
+    params.console = m_console.get();
+    params.vsync = true;
+    params.renderer_type = TCOD_RENDERER_SDL2;
+
+    m_context = tcod::Context(params);
 
     reset();
 }
@@ -102,47 +109,48 @@ void Engine::update()
 
 void Engine::render()
 {
-    TCODConsole::root->clear();
+    float dt = m_timer.sync(30);
 
-    m_map->render(this);
-    m_gui->render(this, TCODConsole::root, 0, m_height - m_gui->get_height());
+    TCOD_console_clear(m_console.get());
+
+    m_map->render(this, dt);
+    m_gui->render(this, m_console.get(), 0, m_height - m_gui->get_height());
 
     if (m_show_debug)
-    {
-        TCODConsole::root->setDefaultForeground(colors::white);
-        TCODConsole::root->printf(0, 0, "%.2f", 1.f / TCODSystem::getLastFrameLength());
-    }
+        tcod::print(m_console, {0, 0}, tcod::stringf("%.2f ms", dt * 1000), std::nullopt, std::nullopt);
 
-    // defeat ui
-    if (m_state == GameState::Defeat)
-    {
-        static const int UI_WIDTH = 50, UI_HEIGHT = 28;
-        static TCODConsole con(UI_WIDTH, UI_HEIGHT);
+    // defeat ui FIXME
+    // if (m_state == GameState::Defeat)
+    // {
+    //     static const int UI_WIDTH = 50, UI_HEIGHT = 28;
+    //     static TCODConsole con(UI_WIDTH, UI_HEIGHT);
 
-        con.setDefaultForeground(tcod::ColorRGB(50, 180, 200));
-        con.printFrame(0, 0, UI_WIDTH, UI_HEIGHT, true, TCOD_BKGND_DEFAULT, "Game statistics");
+    //     con.setDefaultForeground(tcod::ColorRGB(50, 180, 200));
+    //     con.printFrame(0, 0, UI_WIDTH, UI_HEIGHT, true, TCOD_BKGND_DEFAULT, "Game statistics");
 
-        // display the items with their keyboard shortcut
-        con.setDefaultForeground(colors::white);
-        int y = 1;
+    //     // display the items with their keyboard shortcut
+    //     con.setDefaultForeground(colors::white);
+    //     int y = 1;
 
-        for (const auto& pair : m_log)
-        {
-            if (y - m_scroll_pos > 0)
-                con.printf(2, y - m_scroll_pos, "%s: %u", pair.first.c_str(), pair.second);
-            y++;
-        }
+    //     for (const auto& pair : m_log)
+    //     {
+    //         if (y - m_scroll_pos > 0)
+    //             con.printf(2, y - m_scroll_pos, "%s: %u", pair.first.c_str(), pair.second);
+    //         y++;
+    //     }
 
-        TCODConsole::blit(
-            &con, 0, 0, UI_WIDTH, UI_HEIGHT,
-            TCODConsole::root,
-            m_width  / 2 - UI_WIDTH  / 2,
-            m_height / 2 - UI_HEIGHT / 2
-        );
+    //     TCODConsole::blit(
+    //         &con, 0, 0, UI_WIDTH, UI_HEIGHT,
+    //         TCODConsole::root,
+    //         m_width  / 2 - UI_WIDTH  / 2,
+    //         m_height / 2 - UI_HEIGHT / 2
+    //     );
 
-        TCODConsole::root->setDefaultForeground(colors::white);
-        TCODConsole::root->printf(m_width - 23, 0, "Press ESCAPE to restart");
-    }
+    //     TCODConsole::root->setDefaultForeground(colors::white);
+    //     TCODConsole::root->printf(m_width - 23, 0, "Press ESCAPE to restart");
+    // }
+
+    flush();
 }
 
 bool Engine::is_running() const
@@ -193,9 +201,13 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
 
                 if (m_map->is_in_fov(cx, cy) && (max_range == 0.f || dist <= max_range))
                 {
-                    TCODColor col = TCODConsole::root->getCharBackground(cx - dx, cy - dy);
-                    col = col * 1.2f;
-                    TCODConsole::root->setCharBackground(cx - dx, cy - dy, col);
+                    TCOD_ConsoleTile tile = m_console.at(cx - dx, cy - dy);
+                    tcod::ColorRGB col = {
+                        static_cast<uint8_t>(tile.bg.r * 1.2f),
+                        static_cast<uint8_t>(tile.bg.g * 1.2f),
+                        static_cast<uint8_t>(tile.bg.b * 1.2f)
+                    };
+                    m_console.at(cx - dx, cy - dy).bg = col;
                 }
             }
         }
@@ -203,7 +215,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
         float dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx + dx, m_mouse.cy + dy, xp, yp));
         if (m_map->is_in_fov(m_mouse.cx + dx, m_mouse.cy + dy) && (max_range == 0.f || dist <= max_range))
         {
-            TCODConsole::root->setCharBackground(m_mouse.cx, m_mouse.cy, colors::white);
+            m_console.at(m_mouse.cx, m_mouse.cy).bg = colors::white;
 
             if (m_mouse.lbutton_pressed)
             {
@@ -216,7 +228,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
         if (m_mouse.rbutton_pressed)
             return false;
 
-        TCODConsole::flush();
+        m_context.present(m_console);
     }
 
     return false;

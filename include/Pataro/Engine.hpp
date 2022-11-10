@@ -10,6 +10,9 @@
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
 
+#include <libtcod.hpp>
+#include <libtcod/timer.hpp>
+
 namespace pat
 {
     enum class GameState
@@ -95,11 +98,18 @@ namespace pat
         inline const TCOD_key_t&   lastkey() { return m_lastkey; }
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
 
+        inline tcod::Console& console() { return m_console; }
+        inline void flush()             { m_context.present(m_console); }
+
     private:
         unsigned m_width, m_height;
         bool m_show_debug;
         TCOD_key_t m_lastkey;
         TCOD_mouse_t m_mouse;
+
+        tcod::Console m_console;
+        tcod::Context m_context;
+        tcod::Timer m_timer;
 
         GameState m_state = GameState::StartUp;
 

@@ -4,6 +4,14 @@
     "version": "0.0.0",
     "dependencies": [
         "libtcod",
-        "sdl2"
+        "sdl2",
+        {
+            "name": "sdl2",
+            "default-features": false,
+            "features": [
+              "x11"
+            ],
+            "platform": "linux"
+        }
     ]
 }

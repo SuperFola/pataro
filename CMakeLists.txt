@@ -18,8 +18,9 @@ include_directories(
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
+find_package(SDL2 CONFIG REQUIRED)
 find_package(libtcod CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} libtcod::libtcod)
+target_link_libraries(${PROJECT_NAME} SDL2::SDL2 SDL2::SDL2main libtcod::libtcod)
 
 if (MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
