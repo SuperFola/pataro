@@ -19,7 +19,7 @@
 using namespace pat;
 
 Engine::Engine(unsigned width, unsigned height, const std::string& title, bool show_debug) :
-    m_width(width), m_height(height), m_show_debug(show_debug), m_console(width, height)
+    m_width(width), m_height(height), m_running(true), m_show_debug(show_debug), m_console(width, height)
 {
     TCOD_ContextParams params {};
     params.tcod_version = TCOD_COMPILEDVERSION;
@@ -65,7 +65,7 @@ void Engine::update()
     else if (m_state != GameState::Defeat)
         m_state = GameState::Idle;
 
-    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
+    handle_events();
 
     // player actions only activated if we haven't lost
     if (m_state != GameState::Defeat)
@@ -75,25 +75,25 @@ void Engine::update()
             action->perform(this);
     }
 
-    switch (m_lastkey.vk)
+    switch (m_lastkey)
     {
-        case TCODK_F3:
+        case SDLK_F3:
             TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
             break;
 
-        case TCODK_UP:
-        case TCODK_LEFT:
+        case SDLK_UP:
+        case SDLK_LEFT:
             if (m_state == GameState::Defeat)
                 m_scroll_pos = m_scroll_pos <= 0 ? 0 : m_scroll_pos - 1;
             break;
 
-        case TCODK_DOWN:
-        case TCODK_RIGHT:
+        case SDLK_DOWN:
+        case SDLK_RIGHT:
             if (m_state == GameState::Defeat)
                 m_scroll_pos = m_scroll_pos + 1 >= static_cast<int>(m_log.size()) ? static_cast<int>(m_log.size()) - 1 : m_scroll_pos + 1;
             break;
 
-        case TCODK_ESCAPE:
+        case SDLK_ESCAPE:
             if (m_state == GameState::Defeat)
                 reset();
             break;
@@ -153,9 +153,32 @@ void Engine::render()
     flush();
 }
 
-bool Engine::is_running() const
+void Engine::handle_events()
 {
-    return !TCODConsole::isWindowClosed();
+    m_lastkey = SDLK_UNKNOWN;
+
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        switch (event.type)
+        {
+            case SDL_QUIT:
+                m_running = false;
+                break;
+
+            case SDL_KEYDOWN:
+                m_lastkey = event.key.keysym.sym;
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                // Convert SDL into a libtcod mouse event, to help port older code.
+                tcod::sdl2::process_event(event, m_mouse);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 void Engine::log(const std::string& name)
@@ -187,11 +210,10 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
     int dx = xp - m_width  / 2,
         dy = yp - m_height / 2;
 
-    while (is_running())
+    while (m_running)
     {
         render();
-
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS | TCOD_EVENT_MOUSE, &m_lastkey, &m_mouse);
+        handle_events();
 
         for (int cx = 0, w = m_map->current_level().width(); cx < w; ++cx)
         {
