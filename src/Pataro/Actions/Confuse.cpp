@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/AI/ConfusedMonster.hpp>
 #include <Pataro/Components/Use/OneTimeSelect.hpp>
 #include <Pataro/Utils.hpp>
@@ -14,7 +15,7 @@ ConfuseAction::ConfuseAction(pat::Entity* source, pat::Entity* owner, const pat:
 
 pat::ActionResult ConfuseAction::perform(pat::Engine* engine)
 {
-    engine->get_gui()->message(TCODColor::lightGreen, "The eyes of the ", m_target->get_name(), " look vacant\nas they starts to stumble around!");
+    engine->get_gui()->message(colors::lightGreen, "The eyes of the ", m_target->get_name(), " look vacant\nas they starts to stumble around!");
     if (m_owner == engine->get_player())
         engine->log("confuse " + m_target->get_name());
 

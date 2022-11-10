@@ -2,6 +2,7 @@
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
+#include <Pataro/Colors.hpp>
 
 using namespace pat::component;
 
@@ -11,7 +12,7 @@ PlayerDestructible::PlayerDestructible(float max_hp, float defense, const std::s
 
 void PlayerDestructible::die(pat::Entity* owner, pat::Engine* engine)
 {
-    engine->get_gui()->message(TCODColor::red, owner->get_name(), " is dead");
+    engine->get_gui()->message(colors::red, owner->get_name(), " is dead");
     Destructible::die(owner, engine);
 }
 

@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Animations/Factory.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Use/OneTimeSelect.hpp>
@@ -15,7 +16,7 @@ FireballAction::FireballAction(pat::Entity* source, pat::Entity* owner, const pa
 
 pat::ActionResult FireballAction::perform(pat::Engine* engine)
 {
-    engine->get_gui()->message(TCODColor::orange, "The fireball explodes, burning everything within ", m_range, " tiles!");
+    engine->get_gui()->message(colors::orange, "The fireball explodes, burning everything within ", m_range, " tiles!");
     if (m_owner == engine->get_player())
         engine->log("fireball");
 
@@ -24,7 +25,7 @@ pat::ActionResult FireballAction::perform(pat::Engine* engine)
         float dist = static_cast<float>(details::get_manhattan_distance(entity->get_x(), entity->get_y(), m_tx, m_ty));
         if (pat::component::Destructible* d = entity->destructible(); d != nullptr && !d->is_dead() && dist < m_range)
         {
-            engine->get_gui()->message(TCODColor::orange, "The ", entity->get_name(), " gets burned for ", m_damage, " hit points.");
+            engine->get_gui()->message(colors::orange, "The ", entity->get_name(), " gets burned for ", m_damage, " hit points.");
             if (m_owner == engine->get_player())
                 engine->log((d->hp() - m_damage <= 0.f ? "fireball kill " : "fireball hit ") + entity->get_name());
 

@@ -5,6 +5,7 @@
 #include <Pataro/Components/Use.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 
 #include <string>
 #include <functional>
@@ -100,7 +101,7 @@ namespace pat::component
     protected:
         std::unique_ptr<Action> use(Entity* source, Entity* owner, [[maybe_unused]] Engine* engine) override
         {
-            engine->get_gui()->message(TCODColor::cyan, "Left-click ", m_text, ",\nor right-click to cancel.");
+            engine->get_gui()->message(colors::cyan, "Left-click ", m_text, ",\nor right-click to cancel.");
             if (!m_picker.pick(engine))
                 return nullptr;
             return m_function(source, owner, m_picker);

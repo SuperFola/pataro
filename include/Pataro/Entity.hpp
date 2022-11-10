@@ -38,7 +38,7 @@ namespace pat
          * @param name the name of the entity
          * @param color the color for the entity
         */
-        Entity(int x, int y, int ch, const std::string& name, const TCODColor& color);
+        Entity(int x, int y, int ch, const std::string& name, const tcod::ColorRGB& color);
 
         /**
          * @brief Construct a new Entity object
@@ -61,7 +61,7 @@ namespace pat
          * @param ch 
          * @param color 
          */
-        void morph_into(int ch, const TCODColor& color);
+        void morph_into(int ch, const tcod::ColorRGB& color);
 
         /**
          * @brief display the Entity on screen
@@ -137,7 +137,7 @@ namespace pat
         int m_x, m_y;       ///< Position of the Entity on the map
         int m_ch;           ///< ascii character representing the Entity
         std::string m_name;
-        TCODColor m_color;     ///< color of the ascii character
+        tcod::ColorRGB m_color;     ///< color of the ascii character
 
         float m_energy = 0.f;  ///< default energy level (needed for actions)
         // TODO make the speed variable when creating an entity (ie the user should be able to choose the speed)

@@ -1,5 +1,5 @@
-#ifndef PATARO_GUI_HPP
-#define PATARO_GUI_HPP
+#ifndef INCLUDE_PATARO_GUI_HPP
+#define INCLUDE_PATARO_GUI_HPP
 
 #include <libtcod.hpp>
 
@@ -39,7 +39,7 @@ namespace pat
         void render(Engine* engine, TCODConsole* dest, int x, int y);
 
         template <typename... Args>
-        void message(const TCODColor& color, Args&&... args)
+        void message(const tcod::ColorRGB& color, Args&&... args)
         {
             std::ostringstream oss;
             ((oss << std::forward<Args>(args)), ...);
@@ -84,14 +84,14 @@ namespace pat
          * @param fg color for the bar
          * @param bg background color for the bar
          */
-        void render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg);
+        void render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const tcod::ColorRGB& fg, const tcod::ColorRGB& bg);
 
         void render_mouse_look(Engine* engine);
 
         struct Message {
             std::string text;
             TCODColor color;
-            Message(const std::string& text, const TCODColor& color);
+            Message(const std::string& text, const tcod::ColorRGB& color);
         };
 
         std::vector<Message> m_log;

@@ -33,7 +33,7 @@ Animation& Animation::loop_for(float duration, animation::Frame::Op_t&& operatio
 Animation& Animation::revert()
 {
     int ch = m_prev_ch;
-    TCODColor color = m_prev_color;
+    tcod::ColorRGB color = m_prev_color;
 
     m_sequence.emplace_back(0.f, [ch, color](Entity* source){
         source->morph_into(ch, color);

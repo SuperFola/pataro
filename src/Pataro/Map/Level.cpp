@@ -119,10 +119,10 @@ void Level::compute_fov(int x, int y, int fov_radius)
 void Level::render(pat::Engine* engine)
 {
     // TODO clean up the colors from the level::render
-    static const TCODColor darkWall(0, 0, 100);
-    static const TCODColor darkGround(50, 50, 150);
-    static const TCODColor lightWall(130, 110, 50);
-    static const TCODColor lightGround(200, 180, 50);
+    static const tcod::ColorRGB darkWall(0, 0, 100);
+    static const tcod::ColorRGB darkGround(50, 50, 150);
+    static const tcod::ColorRGB lightWall(130, 110, 50);
+    static const tcod::ColorRGB lightGround(200, 180, 50);
 
     int dx = engine->get_player()->get_x() - engine->width()  / 2,
         dy = engine->get_player()->get_y() - engine->height() / 2;
