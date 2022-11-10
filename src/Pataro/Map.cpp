@@ -48,9 +48,9 @@ bool Map::is_in_fov(int x, int y)
     return m_levels[m_current].is_in_fov(x, y);
 }
 
-void Map::render(pat::Engine* engine)
+void Map::render(pat::Engine* engine, float dt)
 {
-    m_levels[m_current].render(engine);
+    m_levels[m_current].render(engine, dt);
 }
 
 void Map::update(pat::Engine* engine)

@@ -20,8 +20,8 @@ Entity::Entity(const Entity& other) :
     m_attacker(other.m_attacker ? other.m_attacker->clone() : nullptr),
     m_destructible(other.m_destructible ? other.m_destructible->clone() : nullptr),
     m_ai(other.m_ai ? other.m_ai->clone() : nullptr),
-    m_use(other.m_use ? other.m_use->clone() : nullptr),
-    m_container(other.m_container ? other.m_container->clone() : nullptr)
+    m_container(other.m_container ? other.m_container->clone() : nullptr),
+    m_use(other.m_use ? other.m_use->clone() : nullptr)
 {}
 
 Entity& Entity::operator=(const Entity& other)
@@ -48,18 +48,17 @@ void Entity::morph_into(int ch, const tcod::ColorRGB& color)
     m_color = color;
 }
 
-void Entity::render(int dx, int dy) const
+void Entity::render(tcod::Console& console, float dt, int dx, int dy) const
 {
     if (m_animation)
     {
-        float dt = TCODSystem::getLastFrameLength();
         m_animation->update(dt);
         if (m_animation->is_finished())
             m_animation.reset(nullptr);
     }
 
-    TCODConsole::root->setChar(m_x - dx, m_y - dy, m_ch);
-    TCODConsole::root->setCharForeground(m_x - dx, m_y - dy, m_color);
+    console.at(m_x - dx, m_y - dy).ch = m_ch;
+    console.at(m_x - dx, m_y - dy).fg = m_color;
 }
 
 std::unique_ptr<Action> Entity::update(Engine* engine)

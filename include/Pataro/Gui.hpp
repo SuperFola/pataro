@@ -36,7 +36,7 @@ namespace pat
          * @param x 
          * @param y 
          */
-        void render(Engine* engine, TCODConsole* dest, int x, int y);
+        void render(Engine* engine, TCOD_Console* dest, int x, int y);
 
         template <typename... Args>
         void message(const tcod::ColorRGB& color, Args&&... args)
@@ -90,13 +90,13 @@ namespace pat
 
         struct Message {
             std::string text;
-            TCODColor color;
+            tcod::ColorRGB color;
             Message(const std::string& text, const tcod::ColorRGB& color);
         };
 
         std::vector<Message> m_log;
 
-        std::unique_ptr<TCODConsole> m_con;
+        tcod::Console m_new_con;
         unsigned m_width, m_height;
         Proxy_t m_get_val;
     };

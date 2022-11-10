@@ -116,7 +116,7 @@ void Level::compute_fov(int x, int y, int fov_radius)
     m_map->computeFov(x, y, fov_radius);
 }
 
-void Level::render(pat::Engine* engine)
+void Level::render(pat::Engine* engine, float dt)
 {
     // TODO clean up the colors from the level::render
     static const tcod::ColorRGB darkWall(0, 0, 100);
@@ -127,27 +127,30 @@ void Level::render(pat::Engine* engine)
     int dx = engine->get_player()->get_x() - engine->width()  / 2,
         dy = engine->get_player()->get_y() - engine->height() / 2;
 
-    for (int x = 0; x < m_width; ++x)
+    for (unsigned screen_x = 0; screen_x < engine->width(); ++screen_x)
     {
-        for (int y = 0; y < m_height; ++y)
+        for (unsigned screen_y = 0; screen_y < engine->height(); ++screen_y)
         {
-            if (is_in_fov(x, y))
-                TCODConsole::root->setCharBackground(x - dx, y - dy, is_wall(x, y) ? lightWall : lightGround);
-            else if (is_explored(x, y))
-                TCODConsole::root->setCharBackground(x - dx, y - dy, is_wall(x, y) ? darkWall : darkGround);
+            int real_x = static_cast<int>(screen_x) + dx;
+            int real_y = static_cast<int>(screen_y) + dy;
+
+            if (is_in_fov(real_x, real_y))
+                engine->console().at(screen_x, screen_y).bg = is_wall(real_x, real_y) ? lightWall : lightGround;
+            else if (is_explored(real_x, real_y))
+                engine->console().at(screen_x, screen_y).bg = is_wall(real_x, real_y) ? darkWall : darkGround;
         }
     }
 
-    auto render_ = [this, &dx, &dy](bool render_dead_ones) {
+    auto render_ = [this, &engine, &dt, &dx, &dy](bool render_dead_ones) {
         for (const auto& entity : m_entities)
         {
             if (m_map->isInFov(entity->get_x(), entity->get_y()))
             {
                 component::Destructible* d = entity->destructible();
                 if (d != nullptr && (render_dead_ones ? d->is_dead() : !d->is_dead()))
-                    entity->render(dx, dy);
+                    entity->render(engine->console(), dt, dx, dy);
                 else if (d == nullptr)
-                    entity->render(dx, dy);
+                    entity->render(engine->console(), dt, dx, dy);
             }
         }
     };

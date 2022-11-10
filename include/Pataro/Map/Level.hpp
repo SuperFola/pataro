@@ -113,8 +113,9 @@ namespace pat::map
          * @brief Render the level on screen as well as its Entities
          * 
          * @param engine 
+         * @param dt delta time
          */
-        void render(Engine* engine);
+        void render(Engine* engine, float dt);
 
         /**
          * @brief Update the levels (Entities and stuff)
