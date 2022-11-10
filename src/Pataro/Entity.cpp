@@ -21,8 +21,8 @@ Entity::Entity(const Entity& other) :
     m_attacker(other.m_attacker ? other.m_attacker->clone() : nullptr),
     m_destructible(other.m_destructible ? other.m_destructible->clone() : nullptr),
     m_ai(other.m_ai ? other.m_ai->clone() : nullptr),
-    m_use(other.m_use ? other.m_use->clone() : nullptr),
-    m_container(other.m_container ? other.m_container->clone() : nullptr)
+    m_container(other.m_container ? other.m_container->clone() : nullptr),
+    m_use(other.m_use ? other.m_use->clone() : nullptr)
 {}
 
 Entity& Entity::operator=(const Entity& other)

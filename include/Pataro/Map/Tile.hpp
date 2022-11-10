@@ -1,6 +1,9 @@
 #ifndef PATARO_MAP_TILE_HPP
 #define PATARO_MAP_TILE_HPP
 
+#include <cereal/types/memory.hpp>
+#include <cereal/access.hpp>
+
 namespace pat::map::details
 {
     struct Tile

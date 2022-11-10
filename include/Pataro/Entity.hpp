@@ -199,4 +199,6 @@ namespace pat
     };
 }
 
+CEREAL_REGISTER_TYPE(pat::Entity)
+
 #endif

@@ -1,5 +1,5 @@
-#ifndef PATARO_COMPONENTS_DESTRUCTIBLE_MONSTER_HPP
-#define PATARO_COMPONENTS_DESTRUCTIBLE_MONSTER_HPP
+#ifndef COMPONENTS_DESTRUCTIBLE_MONSTER_HPP
+#define COMPONENTS_DESTRUCTIBLE_MONSTER_HPP
 
 #include <Pataro/Components/Destructible.hpp>
 
@@ -33,7 +33,7 @@ namespace pat::component
         template <class Archive>
         void serialize(Archive& ar)
         {
-         ar(cereal::base_class<Destructible>(this));
+             ar(cereal::base_class<Destructible>(this));
         };
 
 
@@ -42,7 +42,8 @@ namespace pat::component
     };
 }
 
+CEREAL_REGISTER_DYNAMIC_INIT(pataro)
 CEREAL_REGISTER_TYPE(pat::component::MonsterDestructible)
-CEREAL_REGISTER_POLYMORPHIC_RELATION(pat::component::Destructible, pat::component::MonsterDestructible);
+CEREAL_REGISTER_POLYMORPHIC_RELATION(pat::component::Destructible, pat::component::MonsterDestructible)
 
 #endif

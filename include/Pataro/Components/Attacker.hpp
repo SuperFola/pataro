@@ -24,6 +24,8 @@ namespace pat::component
          */
         Attacker(float power);
 
+        virtual ~Attacker() = default;
+
         inline float power() const { return m_power; }
 
         inline std::unique_ptr<Attacker> clone() const { return std::unique_ptr<Attacker>(clone_impl()); }

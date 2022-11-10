@@ -1,6 +1,9 @@
 #ifndef PATARO_MAP_ROOM_HPP
 #define PATARO_MAP_ROOM_HPP
 
+#include <cereal/types/memory.hpp>
+#include <cereal/access.hpp>
+
 namespace pat::map::details
 {
     struct Room
