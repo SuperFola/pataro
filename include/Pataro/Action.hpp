@@ -34,6 +34,8 @@ namespace pat
          */
         virtual ActionResult perform(Engine* engine);
 
+        virtual ~Action() = default;
+
     protected:
         template <typename A, typename... Args>
         ActionResult alternate(Engine* engine, Args&&... args)

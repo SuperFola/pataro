@@ -21,6 +21,8 @@ namespace pat::component
          */
         Container(std::size_t size);
 
+        virtual ~Container() = default;
+
         /**
          * @brief Tries to add an entity (by copying it) to the container
          * 
