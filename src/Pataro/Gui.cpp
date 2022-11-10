@@ -1,6 +1,7 @@
 #include <Pataro/Gui.hpp>
 
 #include <Pataro/Engine.hpp>
+#include <Pataro/Colors.hpp>
 
 using namespace pat;
 
@@ -15,12 +16,12 @@ void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
     // TODO put this bar_width elsewhere
     static const int bar_width = 20;
 
-    m_con->setDefaultBackground(TCODColor::black);
+    m_con->setDefaultBackground(colors::black);
     m_con->clear();
 
     float val, max_val;
     m_get_val(&val, &max_val);
-    render_bar(1, 1, bar_width, "HP", val, max_val, TCODColor::red, TCODColor::darkerRed);
+    render_bar(1, 1, bar_width, "HP", val, max_val, colors::red, colors::darkRed);
 
     int msg_y = 1;
     float color_coeff = 0.4f;
@@ -45,7 +46,7 @@ void Gui::render(Engine* engine, TCODConsole* dest, int x, int y)
     );
 }
 
-void Gui::render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const TCODColor& fg, const TCODColor& bg)
+void Gui::render_bar(int x, int y, int width, const std::string& name, float value, float max_val, const tcod::ColorRGB& fg, const tcod::ColorRGB& bg)
 {
     m_con->setDefaultBackground(bg);
     m_con->rect(x, y, width, 1, false, TCOD_BKGND_SET);
@@ -57,7 +58,7 @@ void Gui::render_bar(int x, int y, int width, const std::string& name, float val
         m_con->rect(x, y, bar_width, 1, false, TCOD_BKGND_SET);
     }
 
-    m_con->setDefaultForeground(TCODColor::white);
+    m_con->setDefaultForeground(colors::white);
     m_con->printf(
         x + width / 2, y,
         TCOD_BKGND_NONE, TCOD_CENTER,
@@ -89,10 +90,10 @@ void Gui::render_mouse_look(Engine* engine)
         }
     }
 
-    m_con->setDefaultForeground(TCODColor::lightGrey);
+    m_con->setDefaultForeground(colors::lightGrey);
     m_con->printf(1, 0, text.c_str());
 }
 
-Gui::Message::Message(const std::string& text_, const TCODColor& color_) :
+Gui::Message::Message(const std::string& text_, const tcod::ColorRGB& color_) :
     text(text_), color(color_)
 {}

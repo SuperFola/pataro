@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Animations/Factory.hpp>
 
 using namespace pat;
@@ -18,13 +19,13 @@ pat::ActionResult LightningBoltAction::perform(pat::Engine* engine)
     pat::Entity* closest = engine->get_map()->get_closest_monster(m_owner, m_range);
     if (closest == nullptr)
     {
-        engine->get_gui()->message(TCODColor::lightGrey, "No enemy is close enough to strike.");
+        engine->get_gui()->message(colors::lightGrey, "No enemy is close enough to strike.");
         if (m_owner == engine->get_player())
             engine->log("lightning bolt fail");
         return pat::ActionResult::Fail;
     }
 
-    engine->get_gui()->message(TCODColor::lightBlue, "A lightning bolt strikes the ", closest->get_name(), " with a loud thunder!\nThe damage is ", m_damage, " hit points.");
+    engine->get_gui()->message(colors::lightBlue, "A lightning bolt strikes the ", closest->get_name(), " with a loud thunder!\nThe damage is ", m_damage, " hit points.");
     if (m_owner == engine->get_player())
         engine->log((closest->destructible()->hp() - m_damage <= 0.f ? "lightning bolt kill " : "lightning bolt hit ") + closest->get_name());
 

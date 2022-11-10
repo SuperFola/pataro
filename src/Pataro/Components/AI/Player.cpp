@@ -2,6 +2,7 @@
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Container.hpp>
 
@@ -93,11 +94,11 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
     static const int INVENTORY_WIDTH = 50,
                      INVENTORY_HEIGHT = 28;
     static TCODConsole con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
-    con.setDefaultForeground(TCODColor(200, 180, 50));
+    con.setDefaultForeground(tcod::ColorRGB(200, 180, 50));
     con.printFrame(0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT, true, TCOD_BKGND_DEFAULT, "inventory");
 
     // display the items with their keyboard shortcut
-    con.setDefaultForeground(TCODColor::white);
+    con.setDefaultForeground(colors::white);
     int y = 1;
     Container& c = *owner->container();
 

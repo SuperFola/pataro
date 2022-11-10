@@ -6,7 +6,7 @@ using namespace pat;
 
 unsigned Entity::Id = 0;
 
-Entity::Entity(int x, int y, int ch, const std::string& name, const TCODColor& color) :
+Entity::Entity(int x, int y, int ch, const std::string& name, const tcod::ColorRGB& color) :
     m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
 {}
 
@@ -42,7 +42,7 @@ Entity& Entity::operator=(const Entity& other)
     return *this;
 }
 
-void Entity::morph_into(int ch, const TCODColor& color)
+void Entity::morph_into(int ch, const tcod::ColorRGB& color)
 {
     m_ch = ch;
     m_color = color;

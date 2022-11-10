@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/Destructible.hpp>
 
 using namespace pat;
@@ -15,7 +16,7 @@ pat::ActionResult HealAction::perform(pat::Engine* engine)
     if (pat::component::Destructible* d = m_owner->destructible(); d != nullptr)
     {
         float healed = d->heal(m_quantity);
-        engine->get_gui()->message(TCODColor::lightGreen, m_owner->get_name(), " healed ", healed, "HP");
+        engine->get_gui()->message(colors::lightGreen, m_owner->get_name(), " healed ", healed, "HP");
         if (m_owner == engine->get_player())
             engine->log("heal");
 

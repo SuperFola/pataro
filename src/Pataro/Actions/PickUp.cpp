@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/Use.hpp>
 
 using namespace pat;
@@ -28,10 +29,10 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
                 if (m_source == engine->get_player())
                 {
                     engine->log("pick up " + e->get_name());
-                    engine->get_gui()->message(TCODColor::lightGrey, "You pick up the ", e->get_name());
+                    engine->get_gui()->message(colors::lightGrey, "You pick up the ", e->get_name());
                 }
                 else
-                    engine->get_gui()->message(TCODColor::lightGrey, m_source->get_name(), " picks up the ", e->get_name());
+                    engine->get_gui()->message(colors::lightGrey, m_source->get_name(), " picks up the ", e->get_name());
 
                 engine->get_map()->current_level().remove(e.get());
                 return pat::ActionResult::Success;
@@ -44,10 +45,10 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
                 if (m_source == engine->get_player())
                 {
                     engine->log("pick up with full inventory");
-                    engine->get_gui()->message(TCODColor::red, "Your inventory is full.");
+                    engine->get_gui()->message(colors::red, "Your inventory is full.");
                 }
                 else
-                    engine->get_gui()->message(TCODColor::red, m_source->get_name(), " inventory's is full.");
+                    engine->get_gui()->message(colors::red, m_source->get_name(), " inventory's is full.");
                 return pat::ActionResult::Fail;
             }
         }
@@ -56,7 +57,7 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
     if (m_source == engine->get_player())
     {
         engine->log("pick up impossible");
-        engine->get_gui()->message(TCODColor::lightGrey, "There's nothing here that you can pick up");
+        engine->get_gui()->message(colors::lightGrey, "There's nothing here that you can pick up");
     }
     return pat::ActionResult::Fail;
 }

@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible.hpp>
 
@@ -21,12 +22,12 @@ pat::ActionResult AttackAction::perform(pat::Engine* engine)
         // attack only if the other can be attacked
         if (pat::component::Destructible* d = m_target->destructible(); d != nullptr)
         {
-            TCODColor text_color = (m_source == engine->get_player()) ? TCODColor::red : TCODColor::lightGrey;
+            tcod::ColorRGB text_color = (m_source == engine->get_player()) ? colors::red : colors::lightGrey;
             float dmg = a->power() - d->defense();
             if (dmg > 0.f)
                 engine->get_gui()->message(text_color, m_source->get_name(), " attacks ", m_target->get_name(), " for ", dmg, " hit points.");
             else
-                engine->get_gui()->message(TCODColor::lightGrey, m_source->get_name(), " attacks ", m_target->get_name(), " but it has no effect!");
+                engine->get_gui()->message(colors::lightGrey, m_source->get_name(), " attacks ", m_target->get_name(), " but it has no effect!");
 
             if (m_source == engine->get_player())
                 engine->log((d->hp() - dmg <= 0.f ? "kill " : "hit ") + m_target->get_name());
@@ -40,7 +41,7 @@ pat::ActionResult AttackAction::perform(pat::Engine* engine)
         if (m_source == engine->get_player())
             engine->log("vain attack");
 
-        engine->get_gui()->message(TCODColor::lightGrey, m_source->get_name(), " attacks ", m_target->get_name(), " in vain");
+        engine->get_gui()->message(colors::lightGrey, m_source->get_name(), " attacks ", m_target->get_name(), " in vain");
         return pat::ActionResult::Fail;
     }
 

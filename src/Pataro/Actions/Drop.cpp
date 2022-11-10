@@ -2,6 +2,7 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 
 using namespace pat;
 
@@ -15,7 +16,7 @@ pat::ActionResult DropAction::perform(pat::Engine* engine)
         engine->log("drop " + m_object->get_name());
 
     m_object->use()->drop(m_object, m_owner, engine);
-    engine->get_gui()->message(TCODColor::lightGrey, m_owner->get_name(), " drops a ", m_object->get_name(), ".");
+    engine->get_gui()->message(colors::lightGrey, m_owner->get_name(), " drops a ", m_object->get_name(), ".");
 
     return pat::ActionResult::Success;
 }

@@ -75,7 +75,7 @@ namespace pat
         Entity* m_source;
 
         int m_prev_ch;
-        TCODColor m_prev_color;
+        tcod::ColorRGB m_prev_color;
     };
 }
 

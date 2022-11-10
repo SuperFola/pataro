@@ -1,5 +1,7 @@
 #include <Pataro/Entities/Factory.hpp>
 
+#include <Pataro/Colors.hpp>
+
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible/Monster.hpp>
 #include <Pataro/Components/AI/Monster.hpp>
@@ -29,7 +31,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_monster(int x, int y, float dif
     // create an orc
     if (rdm < 80)
     {
-        entity = std::make_shared<Entity>(x, y, 'o', "orc", TCODColor::desaturatedGreen);
+        entity = std::make_shared<Entity>(x, y, 'o', "orc", colors::desaturatedGreen);
         entity->set_attacker<component::Attacker>(
             3.0f * biaised_difficulty
         );
@@ -42,7 +44,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_monster(int x, int y, float dif
     // create a troll
     else
     {
-        entity = std::make_shared<Entity>(x, y, 'T', "troll", TCODColor::darkerGreen);
+        entity = std::make_shared<Entity>(x, y, 'T', "troll", colors::darkerGreen);
         entity->set_attacker<component::Attacker>(
             4.0f * biaised_difficulty
         );
@@ -65,19 +67,19 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
 
     if (rdm < 70)
     {
-        entity = std::make_shared<Entity>(x, y, '!', "Health potion", TCODColor::violet);
+        entity = std::make_shared<Entity>(x, y, '!', "Health potion", colors::violet);
         entity->set_blocking(false);
         entity->set_use<component::OneTimeUse<HealAction, float>>(4.f);
     }
     else if (rdm < 80)
     {
-        entity = std::make_shared<Entity>(x, y, '#', "Scroll of lightning bolt", TCODColor::darkOrange);
+        entity = std::make_shared<Entity>(x, y, '#', "Scroll of lightning bolt", colors::darkOrange);
         entity->set_blocking(false);
         entity->set_use<component::OneTimeUse<LightningBoltAction, float, float>>(5.f, 20.f);
     }
     else if (rdm < 90)
     {
-        entity = std::make_shared<Entity>(x, y, '#', "Scroll of fireball", TCODColor::lightYellow);
+        entity = std::make_shared<Entity>(x, y, '#', "Scroll of fireball", colors::lightYellow);
         entity->set_blocking(false);
         entity->set_use<component::OneTimeSelectUse<FireballAction, float>>(
             "a target tile for the fireball",
@@ -87,7 +89,7 @@ std::shared_ptr<pat::Entity> Factory::get_random_item(int x, int y)
     }
     else
     {
-        entity = std::make_shared<Entity>(x, y, '#', "Scroll of confusion", TCODColor::lightGreen);
+        entity = std::make_shared<Entity>(x, y, '#', "Scroll of confusion", colors::lightGreen);
         entity->set_blocking(false);
         entity->set_use<component::OneTimeSelectUse<ConfuseAction, int>>(
             "an ennemy to confuse",

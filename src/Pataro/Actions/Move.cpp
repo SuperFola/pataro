@@ -3,6 +3,7 @@
 #include <Pataro/Constants.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Entity.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Actions/Attack.hpp>
 
@@ -44,7 +45,7 @@ pat::ActionResult MoveAction::perform(pat::Engine* engine)
         {
             pat::component::Destructible* d = e->destructible();
             if ((d != nullptr && d->is_dead()) || e->use() != nullptr)
-                engine->get_gui()->message(TCODColor::lightGrey, "There is a ", e->get_name(), " here");
+                engine->get_gui()->message(colors::lightGrey, "There is a ", e->get_name(), " here");
         }
     }
 

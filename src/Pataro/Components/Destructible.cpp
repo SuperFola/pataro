@@ -2,6 +2,7 @@
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
+#include <Pataro/Colors.hpp>
 
 #include <libtcod.hpp>
 
@@ -28,7 +29,7 @@ float Destructible::take_damage(pat::Entity* owner, float damage, pat::Engine* e
 
 void Destructible::die(pat::Entity* owner, [[maybe_unused]] pat::Engine* engine)
 {
-    owner->morph_into('%', TCODColor::darkRed);
+    owner->morph_into('%', colors::darkRed);
     owner->set_name(m_corpse_name);
     owner->set_blocking(false);
 }

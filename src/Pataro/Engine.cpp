@@ -1,6 +1,7 @@
 #include <Pataro/Engine.hpp>
 
 #include <Pataro/Constants.hpp>
+#include <Pataro/Colors.hpp>
 #include <Pataro/Utils.hpp>
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Map/Constants.hpp>
@@ -30,7 +31,7 @@ void Engine::reset()
     m_state = GameState::StartUp;
 
     // create the player
-    m_player = std::make_shared<Entity>(0, 0, '@', "Player", TCODColor::white);
+    m_player = std::make_shared<Entity>(0, 0, '@', "Player", colors::white);
     m_player->set_ai<component::PlayerAI>();
     m_player->set_attacker<component::Attacker>(5.f);
     m_player->set_destructible<component::PlayerDestructible>(30.f, 2.f, "your cadaver");
@@ -47,7 +48,7 @@ void Engine::reset()
     };
     m_gui = std::make_unique<Gui>(m_width, 7, proxy_player_hp);
 
-    m_gui->message(TCODColor::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
+    m_gui->message(colors::red, "Welcome stranger!\nPrepare to perish in the Tombs of the Ancient Kings.");
 }
 
 void Engine::update()
@@ -108,7 +109,7 @@ void Engine::render()
 
     if (m_show_debug)
     {
-        TCODConsole::root->setDefaultForeground(TCODColor::white);
+        TCODConsole::root->setDefaultForeground(colors::white);
         TCODConsole::root->printf(0, 0, "%.2f", 1.f / TCODSystem::getLastFrameLength());
     }
 
@@ -118,11 +119,11 @@ void Engine::render()
         static const int UI_WIDTH = 50, UI_HEIGHT = 28;
         static TCODConsole con(UI_WIDTH, UI_HEIGHT);
 
-        con.setDefaultForeground(TCODColor(50, 180, 200));
+        con.setDefaultForeground(tcod::ColorRGB(50, 180, 200));
         con.printFrame(0, 0, UI_WIDTH, UI_HEIGHT, true, TCOD_BKGND_DEFAULT, "Game statistics");
 
         // display the items with their keyboard shortcut
-        con.setDefaultForeground(TCODColor::white);
+        con.setDefaultForeground(colors::white);
         int y = 1;
 
         for (const auto& pair : m_log)
@@ -139,7 +140,7 @@ void Engine::render()
             m_height / 2 - UI_HEIGHT / 2
         );
 
-        TCODConsole::root->setDefaultForeground(TCODColor::white);
+        TCODConsole::root->setDefaultForeground(colors::white);
         TCODConsole::root->printf(m_width - 23, 0, "Press ESCAPE to restart");
     }
 }
@@ -202,7 +203,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
         float dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx + dx, m_mouse.cy + dy, xp, yp));
         if (m_map->is_in_fov(m_mouse.cx + dx, m_mouse.cy + dy) && (max_range == 0.f || dist <= max_range))
         {
-            TCODConsole::root->setCharBackground(m_mouse.cx, m_mouse.cy, TCODColor::white);
+            TCODConsole::root->setCharBackground(m_mouse.cx, m_mouse.cy, colors::white);
 
             if (m_mouse.lbutton_pressed)
             {
