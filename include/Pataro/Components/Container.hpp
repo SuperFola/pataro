@@ -1,6 +1,9 @@
 #ifndef PATARO_COMPONENTS_CONTAINER_HPP
 #define PATARO_COMPONENTS_CONTAINER_HPP
 
+#include <cereal/types/memory.hpp>
+#include <cereal/access.hpp>
+
 #include <vector>
 #include <memory>
 
@@ -70,6 +73,24 @@ namespace pat::component
         std::size_t capacity() const;
 
         inline std::unique_ptr<Container> clone() const { return std::unique_ptr<Container>(clone_impl()); }
+
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(cereal::make_nvp("MaxSize", m_max_size), cereal::make_nvp("Inventory", m_inventory));
+        }
+
+        template <typename Archive>
+        void load(Archive& archive)
+        {
+            archive(m_max_size, m_inventory);
+        }
+
+        template <typename Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Container>& construct)
+        {
+            archive(construct->m_max_size, construct->m_inventory);
+        }
 
     protected:
         virtual Container* clone_impl() const;

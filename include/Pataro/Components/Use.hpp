@@ -3,6 +3,10 @@
 
 #include <Pataro/Action.hpp>
 
+#include <cereal/types/memory.hpp>
+#include <cereal/access.hpp>
+#include <cereal/archives/xml.hpp>
+
 #include <memory>
 
 namespace pat
@@ -44,6 +48,24 @@ namespace pat::component
         void remove_from_container(Entity* owner, Entity* source);
 
         inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
+
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(cereal::make_nvp("IsDestroyed", m_destroyed));
+        }
+
+        template <typename Archive>
+        void load(Archive& archive)
+        {
+            archive(m_destroyed);
+        }
+
+        template <typename Archive>
+        static void load_and_construct(Archive& archive, cereal::construct<Use>& construct)
+        {
+            archive(construct->m_destroyed);
+        }
 
     protected:
         /**

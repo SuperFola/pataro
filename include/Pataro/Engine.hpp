@@ -10,6 +10,12 @@
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
 
+#include <cereal/types/memory.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/archives/xml.hpp>
+
 namespace pat
 {
     enum class GameState
@@ -95,12 +101,23 @@ namespace pat
         inline const TCOD_key_t&   lastkey() { return m_lastkey; }
         inline const TCOD_mouse_t& mouse()   { return m_mouse; }
 
+        template <typename Archive>
+        void save(Archive& archive) const
+        {
+            archive(cereal::make_nvp("Map", m_map));
+        }
+
+        template <typename Archive>
+        void load(Archive& archive)
+        {
+            archive(m_map);
+        }
+
     private:
         unsigned m_width, m_height;
         bool m_show_debug;
         TCOD_key_t m_lastkey;
         TCOD_mouse_t m_mouse;
-
         GameState m_state = GameState::StartUp;
 
         std::shared_ptr<Entity> m_player;  ///< Pointer shared between the levels and the engine

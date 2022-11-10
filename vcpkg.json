@@ -4,6 +4,7 @@
     "version": "0.0.0",
     "dependencies": [
         "libtcod",
-        "sdl2"
+        "sdl2",
+        "cereal"
     ]
 }

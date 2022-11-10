@@ -17,6 +17,15 @@ Map::Map(unsigned width, unsigned height, std::size_t depth) :
     m_levels[m_current].generate();
 }
 
+Map::Map() : m_current(0) {
+    // create levels
+    for (std::size_t i = 0; i < 1; ++i)
+        m_levels.emplace_back(80, 50);
+
+    // generate the first level
+    m_levels[m_current].generate();
+}
+
 bool Map::is_wall(int x, int y) const
 {
     return m_levels[m_current].is_wall(x, y);
