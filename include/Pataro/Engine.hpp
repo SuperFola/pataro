@@ -25,6 +25,13 @@ namespace pat
         Defeat
     };
 
+    struct Mouse
+    {
+        int cx, cy;  ///< Cell position
+        bool lbutton_pressed;
+        bool rbutton_pressed;
+    };
+
     class Engine
     {
     public:
@@ -99,7 +106,7 @@ namespace pat
         inline Map*    get_map()    { return m_map.get(); }
         inline Gui*    get_gui()    { return m_gui.get(); }
         inline const SDL_Keycode& lastkey() { return m_lastkey; }
-        inline const TCOD_mouse_t& mouse()   { return m_mouse; }
+        inline const Mouse& mouse() { return m_mouse; }
 
         inline tcod::Console& console() { return m_console; }
         inline void flush()             { m_context.present(m_console); }
@@ -109,7 +116,7 @@ namespace pat
         bool m_running;
         bool m_show_debug;
         SDL_Keycode m_lastkey;
-        TCOD_mouse_t m_mouse;
+        Mouse m_mouse;
 
         tcod::Console m_console;
         tcod::Context m_context;

@@ -96,7 +96,7 @@ namespace pat
 
         std::vector<Message> m_log;
 
-        tcod::Console m_new_con;
+        tcod::Console m_console;
         unsigned m_width, m_height;
         Proxy_t m_get_val;
     };
