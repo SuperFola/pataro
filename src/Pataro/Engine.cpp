@@ -119,38 +119,35 @@ void Engine::render()
     if (m_show_debug)
         tcod::print(m_console, {0, 0}, tcod::stringf("%.2f ms", dt * 1000), std::nullopt, std::nullopt);
 
-    // defeat ui FIXME
-    // if (m_state == GameState::Defeat)
-    // {
-    //     static const int UI_WIDTH = 50, UI_HEIGHT = 28;
-    //     static TCODConsole con(UI_WIDTH, UI_HEIGHT);
+    // defeat ui
+    if (m_state == GameState::Defeat)
+    {
+        static const int UI_WIDTH = 50, UI_HEIGHT = 28;
+        static tcod::Console con(UI_WIDTH, UI_HEIGHT);
 
-    //     con.setDefaultForeground(tcod::ColorRGB(50, 180, 200));
-    //     con.printFrame(0, 0, UI_WIDTH, UI_HEIGHT, true, TCOD_BKGND_DEFAULT, "Game statistics");
+        tcod::draw_frame(con, {0, 0, UI_WIDTH, UI_HEIGHT}, details::frame, tcod::ColorRGB(50, 180, 200), std::nullopt, TCOD_BKGND_DEFAULT);
 
-    //     // display the items with their keyboard shortcut
-    //     con.setDefaultForeground(colors::white);
-    //     int y = 1;
+        // display the items with their keyboard shortcut
+        int y = 1;
 
-    //     for (const auto& pair : m_log)
-    //     {
-    //         if (y - m_scroll_pos > 0)
-    //             con.printf(2, y - m_scroll_pos, "%s: %u", pair.first.c_str(), pair.second);
-    //         y++;
-    //     }
+        for (const auto& pair : m_log)
+        {
+            if (y - m_scroll_pos > 0)
+                tcod::print(con, {2, y - m_scroll_pos}, tcod::stringf("%s: %u", pair.first.c_str(), pair.second), colors::white, std::nullopt);
+            y++;
+        }
 
-    //     TCODConsole::blit(
-    //         &con, 0, 0, UI_WIDTH, UI_HEIGHT,
-    //         TCODConsole::root,
-    //         m_width  / 2 - UI_WIDTH  / 2,
-    //         m_height / 2 - UI_HEIGHT / 2
-    //     );
+        tcod::blit(
+            m_console,
+            con,
+            {
+                static_cast<int>(m_width) / 2 - UI_WIDTH  / 2,
+                static_cast<int>(m_height) / 2 - UI_HEIGHT / 2
+            }
+        );
 
-    //     TCODConsole::root->setDefaultForeground(colors::white);
-    //     TCODConsole::root->printf(m_width - 23, 0, "Press ESCAPE to restart");
-    // }
-
-    flush();
+        tcod::print(m_console, {static_cast<int>(m_width) - 23, 0}, "Press ESCAPE to restart", colors::white, std::nullopt);
+    }
 }
 
 void Engine::handle_events()
@@ -170,9 +167,24 @@ void Engine::handle_events()
                 m_lastkey = event.key.keysym.sym;
                 break;
 
+            case SDL_MOUSEMOTION:
+                m_context.convert_event_coordinates(event);
+                m_mouse.cx = event.motion.x;
+                m_mouse.cy = event.motion.y;
+                break;
+
             case SDL_MOUSEBUTTONDOWN:
-                // Convert SDL into a libtcod mouse event, to help port older code.
-                tcod::sdl2::process_event(event, m_mouse);
+                if (event.button.button == SDL_BUTTON_LEFT)
+                    m_mouse.lbutton_pressed = true;
+                else if (event.button.button == SDL_BUTTON_RIGHT)
+                    m_mouse.rbutton_pressed = true;
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                if (event.button.button == SDL_BUTTON_LEFT)
+                    m_mouse.lbutton_pressed = false;
+                else if (event.button.button == SDL_BUTTON_RIGHT)
+                    m_mouse.rbutton_pressed = false;
                 break;
 
             default:
@@ -250,7 +262,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
         if (m_mouse.rbutton_pressed)
             return false;
 
-        m_context.present(m_console);
+        flush();
     }
 
     return false;

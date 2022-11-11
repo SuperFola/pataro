@@ -111,8 +111,8 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
     }
 
     tcod::blit(
-        *engine->console().get(),
-        *con.get(),
+        engine->console(),
+        con,
         {
             static_cast<int>(engine->width()) / 2 - INVENTORY_WIDTH / 2,
             static_cast<int>(engine->height()) / 2 - INVENTORY_HEIGHT / 2

@@ -8,6 +8,7 @@ int main()
     {
         engine.update();
         engine.render();
+        engine.flush();
     }
 
     engine.export_log();
