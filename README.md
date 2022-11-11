@@ -27,10 +27,6 @@ cmake -Bbuild -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/bu
 cmake --build build --config Debug
 ```
 
-**Note**: on MacOS, you will want to alter LDFLAGS and CPPFLAGS before generating the build. It is also recommended to install `utf8proc` through brew.
-* `export LDFLAGS="-L/opt/homebrew/Cellar/utf8proc/2.8.0/lib"`
-* `export CPPFLAGS="-I/opt/homebrew/Cellar/utf8proc/2.8.0/include"`
-
 ## Controls
 
 - Move/attack with the arrows (`up`, `down`, `left`, `right`)
@@ -50,7 +46,7 @@ cmake --build build --config Debug
 - [x] the player can move and attack
 - [x] monsters spawn, can follow the player (if they are in their field of view) and attack them
 - [x] everyone has health points, attack power, and AI
-- [ ] transitionning from libtcod event system to SDL event system
+- [x] transitionning from libtcod event system to SDL event system
 - [x] the world map moves with the player
 - [x] GUI about the player, events...
 - [x] inventory GUI
