@@ -1,4 +1,4 @@
 [submodule "vcpkg"]
 	path = vcpkg
-	url = https://github.com/HexDecimal/vcpkg
+	url = https://github.com/microsoft/vcpkg
 	shallow = true
