@@ -78,8 +78,20 @@ void Engine::update()
     switch (m_lastkey)
     {
         case SDLK_F3:
-            TCODSystem::saveScreenshot(("screenshot_" + details::date_to_string() + ".png").c_str());
+        {
+            // FIXME
+            // int width = 0;
+            // int height = 0;
+            // TCOD_ColorRGBA* pixels = TCOD_context_screen_capture_alloc(m_context.get_ptr().get(), &width, &height);
+            // lodepng_encode32_file(
+            //     ("screenshot_" + details::date_to_string() + ".png").c_str(),
+            //     reinterpret_cast<unsigned char*>(pixels),
+            //     static_cast<unsigned>(width),
+            //     static_cast<unsigned>(height)
+            // );
+            // free(pixels);
             break;
+        }
 
         case SDLK_UP:
         case SDLK_LEFT:
