@@ -1,6 +1,7 @@
 #ifndef PATARO_MAP_LEVEL_HPP
 #define PATARO_MAP_LEVEL_HPP
 
+#include <Pataro/Config.hpp>
 #include <Pataro/Map/Tile.hpp>
 #include <Pataro/Map/Room.hpp>
 #include <Pataro/Entity.hpp>
@@ -39,8 +40,9 @@ namespace pat::map
          * 
          * @param width 
          * @param height 
+         * @param engine managed pointer to the engine
          */
-        Level(int width, int height);
+        Level(int width, int height, Engine* engine, const Config::Theme& theme);
 
         /**
          * @brief Check if a tile at (x, y) is a wall
@@ -112,17 +114,15 @@ namespace pat::map
         /**
          * @brief Render the level on screen as well as its Entities
          * 
-         * @param engine 
          * @param dt delta time
          */
-        void render(Engine* engine, float dt);
+        void render(float dt);
 
         /**
          * @brief Update the levels (Entities and stuff)
          * 
-         * @param engine 
          */
-        void update(Engine* engine);
+        void update();
 
         /**
          * @brief Add a copy of the player to the level
@@ -186,6 +186,9 @@ namespace pat::map
         std::vector<std::shared_ptr<Entity>> m_entities;
         int m_width;
         int m_height;
+        Engine* m_engine;
+        Config::Theme m_theme;
+
         entity::Factory m_factory;  ///< Entity factory
     };
 }

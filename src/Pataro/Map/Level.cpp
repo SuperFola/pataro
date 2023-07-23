@@ -11,9 +11,9 @@
 
 using namespace pat::map;
 
-Level::Level(int width, int height) :
+Level::Level(int width, int height, Engine* engine, const Config::Theme& theme) :
     m_tiles(width * height, details::Tile()),
-    m_width(width), m_height(height)
+    m_width(width), m_height(height), m_engine(engine), m_theme(theme)
 {}
 
 bool Level::is_wall(int x, int y) const
@@ -116,41 +116,38 @@ void Level::compute_fov(int x, int y, int fov_radius)
     m_map->computeFov(x, y, fov_radius);
 }
 
-void Level::render(pat::Engine* engine, float dt)
+void Level::render(float dt)
 {
-    // TODO clean up the colors from the level::render
-    static const tcod::ColorRGB darkWall(0, 0, 100);
-    static const tcod::ColorRGB darkGround(50, 50, 150);
-    static const tcod::ColorRGB lightWall(130, 110, 50);
-    static const tcod::ColorRGB lightGround(200, 180, 50);
+    int dx = m_engine->get_player()->get_x() - m_engine->width()  / 2,
+        dy = m_engine->get_player()->get_y() - m_engine->height() / 2;
 
-    int dx = engine->get_player()->get_x() - engine->width()  / 2,
-        dy = engine->get_player()->get_y() - engine->height() / 2;
-
-    for (unsigned screen_x = 0; screen_x < engine->width(); ++screen_x)
+    for (unsigned screen_x = 0; screen_x < m_engine->width(); ++screen_x)
     {
-        for (unsigned screen_y = 0; screen_y < engine->height(); ++screen_y)
+        for (unsigned screen_y = 0; screen_y < m_engine->height(); ++screen_y)
         {
             int real_x = static_cast<int>(screen_x) + dx;
             int real_y = static_cast<int>(screen_y) + dy;
 
+            TCOD_ConsoleTile& tile = m_engine->console().at(screen_x, screen_y);
+            tile.ch = is_wall(real_x, real_y) ? m_theme.wall.repr : m_theme.ground.repr;
+
             if (is_in_fov(real_x, real_y))
-                engine->console().at(screen_x, screen_y).bg = is_wall(real_x, real_y) ? lightWall : lightGround;
+                tile.bg = is_wall(real_x, real_y) ? m_theme.wall.color_visible : m_theme.ground.color_visible;
             else if (is_explored(real_x, real_y))
-                engine->console().at(screen_x, screen_y).bg = is_wall(real_x, real_y) ? darkWall : darkGround;
+                tile.bg = is_wall(real_x, real_y) ? m_theme.wall.color_outside_fov : m_theme.ground.color_outside_fov;
         }
     }
 
-    auto render_ = [this, &engine, &dt, &dx, &dy](bool render_dead_ones) {
+    auto render_ = [this, &dt, &dx, &dy](bool render_dead_ones) {
         for (const auto& entity : m_entities)
         {
             if (m_map->isInFov(entity->get_x(), entity->get_y()))
             {
                 component::Destructible* d = entity->destructible();
                 if (d != nullptr && (render_dead_ones ? d->is_dead() : !d->is_dead()))
-                    entity->render(engine->console(), dt, dx, dy);
+                    entity->render(m_engine->console(), dt, dx, dy);
                 else if (d == nullptr)
-                    entity->render(engine->console(), dt, dx, dy);
+                    entity->render(m_engine->console(), dt, dx, dy);
             }
         }
     };
@@ -160,19 +157,19 @@ void Level::render(pat::Engine* engine, float dt)
     render_(/* render_dead_ones */ false);
 }
 
-void Level::update(pat::Engine* engine)
+void Level::update()
 {
     // called once per new turn
     for (std::size_t i = 0; i < m_entities.size(); ++i)
     {
-        if (m_entities[i].get() != engine->get_player())
+        if (m_entities[i].get() != m_engine->get_player())
         {
             m_entities[i]->gain_energy();
             if (m_entities[i]->has_enough_energy())
             {
-                std::unique_ptr<pat::Action> action = m_entities[i]->update(engine);
+                std::unique_ptr<pat::Action> action = m_entities[i]->update(m_engine);
                 if (action != nullptr)
-                    action->perform(engine);
+                    action->perform(m_engine);
             }
         }
     }
@@ -209,6 +206,7 @@ void Level::generate()
 {
     m_map = std::make_unique<TCODMap>(m_width, m_height);
 
+    // TODO: expose the parameters in the generate() methods arguments
     // generate the level
     TCODBsp bsp(0, 0, m_width, m_height);
     bsp.splitRecursive(

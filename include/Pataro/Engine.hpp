@@ -9,6 +9,7 @@
 #include <Pataro/Entity.hpp>
 #include <Pataro/Map.hpp>
 #include <Pataro/Gui.hpp>
+#include <Pataro/Config.hpp>
 
 #include <libtcod.hpp>
 #include <libtcod/timer.hpp>
@@ -41,9 +42,10 @@ namespace pat
          * @param width width of the window
          * @param height height of the window
          * @param title title of the window
+         * @param config engine configuration
          * @param show_debug default: false. Show debug gui
          */
-        Engine(unsigned width, unsigned height, const std::string& title, bool show_debug = false);
+        Engine(unsigned width, unsigned height, const std::string& title, const Config& config, bool show_debug = false);
 
         /**
          * @brief Initialize the engine
@@ -113,8 +115,9 @@ namespace pat
 
     private:
         unsigned m_width, m_height;
-        bool m_running;
+        Config m_config;
         bool m_show_debug;
+        bool m_running;
         SDL_Keycode m_lastkey;
         Mouse m_mouse;
 

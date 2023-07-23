@@ -1,6 +1,7 @@
 #ifndef PATARO_MAP_HPP
 #define PATARO_MAP_HPP
 
+#include <Pataro/Config.hpp>
 #include <Pataro/Map/Level.hpp>
 
 #include <vector>
@@ -19,8 +20,10 @@ namespace pat
          * @param width 
          * @param height 
          * @param depth number of levels to generate
+         * @param engine managed pointer to the engine
+         * @param theme colors and configuration for the level
          */
-        Map(unsigned width, unsigned height, std::size_t depth);
+        Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, const Config::Theme& theme);
 
         /**
          * @brief Check if a tile at (x, y) is a wall
@@ -82,17 +85,15 @@ namespace pat
         /**
          * @brief Render the map on the screen
          * 
-         * @param engine 
          * @param dt delta time
          */
-        void render(Engine* engine, float dt);
+        void render(float dt);
 
         /**
          * @brief Update the current level
          * 
-         * @param engine 
          */
-        void update(Engine* engine);
+        void update();
 
         /**
          * @brief get the current level

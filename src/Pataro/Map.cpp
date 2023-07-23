@@ -6,12 +6,12 @@
 
 using namespace pat;
 
-Map::Map(unsigned width, unsigned height, std::size_t depth) :
+Map::Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, const Config::Theme& theme) :
     m_current(0)
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
-        m_levels.emplace_back(width, height);
+        m_levels.emplace_back(width, height, engine, theme);
 
     // generate the first level
     m_levels[m_current].generate();
@@ -48,12 +48,12 @@ bool Map::is_in_fov(int x, int y)
     return m_levels[m_current].is_in_fov(x, y);
 }
 
-void Map::render(pat::Engine* engine, float dt)
+void Map::render(float dt)
 {
-    m_levels[m_current].render(engine, dt);
+    m_levels[m_current].render(dt);
 }
 
-void Map::update(pat::Engine* engine)
+void Map::update()
 {
-    m_levels[m_current].update(engine);
+    m_levels[m_current].update();
 }

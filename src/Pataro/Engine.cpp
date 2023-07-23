@@ -18,8 +18,8 @@
 
 using namespace pat;
 
-Engine::Engine(unsigned width, unsigned height, const std::string& title, bool show_debug) :
-    m_width(width), m_height(height), m_running(true), m_show_debug(show_debug), m_console(width, height)
+Engine::Engine(unsigned width, unsigned height, const std::string& title, const Config& config, bool show_debug) :
+    m_width(width), m_height(height), m_config(config), m_show_debug(show_debug), m_running(true), m_console(width, height)
 {
     TCOD_ContextParams params {};
     params.tcod_version = TCOD_COMPILEDVERSION;
@@ -37,6 +37,7 @@ void Engine::reset()
 {
     m_state = GameState::StartUp;
 
+    // TODO: make a method to create the player quickly
     // create the player
     m_player = std::make_shared<Entity>(0, 0, '@', "Player", colors::white);
     m_player->set_ai<component::PlayerAI>();
@@ -45,7 +46,7 @@ void Engine::reset()
     m_player->set_inventory<component::Inventory>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
-    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
+    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1, this, m_config.themes[0]);  // TODO: find a way to change the theme?
     m_map->current_level().enter(m_player);
 
     // setup gui
@@ -116,7 +117,7 @@ void Engine::update()
 
     // if it's a new turn, update all the Entities
     if (m_state == GameState::NewTurn)
-        m_map->update(this);
+        m_map->update();
 }
 
 void Engine::render()
@@ -125,7 +126,7 @@ void Engine::render()
 
     TCOD_console_clear(m_console.get());
 
-    m_map->render(this, dt);
+    m_map->render(dt);
     m_gui->render(this, m_console.get(), 0, m_height - m_gui->get_height());
 
     if (m_show_debug)
