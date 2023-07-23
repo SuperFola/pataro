@@ -21,7 +21,7 @@ pat::ActionResult HealAction::perform(pat::Engine* engine)
             engine->log("heal");
 
         if (healed > 0.f)
-            m_source->use()->remove_from_container(m_owner, m_source);
+            m_source->use()->remove_from_inventory(m_owner, m_source);
 
         return pat::ActionResult::Success;
     }

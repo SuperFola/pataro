@@ -22,7 +22,7 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
         if (component::Use* u = e->use(); u != nullptr && e->get_x() == m_x && e->get_y() == m_y)
         {
             // try to pick up the object
-            if (m_source->container()->add(e.get()))
+            if (m_source->inventory()->add(e.get()))
             {
                 found = true;
 

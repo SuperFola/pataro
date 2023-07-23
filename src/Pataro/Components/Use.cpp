@@ -19,7 +19,7 @@ void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
     if (m_destroyed)
         return;
 
-    if (Container* c = owner->container(); c != nullptr)
+    if (Inventory* c = owner->inventory(); c != nullptr)
     {
         source->put_at(owner->get_x(), owner->get_y());
         engine->get_map()->current_level().add(source);
@@ -27,7 +27,7 @@ void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
     }
 }
 
-void Use::remove_from_container(pat::Entity* owner, pat::Entity* source)
+void Use::remove_from_inventory(pat::Entity* owner, pat::Entity* source)
 {
-    owner->container()->remove(source);
+    owner->inventory()->remove(source);
 }

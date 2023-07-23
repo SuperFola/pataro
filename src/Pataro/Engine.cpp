@@ -8,7 +8,7 @@
 #include <Pataro/Components/AI/Player.hpp>
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Destructible/Player.hpp>
-#include <Pataro/Components/Container.hpp>
+#include <Pataro/Components/Inventory.hpp>
 
 #include <SDL.h>
 #include <libtcod.hpp>
@@ -42,7 +42,7 @@ void Engine::reset()
     m_player->set_ai<component::PlayerAI>();
     m_player->set_attacker<component::Attacker>(5.f);
     m_player->set_destructible<component::PlayerDestructible>(30.f, 2.f, "your cadaver");
-    m_player->set_container<component::Container>(26);  ///< One slot per letter in the alphabet
+    m_player->set_inventory<component::Inventory>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
     m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1);
@@ -72,7 +72,7 @@ void Engine::update()
     {
         std::unique_ptr<Action> action = m_player->update(this);
         if (action)
-            action->perform(this);
+            action->perform(this);  // TODO handle actionresult?
     }
 
     switch (m_lastkey)

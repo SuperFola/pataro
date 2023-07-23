@@ -5,7 +5,7 @@
 #include <Pataro/Colors.hpp>
 #include <Pataro/Constants.hpp>
 #include <Pataro/Components/Destructible.hpp>
-#include <Pataro/Components/Container.hpp>
+#include <Pataro/Components/Inventory.hpp>
 
 #include <Pataro/Actions/Move.hpp>
 #include <Pataro/Actions/Attack.hpp>
@@ -60,6 +60,7 @@ std::unique_ptr<pat::Action> PlayerAI::update(pat::Entity* owner, pat::Engine* e
 
 std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat::Engine* engine, int keycode)
 {
+    // TODO find a way to make the keycode customisable
     switch (keycode)
     {
         // pick an item
@@ -91,6 +92,7 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
     return nullptr;
 }
 
+// TODO: this shouldn't be here, we are doing some kind of rendering and event loop
 pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* engine)
 {
     // TODO put this in Pataro/Gui/Inventory
@@ -102,7 +104,7 @@ pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* en
 
     // display the items with their keyboard shortcut
     int y = 1;
-    Container& c = *owner->container();
+    Inventory& c = *owner->inventory();
 
     for (std::size_t i = 0, end = c.size(); i < end; ++i)
     {

@@ -1,4 +1,4 @@
-#include <Pataro/Components/Container.hpp>
+#include <Pataro/Components/Inventory.hpp>
 
 #include <Pataro/Entity.hpp>
 
@@ -6,11 +6,11 @@
 
 using namespace pat::component;
 
-Container::Container(std::size_t size) :
+Inventory::Inventory(std::size_t size) :
     m_max_size(size)
 {}
 
-bool Container::add(pat::Entity* entity)
+bool Inventory::add(pat::Entity* entity)
 {
     // inventory full
     if (m_max_size > 0 && m_inventory.size() >= m_max_size)
@@ -20,7 +20,7 @@ bool Container::add(pat::Entity* entity)
     return true;
 }
 
-void Container::remove(pat::Entity* entity)
+void Inventory::remove(pat::Entity* entity)
 {
     auto it = std::remove_if(m_inventory.begin(), m_inventory.end(), [entity](const Entity& e) -> bool {
         return entity->id() == e.id();
@@ -28,27 +28,27 @@ void Container::remove(pat::Entity* entity)
     m_inventory.erase(it);
 }
 
-const pat::Entity& Container::operator[](std::size_t index) const
+const pat::Entity& Inventory::operator[](std::size_t index) const
 {
     return m_inventory[index];
 }
 
-pat::Entity* Container::ptr_at(std::size_t index)
+pat::Entity* Inventory::ptr_at(std::size_t index)
 {
     return &m_inventory[index];
 }
 
-std::size_t Container::size() const
+std::size_t Inventory::size() const
 {
     return m_inventory.size();
 }
 
-std::size_t Container::capacity() const
+std::size_t Inventory::capacity() const
 {
     return m_max_size;
 }
 
-Container* Container::clone_impl() const
+Inventory* Inventory::clone_impl() const
 {
-    return new Container(*this);
+    return new Inventory(*this);
 }

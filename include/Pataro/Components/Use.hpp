@@ -38,10 +38,10 @@ namespace pat::component
         void drop(Entity* source, Entity* owner, Engine* engine);
 
         /**
-         * @brief Remove from container
+         * @brief Remove from inventory
          * 
          */
-        void remove_from_container(Entity* owner, Entity* source);
+        void remove_from_inventory(Entity* owner, Entity* source);
 
         inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
 

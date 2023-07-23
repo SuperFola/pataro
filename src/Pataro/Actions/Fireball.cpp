@@ -38,7 +38,7 @@ pat::ActionResult FireballAction::perform(pat::Engine* engine)
     }
 
     // destroy the object, we used it
-    m_source->use()->remove_from_container(m_owner, m_source);
+    m_source->use()->remove_from_inventory(m_owner, m_source);
 
     return pat::ActionResult::Success;
 }

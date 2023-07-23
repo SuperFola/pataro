@@ -1,6 +1,6 @@
 # Pataro's architecture
 
-## The engine
+## Engine
 
 In `include/Pataro/Engine.hpp` and `src/Pataro/Engine.cpp`.
 
@@ -8,7 +8,7 @@ In charge of the controls, the map, the player. Updates and renders the game (ma
 
 Updates the player separetly from the map.
 
-## The map
+## Map
 
 In `include/Pataro/Map.hpp`, `include/Pataro/Map/`, `src/Pataro/Map.cpp` and `src/Pataro/Map/`.
 
@@ -16,19 +16,19 @@ Handles multiple levels (/ floors), works only on the current level.
 
 Acts as a proxy for most of the level's methods.
 
-## The level
+### Level
 
 In `include/Pataro/Map/Level.hpp` and `src/Pataro/Map/Level.cpp`.
 
-Generates rooms, monsters, handles the field of view, collisions with actors and walls. Updates all the actor except the player, given a pointer to the engine.
+Generates rooms, monsters, handles the field of view, collisions with entities and walls. Updates all the entities except the player, given a pointer to the engine.
 
-## The actions
+## Actions
 
 In `include/Pataro/Action.hpp`, `include/Pataro/Actions/`, `src/Pataro/Action.cpp` and `src/Pataro/Actions/`.
 
 Handle everything the entities can do.
 
-## The entity
+## Entities
 
 In `include/Pataro/Entity.hpp`, `include/Pataro/Entities/`, `src/Pataro/Entity.cpp` and `src/Pataro/Entities/`.
 

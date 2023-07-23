@@ -24,7 +24,7 @@ namespace pat
         PickUpAction(Entity* source, int x, int y);
 
         /**
-         * @brief Tries to pick the object up and put it in the source container
+         * @brief Tries to pick the object up and put it in the source inventory
          * 
          * @param engine 
          * @return ActionResult 

@@ -20,7 +20,7 @@ Entity::Entity(const Entity& other) :
     m_attacker(other.m_attacker ? other.m_attacker->clone() : nullptr),
     m_destructible(other.m_destructible ? other.m_destructible->clone() : nullptr),
     m_ai(other.m_ai ? other.m_ai->clone() : nullptr),
-    m_container(other.m_container ? other.m_container->clone() : nullptr),
+    m_inventory(other.m_inventory ? other.m_inventory->clone() : nullptr),
     m_use(other.m_use ? other.m_use->clone() : nullptr)
 {}
 
@@ -33,11 +33,12 @@ Entity& Entity::operator=(const Entity& other)
     m_name = other.m_name;
     m_color = other.m_color;
     m_blocks = other.m_blocks;
+
     m_attacker = other.m_attacker ? other.m_attacker->clone() : nullptr;
     m_destructible = other.m_destructible ? other.m_destructible->clone() : nullptr;
     m_ai = other.m_ai ? other.m_ai->clone() : nullptr;
     m_use = other.m_use ? other.m_use->clone() : nullptr;
-    m_container = other.m_container ? other.m_container->clone() : nullptr;
+    m_inventory = other.m_inventory ? other.m_inventory->clone() : nullptr;
 
     return *this;
 }
@@ -64,12 +65,16 @@ void Entity::render(tcod::Console& console, float dt, int dx, int dy) const
 std::unique_ptr<Action> Entity::update(Engine* engine)
 {
     if (m_ai)
+    {
+        m_energy -= m_speed;  // decrease energy so that the entity doesn't have infinite energy
         return m_ai->update(this, engine);
+    }
     return nullptr;
 }
 
 void Entity::gain_energy()
 {
+    // TODO change the type of energy to something better than floats because imprecisions?
     m_energy += m_speed;
 }
 
