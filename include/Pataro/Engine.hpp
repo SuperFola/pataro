@@ -100,6 +100,16 @@ namespace pat
          */
         bool pick_a_tile(int* x, int* y, float max_range = 0.f);
 
+        /**
+         * @brief Prompts the player to select an object in its inventory
+         * 
+         * @param owner 
+         * @return Entity* nullptr if nothing selected
+         */
+        Entity* choose_from_inventory(Entity* owner);
+
+        void render_defeat();
+
         inline unsigned width()  { return m_width; }
         inline unsigned height() { return m_height; }
 

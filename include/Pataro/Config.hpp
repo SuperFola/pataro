@@ -33,6 +33,7 @@ namespace pat
         };
 
         std::vector<Theme> themes;
+        unsigned fps_max = 30;
     };
 }
 

@@ -37,15 +37,6 @@ namespace pat::component
          */
         std::unique_ptr<pat::Action> handle_action_key(Entity* owner, Engine* engine, int keycode);
 
-        /**
-         * @brief Prompts the player to select an object in its inventory
-         * 
-         * @param owner 
-         * @param engine 
-         * @return Entity* nullptr if nothing selected
-         */
-        Entity* choose_from_inventory(Entity* owner, Engine* engine);
-
         virtual PlayerAI* clone_impl() const override;
     };
 }

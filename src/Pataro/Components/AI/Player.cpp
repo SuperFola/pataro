@@ -70,7 +70,7 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
         // display inventory
         case SDLK_i:
         {
-            Entity* e = choose_from_inventory(owner, engine);
+            Entity* e = engine->choose_from_inventory(owner);
             if (e != nullptr)
                 return std::make_unique<pat::UseAction>(owner, e);
             break;
@@ -79,7 +79,7 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
         // drop an object
         case SDLK_d:
         {
-            Entity* e = choose_from_inventory(owner, engine);
+            Entity* e = engine->choose_from_inventory(owner);
             if (e != nullptr)
                 return std::make_unique<pat::DropAction>(owner, e);
             break;
@@ -87,55 +87,6 @@ std::unique_ptr<pat::Action> PlayerAI::handle_action_key(pat::Entity* owner, pat
 
         default:
             break;
-    }
-
-    return nullptr;
-}
-
-// TODO: this shouldn't be here, we are doing some kind of rendering and event loop
-pat::Entity* PlayerAI::choose_from_inventory(pat::Entity* owner, pat::Engine* engine)
-{
-    // TODO put this in Pataro/Gui/Inventory
-    static const int INVENTORY_WIDTH = 50,
-                     INVENTORY_HEIGHT = 28;
-    static tcod::Console con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
-
-    tcod::draw_frame(con, {0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT}, details::frame, tcod::ColorRGB(200, 180, 50), std::nullopt, TCOD_BKGND_DEFAULT);
-
-    // display the items with their keyboard shortcut
-    int y = 1;
-    Inventory& c = *owner->inventory();
-
-    for (std::size_t i = 0, end = c.size(); i < end; ++i)
-    {
-        tcod::print(con, {2, y}, tcod::stringf("(%c) %s", 'a' + y - 1, c[i].get_name().c_str()), colors::white, std::nullopt);
-        y++;
-    }
-
-    tcod::blit(
-        engine->console(),
-        con,
-        {
-            static_cast<int>(engine->width()) / 2 - INVENTORY_WIDTH / 2,
-            static_cast<int>(engine->height()) / 2 - INVENTORY_HEIGHT / 2
-        }
-    );
-    engine->flush();
-
-    // wait for a key press
-    while (true)
-    {
-        engine->handle_events();
-
-        if (engine->lastkey() != SDLK_UNKNOWN)
-            break;
-    }
-
-    if (engine->lastkey() >= 'a' && engine->lastkey() <= 'z')
-    {
-        int idx = engine->lastkey() - 'a';
-        if (0 <= idx && static_cast<std::size_t>(idx) < c.size())
-            return c.ptr_at(idx);
     }
 
     return nullptr;

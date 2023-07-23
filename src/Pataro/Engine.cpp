@@ -122,7 +122,7 @@ void Engine::update()
 
 void Engine::render()
 {
-    float dt = m_timer.sync(30);
+    float dt = m_timer.sync(m_config.fps_max);
 
     TCOD_console_clear(m_console.get());
 
@@ -134,33 +134,7 @@ void Engine::render()
 
     // defeat ui
     if (m_state == GameState::Defeat)
-    {
-        static const int UI_WIDTH = 50, UI_HEIGHT = 28;
-        static tcod::Console con(UI_WIDTH, UI_HEIGHT);
-
-        tcod::draw_frame(con, {0, 0, UI_WIDTH, UI_HEIGHT}, details::frame, tcod::ColorRGB(50, 180, 200), std::nullopt, TCOD_BKGND_DEFAULT);
-
-        // display the items with their keyboard shortcut
-        int y = 1;
-
-        for (const auto& pair : m_log)
-        {
-            if (y - m_scroll_pos > 0)
-                tcod::print(con, {2, y - m_scroll_pos}, tcod::stringf("%s: %u", pair.first.c_str(), pair.second), colors::white, std::nullopt);
-            y++;
-        }
-
-        tcod::blit(
-            m_console,
-            con,
-            {
-                static_cast<int>(m_width) / 2 - UI_WIDTH  / 2,
-                static_cast<int>(m_height) / 2 - UI_HEIGHT / 2
-            }
-        );
-
-        tcod::print(m_console, {static_cast<int>(m_width) - 23, 0}, "Press ESCAPE to restart", colors::white, std::nullopt);
-    }
+        render_defeat();
 }
 
 void Engine::handle_events()
@@ -279,4 +253,86 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
     }
 
     return false;
+}
+
+Entity* Engine::choose_from_inventory(Entity* owner)
+{
+    // TODO put this in Pataro/Gui/Inventory
+    static const int INVENTORY_WIDTH = 50,
+                     INVENTORY_HEIGHT = 28;
+    static tcod::Console con(INVENTORY_WIDTH, INVENTORY_HEIGHT);
+
+    tcod::draw_frame(con, {0, 0, INVENTORY_WIDTH, INVENTORY_HEIGHT}, details::frame, tcod::ColorRGB(200, 180, 50), std::nullopt, TCOD_BKGND_DEFAULT);
+
+    // display the items with their keyboard shortcut
+    component::Inventory& c = *owner->inventory();
+
+    for (std::size_t i = 0, end = c.size(); i < end; ++i)
+    {
+        // the static_cast is unsafe but we know that the inventory can't go over 26
+        int y = static_cast<int>(i) + 1;
+        tcod::print(con, {2, y}, tcod::stringf("(%c) %s", 'a' + y - 1, c[i].get_name().c_str()), colors::white, std::nullopt);
+    }
+
+    while (true)
+    {
+        // get events
+        handle_events();
+
+        if (m_lastkey != SDLK_UNKNOWN)
+            break;
+
+        // render the game background
+        render();
+        // render the UI
+        tcod::blit(
+            console(),
+            con,
+            {
+                static_cast<int>(m_width) / 2 - INVENTORY_WIDTH / 2,
+                static_cast<int>(m_height) / 2 - INVENTORY_HEIGHT / 2
+            }
+        );
+
+        flush();
+    }
+
+    if (m_lastkey >= 'a' && m_lastkey <= 'z')
+    {
+        int idx = m_lastkey - 'a';
+        if (0 <= idx && static_cast<std::size_t>(idx) < c.size())
+            return c.ptr_at(idx);
+    }
+
+    return nullptr;
+}
+
+void Engine::render_defeat()
+{
+    // TODO: make this configurable
+    static const int UI_WIDTH = 50, UI_HEIGHT = 28;
+    static tcod::Console con(UI_WIDTH, UI_HEIGHT);
+
+    tcod::draw_frame(con, {0, 0, UI_WIDTH, UI_HEIGHT}, details::frame, tcod::ColorRGB(50, 180, 200), std::nullopt, TCOD_BKGND_DEFAULT);
+
+    // display the items with their keyboard shortcut
+    int y = 1;
+
+    for (const auto& pair : m_log)
+    {
+        if (y - m_scroll_pos > 0)
+            tcod::print(con, {2, y - m_scroll_pos}, tcod::stringf("%s: %u", pair.first.c_str(), pair.second), colors::white, std::nullopt);
+        y++;
+    }
+
+    tcod::blit(
+        m_console,
+        con,
+        {
+            static_cast<int>(m_width) / 2 - UI_WIDTH  / 2,
+            static_cast<int>(m_height) / 2 - UI_HEIGHT / 2
+        }
+    );
+
+    tcod::print(m_console, {static_cast<int>(m_width) - 23, 0}, "Press ESCAPE to restart", colors::white, std::nullopt);
 }
