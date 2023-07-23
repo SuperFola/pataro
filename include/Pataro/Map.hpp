@@ -1,7 +1,8 @@
-#ifndef PATARO_MAP_HPP
-#define PATARO_MAP_HPP
+#ifndef INCLUDE_PATARO_MAP_HPP
+#define INCLUDE_PATARO_MAP_HPP
 
 #include <Pataro/Config.hpp>
+#include <Pataro/Map/Tile.hpp>
 #include <Pataro/Map/Level.hpp>
 
 #include <vector>
@@ -26,14 +27,13 @@ namespace pat
         Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, const Config::Theme& theme);
 
         /**
-         * @brief Check if a tile at (x, y) is a wall
+         * @brief Returns the type of tile at a given position. Handles bounds checking
          * 
          * @param x 
          * @param y 
-         * @return true 
-         * @return false 
+         * @return Tile::Type 
          */
-        bool is_wall(int x, int y) const;
+        map::Tile::Type tile_at(int x, int y) const;
 
         /**
          * @brief check if an entity can walk on a given tile

@@ -17,9 +17,9 @@ Map::Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, con
     m_levels[m_current].generate();
 }
 
-bool Map::is_wall(int x, int y) const
+map::Tile::Type Map::tile_at(int x, int y) const
 {
-    return m_levels[m_current].is_wall(x, y);
+    return m_levels[m_current].tile_at(x, y);
 }
 
 bool Map::can_walk(int x, int y) const

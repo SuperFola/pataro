@@ -12,19 +12,20 @@
 using namespace pat::map;
 
 Level::Level(int width, int height, Engine* engine, const Config::Theme& theme) :
-    m_tiles(width * height, details::Tile()),
+    m_tiles(width * height, Tile(Tile::Type::Wall)),
     m_width(width), m_height(height), m_engine(engine), m_theme(theme)
 {}
 
-bool Level::is_wall(int x, int y) const
+Tile::Type Level::tile_at(int x, int y) const
 {
-    // already checks for the bounds
-    return !m_map->isWalkable(x, y);
+    if (0 <= x && x < m_width && 0 <= y && y < m_height)
+        return m_tiles[x + y * m_width].type;
+    return Tile::Type::Wall;
 }
 
 bool Level::can_walk(int x, int y) const
 {
-    if (is_wall(x, y))
+    if (!m_map->isWalkable(x, y))
         return false;
 
     for (const auto& entity : m_entities)
@@ -125,16 +126,25 @@ void Level::render(float dt)
     {
         for (unsigned screen_y = 0; screen_y < m_engine->height(); ++screen_y)
         {
-            int real_x = static_cast<int>(screen_x) + dx;
-            int real_y = static_cast<int>(screen_y) + dy;
-
+            int world_x = static_cast<int>(screen_x) + dx;
+            int world_y = static_cast<int>(screen_y) + dy;
             TCOD_ConsoleTile& tile = m_engine->console().at(screen_x, screen_y);
-            tile.ch = is_wall(real_x, real_y) ? m_theme.wall.repr : m_theme.ground.repr;
 
-            if (is_in_fov(real_x, real_y))
-                tile.bg = is_wall(real_x, real_y) ? m_theme.wall.color_visible : m_theme.ground.color_visible;
-            else if (is_explored(real_x, real_y))
-                tile.bg = is_wall(real_x, real_y) ? m_theme.wall.color_outside_fov : m_theme.ground.color_outside_fov;
+            // IMPORTANT: the type index should the same (and have the same order) as the one defines under Config.hpp
+            std::size_t type_idx = static_cast<std::size_t>(m_tiles[world_x + world_y * m_width].type);
+            if (type_idx <= 2)
+            {
+                if (is_in_fov(world_x, world_y))
+                {
+                    tile.ch = m_theme.colors[type_idx].repr;
+                    tile.bg = m_theme.colors[type_idx].color_visible;
+                }
+                else if (is_explored(world_x, world_y))
+                {
+                    tile.ch = m_theme.colors[type_idx].repr;
+                    tile.bg = m_theme.colors[type_idx].color_outside_fov;
+                }
+            }
         }
     }
 
@@ -225,6 +235,12 @@ void Level::generate()
     );
     details::BSPListener listener(this);
     bsp.traverseInvertedLevelOrder(static_cast<ITCODBspCallback*>(&listener), nullptr);
+
+    // put stairs in the last room generated
+    int x = m_rooms.back().x + m_rooms.back().width / 2;
+    int y = m_rooms.back().y + m_rooms.back().height / 2;
+
+    m_tiles[x + y * m_width] = Tile(Tile::Type::Stairs);
 }
 
 void Level::dig(int x1, int y1, int x2, int y2)
@@ -245,8 +261,11 @@ void Level::dig(int x1, int y1, int x2, int y2)
     for (int x = x1; x <= x2; ++x)
     {
         for (int y = y1; y <= y2; ++y)
+        {
+            m_tiles[x + y * m_width].type = Tile::Type::Ground;
             // transparent & walkable
             m_map->setProperties(x, y, true, true);
+        }
     }
 }
 

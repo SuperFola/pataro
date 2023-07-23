@@ -42,7 +42,7 @@ void Engine::reset()
     m_player = std::make_shared<Entity>(0, 0, '@', "Player", colors::white);
     m_player->set_ai<component::PlayerAI>();
     m_player->set_attacker<component::Attacker>(5.f);
-    m_player->set_destructible<component::PlayerDestructible>(30.f, 2.f, "your cadaver");
+    m_player->set_destructible<component::PlayerDestructible>(300.f, 2.f, "your cadaver");
     m_player->set_inventory<component::Inventory>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
@@ -130,7 +130,10 @@ void Engine::render()
     m_gui->render(this, m_console.get(), 0, m_height - m_gui->get_height());
 
     if (m_show_debug)
+    {
         tcod::print(m_console, {0, 0}, tcod::stringf("%.2f ms", dt * 1000), std::nullopt, std::nullopt);
+        tcod::print(m_console, {0, 1}, tcod::stringf("player x:%i y:%i", m_player->get_x(), m_player->get_y()), std::nullopt, std::nullopt);
+    }
 
     // defeat ui
     if (m_state == GameState::Defeat)

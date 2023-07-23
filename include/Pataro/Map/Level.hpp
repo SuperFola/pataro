@@ -45,14 +45,13 @@ namespace pat::map
         Level(int width, int height, Engine* engine, const Config::Theme& theme);
 
         /**
-         * @brief Check if a tile at (x, y) is a wall
+         * @brief Returns the type of tile at a given position. Handles bounds checking
          * 
          * @param x 
          * @param y 
-         * @return true 
-         * @return false 
+         * @return Tile::Type 
          */
-        bool is_wall(int x, int y) const;
+        Tile::Type tile_at(int x, int y) const;
 
         /**
          * @brief check if an Entity can walk on a given tile
@@ -180,10 +179,11 @@ namespace pat::map
          */
         void create_room(int x1, int y1, int x2, int y2);
 
-        std::vector<details::Tile> m_tiles;
+        std::vector<Tile> m_tiles;
         std::unique_ptr<TCODMap> m_map;
         std::vector<details::Room> m_rooms;
         std::vector<std::shared_ptr<Entity>> m_entities;
+
         int m_width;
         int m_height;
         Engine* m_engine;
