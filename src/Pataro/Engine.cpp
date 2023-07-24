@@ -46,7 +46,7 @@ void Engine::reset()
     m_player->set_inventory<component::Inventory>(26);  ///< One slot per letter in the alphabet
 
     // instantiate a map with 1 level(s)
-    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 1, this, m_config.themes[0]);  // TODO: find a way to change the theme?
+    m_map = std::make_unique<Map>(map::details::level_w, map::details::level_h, 2, this, m_config.themes[0]);  // TODO: find a way to change the theme?
     m_map->current_level().enter(m_player);
 
     // setup gui
@@ -131,8 +131,19 @@ void Engine::render()
 
     if (m_show_debug)
     {
-        tcod::print(m_console, {0, 0}, tcod::stringf("%.2f ms", dt * 1000), std::nullopt, std::nullopt);
+        std::string turn_to_str;
+        switch (m_state)
+        {
+            case GameState::StartUp: turn_to_str = "startup"; break;
+            case GameState::Idle:    turn_to_str = "idle"; break;
+            case GameState::NewTurn: turn_to_str = "new turn"; break;
+            case GameState::Victory: turn_to_str = "victory"; break;
+            case GameState::Defeat:  turn_to_str = "defeat"; break;
+        }
+
+        tcod::print(m_console, {0, 0}, tcod::stringf("%.2f ms - %s", dt * 1000, turn_to_str.c_str()), std::nullopt, std::nullopt);
         tcod::print(m_console, {0, 1}, tcod::stringf("player x:%i y:%i", m_player->get_x(), m_player->get_y()), std::nullopt, std::nullopt);
+        tcod::print(m_console, {0, 2}, tcod::stringf("level: %i", m_map->floor()), std::nullopt, std::nullopt);
     }
 
     // defeat ui

@@ -102,9 +102,17 @@ namespace pat
          */
         inline map::Level& current_level() { return m_levels[m_current]; }
 
+        inline std::size_t floor() const { return m_current; }
+        inline bool is_bottom_floor() const { return m_current + 1 == m_levels.size(); }
+
+        inline bool can_go_upstairs() const { return m_current > 0; }
+        inline bool can_go_downstairs() const { return m_current + 1 < m_levels.size(); }
+
+        bool move_upstairs(Entity* player);
+        bool move_downstairs(Entity* player);
+
     private:
         std::vector<map::Level> m_levels;
-        // TODO add method to change current level
         std::size_t m_current;
     };
 }

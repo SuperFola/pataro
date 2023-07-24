@@ -141,8 +141,9 @@ namespace pat::map
          * @brief Remove an Entity from the level
          * 
          * @param entity 
+         * @return std::shared_ptr<Entity> the removed entity
          */
-        void remove(Entity* entity);
+        std::shared_ptr<Entity> remove(Entity* entity);
 
         inline const std::vector<std::shared_ptr<Entity>>& get_entities() { return m_entities; }
 

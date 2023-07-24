@@ -204,12 +204,14 @@ void Level::add(pat::Entity* entity)
     );
 }
 
-void Level::remove(pat::Entity* entity)
+std::shared_ptr<pat::Entity> Level::remove(pat::Entity* entity)
 {
     auto it = std::remove_if(m_entities.begin(), m_entities.end(), [&entity](const auto& entity_) -> bool {
         return entity_.get() == entity;
     });
+    auto copy = *it;
     m_entities.erase(it);
+    return copy;
 }
 
 void Level::generate()
@@ -241,6 +243,7 @@ void Level::generate()
     int y = m_rooms.back().y + m_rooms.back().height / 2;
 
     m_tiles[x + y * m_width] = Tile(Tile::Type::Stairs);
+    // FIXME this prevents the player from using FollowStairs actions because collisions m_map->setProperties(x, y, true, false);  // set the stairs as not walkable
 }
 
 void Level::dig(int x1, int y1, int x2, int y2)

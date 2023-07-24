@@ -11,10 +11,10 @@ Map::Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, con
 {
     // create levels
     for (std::size_t i = 0; i < depth; ++i)
+    {
         m_levels.emplace_back(width, height, engine, theme);
-
-    // generate the first level
-    m_levels[m_current].generate();
+        m_levels.back().generate();  // TODO: tune the generation settings for each level
+    }
 }
 
 map::Tile::Type Map::tile_at(int x, int y) const
@@ -56,4 +56,28 @@ void Map::render(float dt)
 void Map::update()
 {
     m_levels[m_current].update();
+}
+
+bool Map::move_upstairs(Entity* player)
+{
+    if (can_go_upstairs())
+    {
+        auto player_ptr = current_level().remove(player);
+        --m_current;
+        current_level().enter(player_ptr);
+        return true;
+    }
+    return false;
+}
+
+bool Map::move_downstairs(Entity* player)
+{
+    if (can_go_downstairs())
+    {
+        auto player_ptr = current_level().remove(player);
+        ++m_current;
+        current_level().enter(player_ptr);
+        return true;
+    }
+    return false;
 }

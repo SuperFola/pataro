@@ -124,7 +124,7 @@ namespace pat
         inline void flush()             { m_context.present(m_console); }
 
     private:
-        unsigned m_width, m_height;
+        unsigned m_width, m_height;  // TODO: move to config
         Config m_config;
         bool m_show_debug;
         bool m_running;
