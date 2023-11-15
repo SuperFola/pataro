@@ -26,7 +26,7 @@ namespace pat
          * @param height size of the GUI console
          * @param proxy a function to retrieve the value and the max value
          */
-        Gui(unsigned width, unsigned height, const Proxy_t& proxy);
+        Gui(unsigned width, unsigned height, Proxy_t  proxy);
 
         /**
          * @brief Render the GUI on a given TCOD console
@@ -68,8 +68,8 @@ namespace pat
                 m_log.erase(m_log.begin());
         }
 
-        inline unsigned get_width()  { return m_width; }
-        inline unsigned get_height() { return m_height; }
+        [[nodiscard]] inline unsigned get_width() const  { return m_width; }
+        [[nodiscard]] inline unsigned get_height() const { return m_height; }
 
     private:
         /**
@@ -91,7 +91,7 @@ namespace pat
         struct Message {
             std::string text;
             tcod::ColorRGB color;
-            Message(const std::string& text, const tcod::ColorRGB& color);
+            Message(std::string  text, const tcod::ColorRGB& color);
         };
 
         std::vector<Message> m_log;

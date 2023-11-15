@@ -19,16 +19,16 @@ namespace pat::component
          * 
          * @param power 
          */
-        Attacker(float power);
+        explicit Attacker(float power);
 
         virtual ~Attacker() = default;
 
-        inline float power() const { return m_power; }
+        [[nodiscard]] inline float power() const { return m_power; }
 
-        inline std::unique_ptr<Attacker> clone() const { return std::unique_ptr<Attacker>(clone_impl()); }
+        [[nodiscard]] inline std::unique_ptr<Attacker> clone() const { return std::unique_ptr<Attacker>(clone_impl()); }
 
     protected:
-        virtual Attacker* clone_impl() const;
+        [[nodiscard]] virtual Attacker* clone_impl() const;
 
     private:
         float m_power;

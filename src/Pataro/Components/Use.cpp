@@ -13,7 +13,7 @@ std::unique_ptr<pat::Action> Use::perform(pat::Entity* source, pat::Entity* owne
     return use(source, owner, engine);
 }
 
-void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine)
+void Use::drop(pat::Entity* source, pat::Entity* owner, pat::Engine* engine) const
 {
     // we can not drop a used object
     if (m_destroyed)

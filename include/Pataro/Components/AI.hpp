@@ -27,10 +27,10 @@ namespace pat::component
          */
         virtual std::unique_ptr<Action> update(Entity* owner, Engine* engine) = 0;
 
-        inline std::unique_ptr<AI> clone() const { return std::unique_ptr<AI>(clone_impl()); }
+        [[nodiscard]] inline std::unique_ptr<AI> clone() const { return std::unique_ptr<AI>(clone_impl()); }
 
     protected:
-        virtual AI* clone_impl() const = 0;
+        [[nodiscard]] virtual AI* clone_impl() const = 0;
     };
 }
 

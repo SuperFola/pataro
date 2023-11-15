@@ -22,7 +22,7 @@ namespace pat::component
          * @param defense 
          * @param corpse_name the name of the Entity once dead
          */
-        Destructible(float max_hp, float defense, const std::string& corpse_name);
+        Destructible(float max_hp, float defense, std::string corpse_name);
 
         /**
          * @brief Destroy the Destructible object
@@ -56,15 +56,15 @@ namespace pat::component
          */
         float heal(float amount);
 
-        inline bool  is_dead() { return m_hp <= 0.f; }
-        inline float max_hp()  { return m_max_hp; }
-        inline float hp()      { return m_hp; }
-        inline float defense() { return m_defense; }
+        [[nodiscard]] inline bool  is_dead() const { return m_hp <= 0.f; }
+        [[nodiscard]] inline float max_hp() const  { return m_max_hp; }
+        [[nodiscard]] inline float hp() const      { return m_hp; }
+        [[nodiscard]] inline float defense() const { return m_defense; }
 
-        inline std::unique_ptr<Destructible> clone() const { return std::unique_ptr<Destructible>(clone_impl()); }
+        [[nodiscard]] inline std::unique_ptr<Destructible> clone() const { return std::unique_ptr<Destructible>(clone_impl()); }
 
     protected:
-        virtual Destructible* clone_impl() const;
+        [[nodiscard]] virtual Destructible* clone_impl() const;
 
     private:
         float m_max_hp, m_hp;

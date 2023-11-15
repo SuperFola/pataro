@@ -27,7 +27,7 @@ namespace pat::component
          * 
          * @param args 
          */
-        OneTimeUse(Args&&... args)
+        explicit OneTimeUse(Args&&... args)
         {
             m_function = [args = std::make_tuple(std::forward<Args>(args) ...)](Entity* source, Entity* owner) -> std::unique_ptr<Action> {
                 return std::apply([source, owner](auto&&... args) {
@@ -48,8 +48,8 @@ namespace pat::component
         }
 
     private:
-        OneTimeUse(const Callback_t& callback) :
-            m_function(callback)
+        explicit OneTimeUse(Callback_t callback) :
+            m_function(std::move(callback))
         {}
 
         Callback_t m_function;

@@ -2,7 +2,6 @@
 
 #include <Pataro/Map/BSPListener.hpp>
 #include <Pataro/Map/Constants.hpp>
-#include <Pataro/Map.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Utils.hpp>
@@ -79,7 +78,7 @@ pat::Entity* Level::get_closest_monster(pat::Entity* from, float range) const
         if (component::Destructible* d = entity->destructible(); entity.get() != from
             && d != nullptr && !d->is_dead())
         {
-            float dist = static_cast<float>(pat::details::get_manhattan_distance(
+            auto dist = static_cast<float>(pat::details::get_manhattan_distance(
                 from->get_x(), from->get_y(),
                 entity->get_x(), entity->get_y()
             ));
@@ -131,7 +130,7 @@ void Level::render(float dt)
             TCOD_ConsoleTile& tile = m_engine->console().at(screen_x, screen_y);
 
             // IMPORTANT: the type index should the same (and have the same order) as the one defines under Config.hpp
-            std::size_t type_idx = static_cast<std::size_t>(m_tiles[world_x + world_y * m_width].type);
+            auto type_idx = static_cast<std::size_t>(m_tiles[world_x + world_y * m_width].type);
             if (type_idx <= 2)
             {
                 if (is_in_fov(world_x, world_y))
@@ -170,14 +169,14 @@ void Level::render(float dt)
 void Level::update()
 {
     // called once per new turn
-    for (std::size_t i = 0; i < m_entities.size(); ++i)
+    for (const auto & entity : m_entities)
     {
-        if (m_entities[i].get() != m_engine->get_player())
+        if (entity.get() != m_engine->get_player())
         {
-            m_entities[i]->gain_energy();
-            if (m_entities[i]->has_enough_energy())
+            entity->gain_energy();
+            if (entity->has_enough_energy())
             {
-                std::unique_ptr<pat::Action> action = m_entities[i]->update(m_engine);
+                std::unique_ptr<pat::Action> action = entity->update(m_engine);
                 if (action != nullptr)
                     action->perform(m_engine);
             }

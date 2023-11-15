@@ -1,13 +1,14 @@
 #include <Pataro/Entity.hpp>
 
 #include <Pataro/Engine.hpp>
+#include <utility>
 
 using namespace pat;
 
 unsigned Entity::Id = 0;
 
-Entity::Entity(int x, int y, int ch, const std::string& name, const tcod::ColorRGB& color) :
-    m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(name), m_color(color)
+Entity::Entity(int x, int y, int ch, std::string name, const tcod::ColorRGB& color) :
+    m_id(Entity::Id++), m_x(x), m_y(y), m_ch(ch), m_name(std::move(name)), m_color(color)
 {}
 
 Entity::Entity(const Entity& other) :

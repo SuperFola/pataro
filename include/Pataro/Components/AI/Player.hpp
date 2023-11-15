@@ -37,7 +37,7 @@ namespace pat::component
          */
         std::unique_ptr<pat::Action> handle_action_key(Entity* owner, Engine* engine, int keycode);
 
-        virtual PlayerAI* clone_impl() const override;
+        [[nodiscard]] PlayerAI* clone_impl() const override;
     };
 }
 

@@ -51,7 +51,7 @@ namespace pat::map
          * @param y 
          * @return Tile::Type 
          */
-        Tile::Type tile_at(int x, int y) const;
+        [[nodiscard]] Tile::Type tile_at(int x, int y) const;
 
         /**
          * @brief check if an Entity can walk on a given tile
@@ -61,7 +61,7 @@ namespace pat::map
          * @return true 
          * @return false 
          */
-        bool can_walk(int x, int y) const;
+        [[nodiscard]] bool can_walk(int x, int y) const;
 
         /**
          * @brief Tries to get an Entity at x, y
@@ -70,7 +70,7 @@ namespace pat::map
          * @param y 
          * @return Entity* nullptr if no Entity was found
          */
-        Entity* get_entity(int x, int y) const;
+        [[nodiscard]] Entity* get_entity(int x, int y) const;
 
         /**
          * @brief Returns the closest monster to a given entity in a given range
@@ -79,7 +79,7 @@ namespace pat::map
          * @param range 
          * @return Entity* 
          */
-        Entity* get_closest_monster(Entity* from, float range) const;
+        [[nodiscard]] Entity* get_closest_monster(Entity* from, float range) const;
 
         /**
          * @brief Check if a tile is in the field of view
@@ -89,7 +89,7 @@ namespace pat::map
          * @return true 
          * @return false 
          */
-        bool is_in_fov(int x, int y);
+        [[nodiscard]] bool is_in_fov(int x, int y);
 
         /**
          * @brief Check if a tile has been explored
@@ -99,7 +99,7 @@ namespace pat::map
          * @return true 
          * @return false 
          */
-        bool is_explored(int x, int y) const;
+        [[nodiscard]] bool is_explored(int x, int y) const;
 
         /**
          * @brief Compute the player field of view
@@ -147,8 +147,8 @@ namespace pat::map
 
         inline const std::vector<std::shared_ptr<Entity>>& get_entities() { return m_entities; }
 
-        inline int width() const { return m_width; }
-        inline int height() const { return m_height; }
+        [[nodiscard]] inline int width() const { return m_width; }
+        [[nodiscard]] inline int height() const { return m_height; }
 
         friend class details::BSPListener;
         friend class pat::Map;

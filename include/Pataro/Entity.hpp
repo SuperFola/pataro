@@ -38,7 +38,7 @@ namespace pat
          * @param name the name of the entity
          * @param color the color for the entity
         */
-        Entity(int x, int y, int ch, const std::string& name, const tcod::ColorRGB& color);
+        Entity(int x, int y, int ch, std::string  name, const tcod::ColorRGB& color);
 
         /**
          * @brief Construct a new Entity object

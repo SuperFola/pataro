@@ -2,18 +2,12 @@
 
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
-#include <Pataro/Colors.hpp>
-#include <Pataro/Constants.hpp>
 #include <Pataro/Components/Destructible.hpp>
-#include <Pataro/Components/Inventory.hpp>
 
 #include <Pataro/Actions/Move.hpp>
-#include <Pataro/Actions/Attack.hpp>
 #include <Pataro/Actions/PickUp.hpp>
 #include <Pataro/Actions/Use.hpp>
 #include <Pataro/Actions/Drop.hpp>
-
-#include <SDL2/SDL_keycode.h>
 
 using namespace pat::component;
 

@@ -35,7 +35,7 @@ namespace pat::component
         std::unique_ptr<Action> update(Entity* owner, Engine* engine) override;
 
     protected:
-        virtual ConfusedMonsterAI* clone_impl() const override;
+        [[nodiscard]] ConfusedMonsterAI* clone_impl() const override;
 
     private:
         int m_nb_turns;

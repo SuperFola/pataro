@@ -11,7 +11,7 @@ namespace pat
     {
         struct Tile
         {
-            unsigned char repr;
+            unsigned char repr {'#'};
             tcod::ColorRGB color_visible;
             tcod::ColorRGB color_outside_fov;
         };
@@ -35,7 +35,7 @@ namespace pat
         };
 
         std::vector<Theme> themes;
-        unsigned fps_max = 30;
+        int fps_max = 30;
     };
 }
 

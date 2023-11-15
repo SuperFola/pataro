@@ -18,15 +18,15 @@ namespace pat::map::details
          * 
          * @param level 
          */
-        BSPListener(Level* level);
+        explicit BSPListener(Level* level);
 
         bool visitNode(TCODBsp* node, void* userData) override;
 
     private:
         Level* m_level;
         int m_room_nb;
-        int m_lastx;
-        int m_lasty;
+        int m_lastx;  // TODO find a better name
+        int m_lasty;  // TODO find a better name
     };
 }
 

@@ -28,7 +28,7 @@ namespace pat::component
         void die(Entity* owner, Engine* engine) override;
 
     protected:
-        virtual PlayerDestructible* clone_impl() const override;
+        [[nodiscard]] PlayerDestructible* clone_impl() const override;
     };
 }
 

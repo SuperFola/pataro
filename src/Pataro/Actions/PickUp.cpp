@@ -13,7 +13,6 @@ PickUpAction::PickUpAction(pat::Entity* source, int x, int y) :
 
 pat::ActionResult PickUpAction::perform(pat::Engine* engine)
 {
-    bool found = false;
     if (m_source == engine->get_player())
         engine->log("pick up");
 
@@ -24,8 +23,6 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
             // try to pick up the object
             if (m_source->inventory()->add(e.get()))
             {
-                found = true;
-
                 if (m_source == engine->get_player())
                 {
                     engine->log("pick up " + e->get_name());
@@ -37,11 +34,9 @@ pat::ActionResult PickUpAction::perform(pat::Engine* engine)
                 engine->get_map()->current_level().remove(e.get());
                 return pat::ActionResult::Success;
             }
-            else if (!found)
+            else
             {
                 // we found an object but couldn't pick it up
-                found = true;
-
                 if (m_source == engine->get_player())
                 {
                     engine->log("pick up with full inventory");

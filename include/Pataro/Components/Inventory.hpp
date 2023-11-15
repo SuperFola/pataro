@@ -19,7 +19,7 @@ namespace pat::component
          * 
          * @param size the number of elements in the inventory (0 = unlimited)
          */
-        Inventory(std::size_t size);
+        explicit Inventory(std::size_t size);
 
         virtual ~Inventory() = default;
 
@@ -60,19 +60,19 @@ namespace pat::component
          * 
          * @return std::size_t 
          */
-        std::size_t size() const;
+        [[nodiscard]] std::size_t size() const;
 
         /**
          * @brief Returns the maximum capacity of the inventory
          * 
          * @return std::size_t 
          */
-        std::size_t capacity() const;
+        [[nodiscard]] std::size_t capacity() const;
 
-        inline std::unique_ptr<Inventory> clone() const { return std::unique_ptr<Inventory>(clone_impl()); }
+        [[nodiscard]] inline std::unique_ptr<Inventory> clone() const { return std::unique_ptr<Inventory>(clone_impl()); }
 
     protected:
-        virtual Inventory* clone_impl() const;
+        [[nodiscard]] virtual Inventory* clone_impl() const;
 
     private:
         std::size_t m_max_size;

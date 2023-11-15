@@ -9,8 +9,6 @@
 #include <Pataro/Actions/Attack.hpp>
 #include <Pataro/Actions/FollowStairs.hpp>
 
-#include <libtcod.hpp>
-
 using namespace pat;
 
 MoveAction::MoveAction(Entity* source, int dx, int dy) :
@@ -35,6 +33,7 @@ ActionResult MoveAction::perform(Engine* engine)
     }
 
     // physics
+    // TODO probably going to have to refactor either this, the way we handle the map (tiles+tcod map?) or both
     map::Tile::Type next_tile = map->tile_at(x + m_dx, y + m_dy);
     if (!map->can_walk(x + m_dx, y + m_dy))
         return ActionResult::Fail;

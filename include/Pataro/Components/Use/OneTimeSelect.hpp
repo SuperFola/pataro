@@ -10,6 +10,7 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <utility>
 
 namespace pat::component
 {
@@ -43,11 +44,11 @@ namespace pat::component
          */
         bool pick(Engine* engine);
 
-        inline PickMethod get_method() const { return m_method; }
-        inline int get_x() const { return m_x; }
-        inline int get_y() const { return m_y; }
-        inline float get_range() const { return m_range; }
-        inline Entity* get_entity() const { return m_entity; }
+        [[nodiscard]] inline PickMethod get_method() const { return m_method; }
+        [[nodiscard]] inline int get_x() const { return m_x; }
+        [[nodiscard]] inline int get_y() const { return m_y; }
+        [[nodiscard]] inline float get_range() const { return m_range; }
+        [[nodiscard]] inline Entity* get_entity() const { return m_entity; }
 
     protected:
         /**
@@ -88,8 +89,8 @@ namespace pat::component
          * @param range the range in which the click can be performed
          * @param args 
          */
-        OneTimeSelectUse(const std::string& left_click_text, PickTile picker, Args&&... args) :
-            m_text(left_click_text), m_picker(picker)
+        OneTimeSelectUse(std::string left_click_text, PickTile picker, Args&&... args) :
+            m_text(std::move(left_click_text)), m_picker(picker)
         {
             m_function = [args = std::make_tuple(std::forward<Args>(args) ...)](Entity* source, Entity* owner, const PickTile& picker) -> std::unique_ptr<Action> {
                 return std::apply([source, owner, &picker](auto&&... args) {
@@ -113,8 +114,8 @@ namespace pat::component
         }
 
     private:
-        OneTimeSelectUse(const std::string& text, const PickTile& picker, const Callback_t& callback) :
-            m_text(text), m_picker(picker), m_function(callback)
+        OneTimeSelectUse(std::string text, const PickTile& picker, Callback_t callback) :
+            m_text(std::move(text)), m_picker(picker), m_function(std::move(callback))
         {}
 
         std::string m_text;

@@ -1,13 +1,11 @@
 #include <Pataro/Components/AI/Monster.hpp>
 
-#include <Pataro/Constants.hpp>
 #include <Pataro/Entity.hpp>
 #include <Pataro/Engine.hpp>
 #include <Pataro/Components/Destructible.hpp>
 #include <Pataro/Components/Attacker.hpp>
 #include <Pataro/Components/Constants.hpp>
 #include <Pataro/Actions/Move.hpp>
-#include <Pataro/Actions/Attack.hpp>
 
 #include <cmath>
 

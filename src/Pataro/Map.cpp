@@ -2,8 +2,6 @@
 
 #include <Pataro/Engine.hpp>
 
-#include <libtcod.hpp>
-
 using namespace pat;
 
 Map::Map(unsigned width, unsigned height, std::size_t depth, Engine* engine, const Config::Theme& theme) :

@@ -45,7 +45,7 @@ namespace pat
          * @param config engine configuration
          * @param show_debug default: false. Show debug gui
          */
-        Engine(unsigned width, unsigned height, const std::string& title, const Config& config, bool show_debug = false);
+        Engine(unsigned width, unsigned height, const std::string& title, Config  config, bool show_debug = false);
 
         /**
          * @brief Initialize the engine
@@ -74,7 +74,7 @@ namespace pat
          * @return true 
          * @return false 
          */
-        inline bool is_running() const { return m_running; }
+        [[nodiscard]] inline bool is_running() const { return m_running; }
 
         /**
          * @brief Log an event with a given name. Only names/occurences are kept
@@ -110,14 +110,14 @@ namespace pat
 
         void render_defeat();
 
-        inline unsigned width()  { return m_width; }
-        inline unsigned height() { return m_height; }
+        [[nodiscard]] inline unsigned width() const  { return m_width; }
+        [[nodiscard]] inline unsigned height() const { return m_height; }
 
         inline void change_state(GameState state) { m_state = state; }
         inline Entity* get_player() { return m_player.get(); }
         inline Map*    get_map()    { return m_map.get(); }
         inline Gui*    get_gui()    { return m_gui.get(); }
-        inline const SDL_Keycode& lastkey() { return m_lastkey; }
+        [[nodiscard]] inline const SDL_Keycode& lastkey() const { return m_lastkey; }
         inline const Mouse& mouse() { return m_mouse; }
 
         inline tcod::Console& console() { return m_console; }

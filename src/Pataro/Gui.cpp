@@ -2,11 +2,12 @@
 
 #include <Pataro/Engine.hpp>
 #include <Pataro/Colors.hpp>
+#include <utility>
 
 using namespace pat;
 
-Gui::Gui(unsigned width, unsigned height, const Gui::Proxy_t& proxy) :
-    m_console(width, height), m_width(width), m_height(height), m_get_val(proxy)
+Gui::Gui(unsigned width, unsigned height, Gui::Proxy_t proxy) :
+    m_console(width, height), m_width(width), m_height(height), m_get_val(std::move(proxy))
 {}
 
 void Gui::render(Engine* engine, TCOD_Console* dest, int x, int y)
@@ -64,7 +65,7 @@ void Gui::render_mouse_look(Engine* engine)
     if (!engine->get_map()->is_in_fov(x, y))
         return;
 
-    std::string text = "";
+    std::string text;
     bool first = true;
     for (const auto& entity : engine->get_map()->current_level().get_entities())
     {
@@ -81,6 +82,6 @@ void Gui::render_mouse_look(Engine* engine)
     tcod::print(m_console, {1, 0}, text, colors::lightGrey, std::nullopt);
 }
 
-Gui::Message::Message(const std::string& text_, const tcod::ColorRGB& color_) :
-    text(text_), color(color_)
+Gui::Message::Message(std::string text_, const tcod::ColorRGB& color_) :
+    text(std::move(text_)), color(color_)
 {}

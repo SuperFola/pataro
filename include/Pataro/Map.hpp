@@ -33,7 +33,7 @@ namespace pat
          * @param y 
          * @return Tile::Type 
          */
-        map::Tile::Type tile_at(int x, int y) const;
+        [[nodiscard]] map::Tile::Type tile_at(int x, int y) const;
 
         /**
          * @brief check if an entity can walk on a given tile
@@ -43,7 +43,7 @@ namespace pat
          * @return true 
          * @return false 
          */
-        bool can_walk(int x, int y) const;
+        [[nodiscard]] bool can_walk(int x, int y) const;
 
         /**
          * @brief Tries to get an entity at x, y
@@ -52,7 +52,7 @@ namespace pat
          * @param y 
          * @return Entity* nullptr if no entity was found
          */
-        Entity* get_entity(int x, int y) const;
+        [[nodiscard]] Entity* get_entity(int x, int y) const;
 
         /**
          * @brief Returns the closest monster to a given entity in a given range
@@ -61,7 +61,7 @@ namespace pat
          * @param range 
          * @return Entity* 
          */
-        Entity* get_closest_monster(Entity* from, float range) const;
+        [[nodiscard]] Entity* get_closest_monster(Entity* from, float range) const;
 
         /**
          * @brief Compute the player field of view
@@ -102,11 +102,11 @@ namespace pat
          */
         inline map::Level& current_level() { return m_levels[m_current]; }
 
-        inline std::size_t floor() const { return m_current; }
-        inline bool is_bottom_floor() const { return m_current + 1 == m_levels.size(); }
+        [[nodiscard]] inline std::size_t floor() const { return m_current; }
+        [[nodiscard]] inline bool is_bottom_floor() const { return m_current + 1 == m_levels.size(); }
 
-        inline bool can_go_upstairs() const { return m_current > 0; }
-        inline bool can_go_downstairs() const { return m_current + 1 < m_levels.size(); }
+        [[nodiscard]] inline bool can_go_upstairs() const { return m_current > 0; }
+        [[nodiscard]] inline bool can_go_downstairs() const { return m_current + 1 < m_levels.size(); }
 
         bool move_upstairs(Entity* player);
         bool move_downstairs(Entity* player);

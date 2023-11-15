@@ -1,7 +1,7 @@
 #include <Pataro/Utils.hpp>
 
-#include <time.h>
-#include <string.h>
+#include <ctime>
+#include <cstring>
 #include <cmath>
 
 namespace pat::details
@@ -10,7 +10,7 @@ namespace pat::details
     {
         time_t t = time(nullptr);
         char buffer[70];
-        struct tm time_struct;
+        struct tm time_struct {};
 
 #ifdef WIN32
         localtime_s(&time_struct, &t);
@@ -19,7 +19,7 @@ namespace pat::details
 #endif
         strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &time_struct);
 
-        return std::string(buffer, strlen(buffer));
+        return {buffer, strlen(buffer)};
     }
 
     unsigned get_manhattan_distance(int x1, int y1, int x2, int y2)

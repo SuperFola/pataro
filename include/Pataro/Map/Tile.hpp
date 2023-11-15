@@ -13,7 +13,7 @@ namespace pat::map
             Stairs
         } type;
 
-        Tile(Type type = Type::Wall);
+        explicit Tile(Type type = Type::Wall);
     };
 }
 

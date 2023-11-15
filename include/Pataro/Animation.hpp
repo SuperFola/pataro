@@ -19,7 +19,7 @@ namespace pat
          * 
          * @param source the entity to which the animation should be applied
          */
-        Animation(Entity* source);
+        explicit Animation(Entity* source);
 
         /**
          * @brief Add a frame, after a given duration, executes once the given operation
@@ -67,7 +67,7 @@ namespace pat
          * @return true 
          * @return false 
          */
-        bool is_finished() const;
+        [[nodiscard]] bool is_finished() const;
 
     private:
         std::size_t m_current = 0;

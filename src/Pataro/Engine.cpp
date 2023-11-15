@@ -3,7 +3,6 @@
 #include <Pataro/Constants.hpp>
 #include <Pataro/Colors.hpp>
 #include <Pataro/Utils.hpp>
-#include <Pataro/Map/Room.hpp>
 #include <Pataro/Map/Constants.hpp>
 #include <Pataro/Components/AI/Player.hpp>
 #include <Pataro/Components/Attacker.hpp>
@@ -13,13 +12,12 @@
 #include <SDL.h>
 #include <libtcod.hpp>
 
-#include <utility>
 #include <fstream>
 
 using namespace pat;
 
-Engine::Engine(unsigned width, unsigned height, const std::string& title, const Config& config, bool show_debug) :
-    m_width(width), m_height(height), m_config(config), m_show_debug(show_debug), m_running(true), m_console(width, height)
+Engine::Engine(unsigned width, unsigned height, const std::string& title, Config config, bool show_debug) :
+    m_width(width), m_height(height), m_config(std::move(config)), m_show_debug(show_debug), m_running(true), m_console(width, height)
 {
     TCOD_ContextParams params {};
     params.tcod_version = TCOD_COMPILEDVERSION;
@@ -232,7 +230,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
         {
             for (int cy = 0, h = m_map->current_level().height(); cy < h; ++cy)
             {
-                float dist = static_cast<float>(details::get_manhattan_distance(cx, cy, xp, yp));
+                auto dist = static_cast<float>(details::get_manhattan_distance(cx, cy, xp, yp));
 
                 if (m_map->is_in_fov(cx, cy) && (max_range == 0.f || dist <= max_range))
                 {
@@ -247,7 +245,7 @@ bool Engine::pick_a_tile(int* x, int* y, float max_range)
             }
         }
 
-        float dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx + dx, m_mouse.cy + dy, xp, yp));
+        auto dist = static_cast<float>(details::get_manhattan_distance(m_mouse.cx + dx, m_mouse.cy + dy, xp, yp));
         if (m_map->is_in_fov(m_mouse.cx + dx, m_mouse.cy + dy) && (max_range == 0.f || dist <= max_range))
         {
             m_console.at(m_mouse.cx, m_mouse.cy).bg = colors::white;

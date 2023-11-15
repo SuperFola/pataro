@@ -1,5 +1,7 @@
-build/*
+build/
+cmake-build-*/
 tcod/
+.idea/
 *.a
 *.o
 *.lib

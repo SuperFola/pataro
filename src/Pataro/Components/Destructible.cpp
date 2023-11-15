@@ -4,12 +4,12 @@
 #include <Pataro/Engine.hpp>
 #include <Pataro/Colors.hpp>
 
-#include <libtcod.hpp>
+#include <utility>
 
 using namespace pat::component;
 
-Destructible::Destructible(float max_hp, float defense, const std::string& corpse_name) :
-    m_max_hp(max_hp), m_hp(max_hp), m_defense(defense), m_corpse_name(corpse_name)
+Destructible::Destructible(float max_hp, float defense, std::string corpse_name) :
+    m_max_hp(max_hp), m_hp(max_hp), m_defense(defense), m_corpse_name(std::move(corpse_name))
 {}
 
 float Destructible::take_damage(pat::Entity* owner, float damage, pat::Engine* engine)

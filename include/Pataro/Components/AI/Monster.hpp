@@ -27,7 +27,7 @@ namespace pat::component
         std::unique_ptr<Action> update(Entity* owner, Engine* engine) override;
 
     protected:
-        virtual MonsterAI* clone_impl() const override;
+        [[nodiscard]] MonsterAI* clone_impl() const override;
 
     private:
         /**

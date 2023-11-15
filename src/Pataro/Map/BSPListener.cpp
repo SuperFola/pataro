@@ -7,7 +7,7 @@ using namespace pat::map::details;
 using namespace pat::map;
 
 BSPListener::BSPListener(Level* level) :
-    m_level(level), m_room_nb(0)
+    m_level(level), m_room_nb(0), m_lastx(0), m_lasty(0)
 {}
 
 bool BSPListener::visitNode(TCODBsp* node, [[maybe_unused]] void* userData)

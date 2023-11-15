@@ -35,7 +35,7 @@ namespace pat::component
          * @param owner the owner of the source object we are dropping
          * @param engine 
          */
-        void drop(Entity* source, Entity* owner, Engine* engine);
+        void drop(Entity* source, Entity* owner, Engine* engine) const;
 
         /**
          * @brief Remove from inventory
@@ -43,7 +43,7 @@ namespace pat::component
          */
         void remove_from_inventory(Entity* owner, Entity* source);
 
-        inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
+        [[nodiscard]] inline std::unique_ptr<Use> clone() const { return std::unique_ptr<Use>(clone_impl()); }
 
     protected:
         /**
@@ -57,7 +57,7 @@ namespace pat::component
          */
         virtual std::unique_ptr<Action> use(Entity* source, Entity* owner, Engine* engine) = 0;
 
-        virtual Use* clone_impl() const = 0;
+        [[nodiscard]] virtual Use* clone_impl() const = 0;
 
     private:
         bool m_destroyed = false;  ///< When equal to true, can not use it again
